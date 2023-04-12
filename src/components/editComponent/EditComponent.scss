@@ -1,0 +1,13 @@
+.active .custom-select {
+    padding-left: 0;
+    background-color: white !important;
+    appearance: none;
+    background: none;
+    pointer-events: none;
+}
+.active .form-control {
+    padding-left: 0 !important;
+    background-color: white !important;
+    pointer-events: none;
+}
+

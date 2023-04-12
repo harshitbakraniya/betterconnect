@@ -1,0 +1,41 @@
+@import '../../utils/commen.scss';
+
+.card {
+    border: none;
+    background-color: #fff;
+    border-radius: 1rem;
+    padding: 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+
+    .round {
+        width: 5rem;
+        height: 5rem;
+        background-color: $primary_color;
+        position: absolute;
+        top: -1rem;
+        right: -1rem;
+        z-index: 11;
+        border-radius: 50%;
+    }
+    img {
+        width: 23%;
+        border-radius: 50%;
+    }
+    .name {
+        margin-top: 1rem;
+    }
+    box-shadow: 0 0 20px rgba(#FBD581, 20%);
+    .description {
+        color: #808080;
+    }
+}
+@media screen and (max-width: 575.98px) {
+    .name {
+        font-size: 1.1rem;
+    }
+    .description {
+        font-size: 0.9rem;
+        margin-top: 0.6rem;
+    }
+}
