@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/betterconnect/static/css/main.439128b4.css",
+    "main.js": "/betterconnect/static/js/main.4c5e2ec3.js",
+    "static/media/testi-1.jpg": "/betterconnect/static/media/testi-1.b14b38c1690ea76ec8e6.jpg",
+    "static/media/profile-teacher.jpg": "/betterconnect/static/media/profile-teacher.b2f782da917cf20ba47f.jpg",
+    "static/media/banner.svg": "/betterconnect/static/media/banner.18778ae4130fc499c32b3caa21e6b43e.svg",
+    "static/media/logo.svg": "/betterconnect/static/media/logo.2ddc4f7391ca09fb5ee64e26861bf867.svg",
+    "static/media/registerImg.svg": "/betterconnect/static/media/registerImg.5b233f8b877e08aed8fe49588952ab7f.svg",
+    "static/media/Student stress-pana 1.png": "/betterconnect/static/media/Student stress-pana 1.34b4f4776b152dea619d.png",
+    "static/media/paper-plane 1.svg": "/betterconnect/static/media/paper-plane 1.be55001bdcb9d7a563793beb5b86a79f.svg",
+    "static/media/persons.svg": "/betterconnect/static/media/persons.5035a39eec70ece426e790f6484fb582.svg",
+    "static/media/rupee.svg": "/betterconnect/static/media/rupee.b59aeb9982c2387eb08eda25d8e91e72.svg",
+    "static/media/location.svg": "/betterconnect/static/media/location.73f09fdcd75e7571ed5712c3c0f653ae.svg",
+    "static/media/wify.svg": "/betterconnect/static/media/wify.8c8edb52868c597bfb8aaf6f07f916dc.svg",
+    "static/media/curv.svg": "/betterconnect/static/media/curv.122ad5f32d5bdc64e3af7eacc64c1508.svg",
+    "static/media/timer.svg": "/betterconnect/static/media/timer.d2df656fea249b5028fa01a7d51ce01d.svg",
+    "index.html": "/betterconnect/index.html",
+    "static/media/black.svg": "/betterconnect/static/media/black.4c368d00b9fbc4b7b9f5661e9225d384.svg",
+    "static/media/pattern.svg": "/betterconnect/static/media/pattern.fff4fc1320734ce01e52fcce279e2cf8.svg",
+    "static/media/rightPatternBanner.svg": "/betterconnect/static/media/rightPatternBanner.64a4b143fd768e113b09133e3522f725.svg",
+    "static/media/leftPatternBanner.svg": "/betterconnect/static/media/leftPatternBanner.7a3d23f7cea8356101c7ed98083421a1.svg",
+    "main.439128b4.css.map": "/betterconnect/static/css/main.439128b4.css.map",
+    "main.4c5e2ec3.js.map": "/betterconnect/static/js/main.4c5e2ec3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.439128b4.css",
+    "static/js/main.4c5e2ec3.js"
+  ]
+}
