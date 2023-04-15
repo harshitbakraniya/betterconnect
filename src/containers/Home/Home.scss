@@ -11,7 +11,7 @@
     height: 100vh;
     background-color: $primary_color;
     position: relative;
-    padding: 2rem 4rem 0 4rem;
+    padding: 15rem 4rem 2rem 4rem;
     .left {
         .content {
             font-weight: 700;
@@ -47,10 +47,6 @@
             }
         }
     }
-    .img-part {
-        width: 50%;
-        margin: auto;
-    }
     .search {
         width: 65%;
         margin: 2rem auto;
@@ -58,8 +54,10 @@
         padding: 0.7rem 4rem 0.7rem 1rem;
         border-radius: 0.5rem;
         position: relative;
+        flex-wrap: nowrap;
         .form-control {
             border: 0;
+            padding: 0 0.7rem;
             :focus{
                 box-shadow: none;
                 outline: 0;
@@ -76,6 +74,8 @@
             appearance: auto;
             border: none;
             border-left: 1px solid #8F8F8F;
+            padding: 0 0.7rem;
+            
         }
         select:focus {
             border-color: white;
@@ -89,8 +89,14 @@
             top: 50%;
             transform: translateY(-50%);
             font-size: 1.5rem;
+            cursor: pointer;
         }
     }
+    .img-part {
+        width: 50%;
+        margin: auto;
+    }
+
     .leftPattern, .rightPattern{
         width: 13%;
         position: absolute;
@@ -108,7 +114,7 @@
 @media (max-width: 575.98px) {
     .banner {
         height: 100%;
-        padding: 1rem 1.5rem;
+        padding: 4rem 1.5rem 1rem 1.5rem;
         .left {
             .content {
                 font-weight: 700;
@@ -148,6 +154,7 @@
 
             .form-control {
                 width: 100%;
+                padding-left: 0.3rem;
                 &:nth-child(2) {
                     border: none;
                     margin: 0;
@@ -156,7 +163,7 @@
             .custom-select {
                 width: 100%;
                 border: none;
-                padding: 0.5rem;
+                padding: 0.5rem 0;
                 &:focus {
                     border: none;
                 }

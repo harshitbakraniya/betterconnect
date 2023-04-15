@@ -1,10 +1,8 @@
 import { combineReducers } from "redux";
-import teacherReducer from './teacherReducer';
+import teacherReducer from "./teacherReducer";
 
-const AllReducer = () => {
-    return combineReducers({
-        teacherReducer
-    });
-}
+const AllReducer = combineReducers({
+        teacherRedu: teacherReducer,
+});
 
 export default AllReducer;

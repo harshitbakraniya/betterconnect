@@ -1,39 +1,93 @@
-.search {
-  padding: 1rem 4rem;
+.all-teachers {
+  padding: 7rem 4rem 1rem 4rem;
 }
-.search .left {
+.all-teachers .left {
   flex-basis: 20%;
 }
-.search .right {
+.all-teachers .right {
   flex-basis: 78%;
   width: 80%;
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
 }
+.all-teachers .filter-text {
+  width: 6.5rem;
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  background-color: #FBD37A;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  display: none;
+}
+.all-teachers .filter-text .filter-icon {
+  font-size: 1.3rem;
+}
 
 @media screen and (max-width: 575.98px) {
-  .search {
-    padding: 1rem;
+  .all-teachers {
+    padding: 5rem 1rem 1rem 1rem;
   }
-  .search div {
+  .all-teachers div {
     flex-direction: column;
   }
-  .search .right {
+  .all-teachers .left {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    left: -100%;
+    top: 60px;
+    background-color: white !important;
+    z-index: 11;
+    padding: 2rem;
+    transition: 0.5s all;
+  }
+  .all-teachers .left.active {
+    left: 0;
+  }
+  .all-teachers .right {
     width: 100%;
     padding: 0 !important;
+  }
+  .all-teachers .right .filter-text {
+    display: flex;
+    position: sticky;
+    top: 5rem;
+    z-index: 11;
+    margin-left: auto;
   }
 }
 @media (min-width: 768px) and (max-width: 991.98px) {
-  .search {
-    padding: 1.5rem;
+  .all-teachers {
+    padding: 7rem 1.5rem 1.5rem 1.5rem;
   }
-  .search .left {
-    display: none;
+  .all-teachers .left {
+    width: 50%;
+    height: 100vh;
+    position: fixed;
+    left: -100%;
+    top: 100px;
+    background-color: white !important;
+    z-index: 11;
+    padding: 2rem;
+    transition: 0.5s all;
   }
-  .search .right {
+  .all-teachers .left.active {
+    left: 0;
+  }
+  .all-teachers .right {
     flex-basis: 100%;
     width: 100%;
     padding: 0 !important;
+  }
+  .all-teachers .right .filter-text {
+    display: flex;
+    position: sticky;
+    top: 5rem;
+    z-index: 11;
+    margin-left: auto;
   }
 }/*# sourceMappingURL=Search.css.map */

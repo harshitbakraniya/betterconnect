@@ -1,29 +1,346 @@
-import React from 'react'
-import Card from '../../components/Card/Card';
-import Filters from '../../components/Filters/Filters';
-import Header from '../../components/Header/Header';
-import './Search.css';
+import React, { useEffect, useState } from "react";
+import Card from "../../components/Card/Card";
+import Filters from "../../components/Filters/Filters";
+import Header from "../../components/Header/Header";
+import { useSearchParams } from "react-router-dom";
+import { getTeacherDetail } from "../../Redux/actions/teacherAction";
+import "./Search.css";
+import { useSelector, useDispatch } from "react-redux";
+import { BiFilter } from "react-icons/bi";
 
 const Search = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [active, setActive] = useState(false);
+  const dispatch = useDispatch();
+  const allTeachers = useSelector((state) => state.teacherRedu);
+  const [allDummyTeachers, setDummyTeachers] = useState([
+    {
+      teacherId: 0,
+      name: "Harshit Bakraniya",
+      gender: "Male",
+      address: "abc",
+      state: "",
+      city: "Rajkot",
+      pincode: 360004,
+      email: "harshitbakraniya@gmail.com",
+      phone: "7698366737",
+      qualification: "",
+      experience: 2,
+      currentlyAssociated: "",
+      schoolName: "string",
+      instituteName: "string",
+      document: "",
+      image: "",
+      bio: "",
+      distance: "250KM",
+      batchId: 0,
+      class: "11th",
+      subject: "Maths",
+      board: "CBSE",
+      mode: "online",
+      fees: 500,
+      time: "10-11PM",
+      batchStrength: "10-40",
+      scholarship: "",
+    },
+    {
+      teacherId: 0,
+      name: "Harshit Bakraniya",
+      gender: "Male",
+      address: "abc",
+      state: "",
+      city: "Rajkot",
+      pincode: 360004,
+      email: "harshitbakraniya@gmail.com",
+      phone: "7698366737",
+      qualification: "",
+      experience: 2,
+      currentlyAssociated: "",
+      schoolName: "string",
+      instituteName: "string",
+      document: "",
+      image: "",
+      bio: "",
+      distance: "250KM",
+      batchId: 0,
+      class: "11th",
+      subject: "Maths",
+      board: "CBSE",
+      mode: "online",
+      fees: 500,
+      time: "10-11PM",
+      batchStrength: "10-40",
+      scholarship: "",
+    },
+    {
+      teacherId: 0,
+      name: "Harshit Bakraniya",
+      gender: "Male",
+      address: "abc",
+      state: "",
+      city: "Rajkot",
+      pincode: 360004,
+      email: "harshitbakraniya@gmail.com",
+      phone: "7698366737",
+      qualification: "",
+      experience: 2,
+      currentlyAssociated: "",
+      schoolName: "string",
+      instituteName: "string",
+      document: "",
+      image: "",
+      bio: "",
+      distance: "250KM",
+      batchId: 0,
+      class: "11th",
+      subject: "Maths",
+      board: "CBSE",
+      mode: "online",
+      fees: 500,
+      time: "10-11PM",
+      batchStrength: "10-40",
+      scholarship: "",
+    },
+    {
+      teacherId: 0,
+      name: "Harshit Bakraniya",
+      gender: "Male",
+      address: "abc",
+      state: "",
+      city: "Rajkot",
+      pincode: 360004,
+      email: "harshitbakraniya@gmail.com",
+      phone: "7698366737",
+      qualification: "",
+      experience: 2,
+      currentlyAssociated: "",
+      schoolName: "string",
+      instituteName: "string",
+      document: "",
+      image: "",
+      bio: "",
+      distance: "250KM",
+      batchId: 0,
+      class: "11th",
+      subject: "Maths",
+      board: "CBSE",
+      mode: "online",
+      fees: 500,
+      time: "10-11PM",
+      batchStrength: "10-40",
+      scholarship: "",
+    },
+    {
+      teacherId: 0,
+      name: "Harshit Bakraniya",
+      gender: "Male",
+      address: "abc",
+      state: "",
+      city: "Rajkot",
+      pincode: 360004,
+      email: "harshitbakraniya@gmail.com",
+      phone: "7698366737",
+      qualification: "",
+      experience: 2,
+      currentlyAssociated: "",
+      schoolName: "string",
+      instituteName: "string",
+      document: "",
+      image: "",
+      bio: "",
+      distance: "250KM",
+      batchId: 0,
+      class: "11th",
+      subject: "Maths",
+      board: "CBSE",
+      mode: "online",
+      fees: 500,
+      time: "10-11PM",
+      batchStrength: "10-40",
+      scholarship: "",
+    },
+    {
+      teacherId: 0,
+      name: "Harshit Bakraniya",
+      gender: "Male",
+      address: "abc",
+      state: "",
+      city: "Rajkot",
+      pincode: 360004,
+      email: "harshitbakraniya@gmail.com",
+      phone: "7698366737",
+      qualification: "",
+      experience: 2,
+      currentlyAssociated: "",
+      schoolName: "string",
+      instituteName: "string",
+      document: "",
+      image: "",
+      bio: "",
+      distance: "250KM",
+      batchId: 0,
+      class: "11th",
+      subject: "Maths",
+      board: "CBSE",
+      mode: "online",
+      fees: 500,
+      time: "10-11PM",
+      batchStrength: "10-40",
+      scholarship: "",
+    },
+    {
+      teacherId: 0,
+      name: "Harshit Bakraniya",
+      gender: "Male",
+      address: "abc",
+      state: "",
+      city: "Rajkot",
+      pincode: 360004,
+      email: "harshitbakraniya@gmail.com",
+      phone: "7698366737",
+      qualification: "",
+      experience: 2,
+      currentlyAssociated: "",
+      schoolName: "string",
+      instituteName: "string",
+      document: "",
+      image: "",
+      bio: "",
+      distance: "250KM",
+      batchId: 0,
+      class: "11th",
+      subject: "Maths",
+      board: "CBSE",
+      mode: "online",
+      fees: 500,
+      time: "10-11PM",
+      batchStrength: "10-40",
+      scholarship: "",
+    },
+    {
+      teacherId: 0,
+      name: "Harshit Bakraniya",
+      gender: "Male",
+      address: "abc",
+      state: "",
+      city: "Rajkot",
+      pincode: 360004,
+      email: "harshitbakraniya@gmail.com",
+      phone: "7698366737",
+      qualification: "",
+      experience: 2,
+      currentlyAssociated: "",
+      schoolName: "string",
+      instituteName: "string",
+      document: "",
+      image: "",
+      bio: "",
+      distance: "250KM",
+      batchId: 0,
+      class: "11th",
+      subject: "Maths",
+      board: "CBSE",
+      mode: "online",
+      fees: 500,
+      time: "10-11PM",
+      batchStrength: "10-40",
+      scholarship: "",
+    },
+    {
+      teacherId: 0,
+      name: "Harshit Bakraniya",
+      gender: "Male",
+      address: "abc",
+      state: "",
+      city: "Rajkot",
+      pincode: 360004,
+      email: "harshitbakraniya@gmail.com",
+      phone: "7698366737",
+      qualification: "",
+      experience: 2,
+      currentlyAssociated: "",
+      schoolName: "string",
+      instituteName: "string",
+      document: "",
+      image: "",
+      bio: "",
+      distance: "250KM",
+      batchId: 0,
+      class: "11th",
+      subject: "Maths",
+      board: "CBSE",
+      mode: "online",
+      fees: 500,
+      time: "10-11PM",
+      batchStrength: "10-40",
+      scholarship: "",
+    },
+    {
+      teacherId: 0,
+      name: "Harshit Bakraniya",
+      gender: "Male",
+      address: "abc",
+      state: "",
+      city: "Rajkot",
+      pincode: 360004,
+      email: "harshitbakraniya@gmail.com",
+      phone: "7698366737",
+      qualification: "",
+      experience: 2,
+      currentlyAssociated: "",
+      schoolName: "string",
+      instituteName: "string",
+      document: "",
+      image: "",
+      bio: "",
+      distance: "250KM",
+      batchId: 0,
+      class: "11th",
+      subject: "Maths",
+      board: "CBSE",
+      mode: "online",
+      fees: 500,
+      time: "10-11PM",
+      batchStrength: "10-40",
+      scholarship: "",
+    },
+  ]);
+  const data = {
+    location: searchParams.get("location"),
+    subject: searchParams.get("subject"),
+    class: searchParams.get("class"),
+    mode: searchParams.get("mode"),
+    pageSize: 0,
+    pageNumber: 0,
+  };
+
+  const handleFilter = () => {
+    active ? setActive(false) : setActive(true);
+  };
+  useEffect(() => {
+    dispatch(getTeacherDetail(data));
+  }, []);
   return (
     <>
-        <Header backColor="#FFFFFF"/>
-        <section className='search'>
-            <div className='d-flex justify-content-between'>
-              <div className='left'>
-                <Filters />
-              </div>
-              <div className='right pl-5'>
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-              </div>
-            </div>
-        </section>
+      <Header backColor="#FFFFFF" />
+      <section className="all-teachers">
+        <div className="d-flex justify-content-between">
+          <div className={active ? "left active" : "left"}>
+            <Filters data={data} />
+          </div>
+          <div className="right pl-5">
+            <h5 className="filter-text" onClick={handleFilter}>
+              Filters
+              <BiFilter className="filter-icon" />
+            </h5>
+            {allDummyTeachers.map((item) => {
+              return <Card detail={item} />;
+            })}
+          </div>
+        </div>
+      </section>
     </>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

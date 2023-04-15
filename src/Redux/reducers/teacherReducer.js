@@ -1,13 +1,22 @@
+import { ActionTypes } from "../constant/action_type";
+
 const initialState = {
-    teachers:[],
+    teacher:{},
+    batchDetail:[],
+    allteachers:[],
+    isValidOrNot:{},
 }
 
-const teacherDetailReducer = (state = initialState, action) => {
+const teacherReducer = (state = initialState, action) => {
     switch(action.type) {
-        case 'GET_TEACHER_DEATAIL':
-            return {...state, teachers: action.payload};
+        case ActionTypes.GET_TEACHER_DETAIL:
+            return {...state, allteachers: action.payload};
+        case ActionTypes.SET_TEACHER_REGISTRAION:
+            return {...state, teacher: action.payload}
+        case ActionTypes.IS_EMAIL_ID_VALID:
+            return {...state, isValidOrNot: action.payload};
         default:return state;
     }
 }
 
-export default teacherDetailReducer;
+export default teacherReducer;

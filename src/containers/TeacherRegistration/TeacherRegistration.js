@@ -1,72 +1,72 @@
 import React, { useState } from "react";
 import "./TeacherRegistration.css";
 import ImgRegister from "../../assets/images/registerImg.svg";
-import Pattern from "../../assets/images/pattern.svg";
 import Black from "../../assets/images/black.svg";
 import Header from "../../components/Header/Header";
 import PaperPattern from "../../assets/images/paper-plane 1.svg";
-import EditComponent from "../../components/editComponent/EditComponent";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const TeacherRegistration = () => {
+  const stateData = useSelector((state) => state.teacherRedu);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("query"));
   const [formData, setFormData] = useState({
+    teacherId: 0,
     name: "",
+    gender: "",
     address: "",
     city: "",
+    state: "",
     pincode: 0,
-    email: "",
-    mobile: "",
+    phone: "",
+    qualification: "",
+    gender: "",
     experience: 0,
-    currentlyAssociated:""
+    currentlyAssociated: "",
+    userId: 0,
+    document: "",
+    image: "",
+    bio: "",
   });
   const handleInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleRadios = (e) => {
     let ele = document.querySelector(".associate-active");
     console.log(ele);
     ele.placeholder = e.target.value;
     ele.style.display = "block";
-  }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    if (stateData.isValidOrNot.result) {
+      toast.error(stateData.isValidOrNot.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      let data = new FormData(e.target);
+      let allData = Object.fromEntries(data.entries());
+      console.log(allData);
+      // dispatch(setTeacherRegistration(allData));
+      // navigate("/betterconnect/batchdetail");
+    }
   };
-  const data = [
-    {
-      id: 1,
-      class: "10th",
-      subject: "Maths",
-      board: "CBSE",
-      fees: "10000",
-      time: "10-11PM",
-      batch_size: "10-20",
-      mode: "offline",
-    },
-    {
-      id: 2,
-      class: "11th",
-      subject: "Maths",
-      board: "CBSE",
-      fees: "10000",
-      time: "10-11PM",
-      batch_size: "10-20",
-      mode: "offline",
-    },
-    {
-      id: 3,
-      class: "12th",
-      subject: "Maths",
-      board: "CBSE",
-      fees: "10000",
-      time: "10-11PM",
-      batch_size: "10-20",
-      mode: "offline",
-    },
-  ];
+
   return (
     <>
       <Header backColor="#FFFFFF" />
+      <ToastContainer />
       <section className="register-form">
         <div className="container-fluid">
           <div className="row justify-content-between">
@@ -95,6 +95,7 @@ const TeacherRegistration = () => {
                     aria-describedby="emailHelp"
                     placeholder="Full Name"
                     onInput={handleInput}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -109,6 +110,7 @@ const TeacherRegistration = () => {
                     aria-describedby="emailHelp"
                     placeholder="Address"
                     onInput={handleInput}
+                    required
                   />
                 </div>
                 <div className="row justify-content-between align-items-center">
@@ -124,6 +126,7 @@ const TeacherRegistration = () => {
                       aria-describedby="emailHelp"
                       placeholder="City"
                       onInput={handleInput}
+                      required
                     />
                   </div>
                   <div className="form-group">
@@ -138,6 +141,7 @@ const TeacherRegistration = () => {
                       aria-describedby="emailHelp"
                       placeholder="Pincode"
                       onInput={handleInput}
+                      required
                     />
                   </div>
                 </div>
@@ -154,6 +158,7 @@ const TeacherRegistration = () => {
                       aria-describedby="emailHelp"
                       placeholder="Email"
                       onInput={handleInput}
+                      required
                     />
                   </div>
                   <div className="form-group">
@@ -164,31 +169,62 @@ const TeacherRegistration = () => {
                       type="number"
                       className="form-control"
                       id="mobile"
-                      name="mobile"
+                      name="phone"
                       aria-describedby="emailHelp"
                       placeholder="Mobile No."
                       onInput={handleInput}
+                      required
                     />
                   </div>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="examp" className="form-label">
-                    Qualification
-                  </label>
-                  <input
-                    type="file"
-                    className="form-control-file"
-                    id="Qualification"
-                  />
-                  <label
-                    className="form-control file-input d-flex align-items-center justify-content-between"
-                    htmlFor="profile"
-                  >
-                    <label className="inner-place p-0 m-0">Qualification</label>
-                    <button className="btn" for="profile">
-                      Browse
-                    </button>
-                  </label>
+                <div className="row justify-content-between align-items-center">
+                  <div className="form-group">
+                    <label className="form-label">
+                      Qualification (optional)
+                    </label>
+                    <input
+                      type="file"
+                      className="form-control-file"
+                      name="qualification"
+                      id="Qualification"
+                      // required
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          qualification: e.target.files[0],
+                        })
+                      }
+                    />
+                    <label
+                      className="form-control file-input d-flex align-items-center justify-content-between"
+                      htmlFor="profile m-0"
+                    >
+                      <label className="inner-place p-0 m-0">
+                        Qualification
+                      </label>
+                      <label
+                        className="btn m-0"
+                        for="profile"
+                        htmlFor="Qualification"
+                      >
+                        Browse
+                      </label>
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Gender</label>
+                    <select
+                      className="custom-select"
+                      id="inputGroupSelect01"
+                      name="gender"
+                      // onChange={handleInput}
+                    >
+                      <option selected value="Male">
+                        Male
+                      </option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
                 </div>
                 <div className="row justify-content-between align-items-center">
                   <div className="form-group col-12">
@@ -200,35 +236,42 @@ const TeacherRegistration = () => {
                       className="form-control"
                       id="experience"
                       name="experience"
+                      required
                       aria-describedby="emailHelp"
                       placeholder="Teaching Experience"
                       onInput={handleInput}
                     />
                   </div>
                   <div className="form-group col-12">
-                    <label htmlFor="examp" className="form-label">
-                      Profile Picture
+                    <label className="form-label d-flex align-items-center">
+                      Profile Picture (optional)
                     </label>
                     <input
                       type="file"
                       className="form-control-file"
+                      name="image"
                       id="profile"
+                      onChange={(e) =>
+                        setFormData({ ...formData, image: e.target.files[0] })
+                      }
                     />
                     <label
-                      className="form-control file-input d-flex align-items-center justify-content-between"
+                      className="form-control m-0 file-input d-flex align-items-center justify-content-between"
                       htmlFor="profile"
                     >
-                      <label className="inner-place p-0 m-0">
+                      <label className="inner-place p-0 m-0" htmlFor="profile">
                         Profile Picture
                       </label>
-                      <button className="btn" for="profile">
+                      <label className="btn m-0" htmlFor="profile">
                         Browse
-                      </button>
+                      </label>
                     </label>
                   </div>
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Currently Associate with</label>
+                  <label className="form-label">
+                    Currently Associate with (optional)
+                  </label>
                   <div className="row align-items-center">
                     <div className="form-check form-check-inline">
                       <input
@@ -278,6 +321,22 @@ const TeacherRegistration = () => {
                         Both
                       </label>
                     </div>
+                    <div className="form-check form-check-inline">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="associate"
+                        id="inlineRadio4"
+                        value="None"
+                        // onChange={handleRadios}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="inlineRadio4"
+                      >
+                        None
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div className="form-group">
@@ -289,42 +348,13 @@ const TeacherRegistration = () => {
                     aria-describedby="emailHelp"
                     placeholder=""
                     onInput={handleInput}
-                    style={{display:"none"}}
+                    style={{ display: "none" }}
                   />
                 </div>
-                <input type="submit" value="Submit" className="btn" />
+                <input type="submit" value="Next" className="btn submit" />
               </form>
             </div>
           </div>
-        </div>
-      </section>
-      <section className="batch-detail">
-        <div className="title">
-          <img src={Black} alt="pattern" />
-          <span className="content">
-            Batch<span className="color-text">Details</span>
-          </span>
-        </div>
-        <div className="table-content">
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Class</th>
-                <th scope="col">Subject</th>
-                <th scope="col">Board</th>
-                <th scope="col">Fees</th>
-                <th scope="col">Time</th>
-                <th scope="col">Batch Strength</th>
-                <th scope="col">Mode</th>
-                <th scope="col">Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item) => {
-                return <EditComponent key={item.id} value={item} />;
-              })}
-            </tbody>
-          </table>
         </div>
       </section>
     </>

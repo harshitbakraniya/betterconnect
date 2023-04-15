@@ -57,6 +57,16 @@
             }
         }
     }
+    .modal {
+        input[type="email"]{
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: 1px solid rgba(0,0,0,0.2) !important;
+        }
+        .submit {
+            background-color: $primary_color;
+        }
+    }
 }
 
 @media screen and (max-width: 575.98px) {

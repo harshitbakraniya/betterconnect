@@ -4,7 +4,6 @@ import ImgRegister from "../../assets/images/registerImg.svg";
 import Black from "../../assets/images/black.svg";
 import Header from "../../components/Header/Header";
 import PaperPattern from "../../assets/images/paper-plane 1.svg";
-import EditComponent from "../../components/editComponent/EditComponent";
 
 const Login = () => {
   const [formData, setFormData] = useState({

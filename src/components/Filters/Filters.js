@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Filters.css";
 import Range from "../Range/Range";
 
-const Filters = () => {
+const Filters = ({ data }) => {
+  useEffect(() => {
+    const text = data.mode.toLowerCase();
+    const ele = document.getElementById(`${text}`);
+    ele.checked = true;
+  }, []);
   return (
-    <div className="filter ">
+    <div className="filter">
       <h3 className="heading">Filters</h3>
       {/* <div className='search-inn mb-2'>
             <input className='form-control mb-2' placeholder='Class'/>
@@ -45,9 +50,9 @@ const Filters = () => {
             class="form-check-input"
             type="checkbox"
             value=""
-            id="defaultCheck1"
+            id="offline"
           />
-          <label class="form-check-label" for="defaultCheck1">
+          <label class="form-check-label" for="offline">
             Offline
           </label>
         </div>
@@ -56,9 +61,9 @@ const Filters = () => {
             class="form-check-input"
             type="checkbox"
             value=""
-            id="defaultCheck2"
+            id="hometutor"
           />
-          <label class="form-check-label" for="defaultCheck2">
+          <label class="form-check-label" for="hometutor">
             Hometutor
           </label>
         </div>
@@ -67,9 +72,9 @@ const Filters = () => {
             class="form-check-input"
             type="checkbox"
             value=""
-            id="defaultCheck3"
+            id="online"
           />
-          <label class="form-check-label" for="defaultCheck3">
+          <label class="form-check-label" for="online">
             Online
           </label>
         </div>

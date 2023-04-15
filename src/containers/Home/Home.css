@@ -3,7 +3,7 @@
   height: 100vh;
   background-color: #FBD37A;
   position: relative;
-  padding: 2rem 4rem 0 4rem;
+  padding: 15rem 4rem 2rem 4rem;
 }
 .banner .left .content {
   font-weight: 700;
@@ -36,10 +36,6 @@
 .banner .right .content .right {
   margin-top: -1rem;
 }
-.banner .img-part {
-  width: 50%;
-  margin: auto;
-}
 .banner .search {
   width: 65%;
   margin: 2rem auto;
@@ -47,9 +43,11 @@
   padding: 0.7rem 4rem 0.7rem 1rem;
   border-radius: 0.5rem;
   position: relative;
+  flex-wrap: nowrap;
 }
 .banner .search .form-control {
   border: 0;
+  padding: 0 0.7rem;
 }
 .banner .search .form-control :focus {
   box-shadow: none;
@@ -68,6 +66,7 @@
           appearance: auto;
   border: none;
   border-left: 1px solid #8F8F8F;
+  padding: 0 0.7rem;
 }
 .banner .search select:focus {
   border-color: white;
@@ -81,6 +80,11 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: 1.5rem;
+  cursor: pointer;
+}
+.banner .img-part {
+  width: 50%;
+  margin: auto;
 }
 .banner .leftPattern, .banner .rightPattern {
   width: 13%;
@@ -98,7 +102,7 @@
 @media (max-width: 575.98px) {
   .banner {
     height: 100%;
-    padding: 1rem 1.5rem;
+    padding: 4rem 1.5rem 1rem 1.5rem;
   }
   .banner .left .content {
     font-weight: 700;
@@ -135,6 +139,7 @@
   }
   .banner .search .form-control {
     width: 100%;
+    padding-left: 0.3rem;
   }
   .banner .search .form-control:nth-child(2) {
     border: none;
@@ -143,7 +148,7 @@
   .banner .search .custom-select {
     width: 100%;
     border: none;
-    padding: 0.5rem;
+    padding: 0.5rem 0;
   }
   .banner .search .custom-select:focus {
     border: none;

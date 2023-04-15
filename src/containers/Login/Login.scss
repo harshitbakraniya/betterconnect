@@ -1,7 +1,7 @@
 @import '../../utils/commen.scss';
 
 .login-form {
-    padding: 2rem 4rem;
+    padding: 10rem 4rem 2rem 4rem;
     .left {
         flex-basis: 48%;
         .title{
@@ -60,6 +60,7 @@
                 margin-top: 1rem;
                 background-color: $secondary_color;
                 color: $font_color_light;
+                float: right;
             }
         }
     }
