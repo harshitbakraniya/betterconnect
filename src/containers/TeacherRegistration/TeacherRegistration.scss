@@ -43,6 +43,7 @@
                 background-color: #F3F4F6;
                 border-radius: 0.5rem;
                 border: none;
+                font-size: 0.9rem;
                 margin: 0 !important;
             }
             .row {
@@ -77,6 +78,8 @@
                 // padding: 1.5rem 1rem;
                 height: 2.5rem;
                 background-color: #F3F4F6;
+                font-size: 0.9rem;
+                border: none;
                 // margin-bottom: 0.5rem;
             }
             // input[type=file]::file-selector-button {
@@ -102,19 +105,7 @@
             //     background: $secondary_color;
             //     color: white;
             //   }
-        
-            input[type='radio']:checked::after {
-                width: 8px;
-                height: 8px;
-                border-radius: 15px;
-                top: -7px;
-                left: 2.5px;
-                position: relative;
-                background-color: #ffa500;
-                content: '';
-                display: inline-block;
-                visibility: visible;
-            }
+    
         }
         .submit{
             margin-left: auto;
@@ -170,7 +161,25 @@
             img {
                 left: -1rem;
                 top: -0.5rem;
-                width: 7% !important;
+                width: 5.5% !important;
+            }
+        }
+    }
+ }
+
+ @media (min-width: 768px) and (max-width: 991.98px) { 
+    .register-form {
+        padding: 7rem 2rem 2rem 2rem ;
+        .row {
+            .left,.right {
+                flex-basis: 100%;
+            }
+            .paper-plane{
+                width: 15%;
+                position: absolute;
+                left: 70%;
+                top: 8%;
+                transform: rotate(-180deg);
             }
         }
     }

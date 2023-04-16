@@ -41,7 +41,6 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
     setBatch(filterData);
     localStorage.setItem("allTeachers", JSON.stringify(filterData));
   };
-  console.log(data);
   return (
     <tr className={`edit-compo ${data.subject ? "" : "active"}`} id={id}>
       <td data-label="Class">
@@ -80,16 +79,16 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
             onChange={(e) => handleChange(e)}
           >
             <option selected value={innerData.board}>
-              {innerData.board}
+              CBSE
             </option>
-            <option value="1">CBSE</option>
-            <option value="2">CBSE</option>
+            <option value="ICSE">ICSE</option>
+            <option value="IGCSE">IGCSE</option>
           </select>
         </div>
       </td>
       <td data-label="Fees">
         <input
-          type="text"
+          type="number"
           className="form-control"
           name="fees"
           placeholder="Fees"
@@ -102,12 +101,15 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           <select
             className="custom-select"
             id="inputGroupSelect01"
-            name="schrolership"
+            name="scholarship"
             onChange={(e) => handleChange(e)}
           >
-            <option selected>up to 10%</option>
-            <option value="1">up to 20%</option>
-            <option value="2">up to 30%</option>
+            <option selected value={innerData.scholarship}>
+              {innerData.scholarship}
+            </option>
+            <option value="Upto 10%">Upto 10%</option>
+            <option value="Upto to 20%">Upto to 20%</option>
+            <option value="Upto to 30%">Upto to 30%</option>
           </select>
         </div>
       </td>

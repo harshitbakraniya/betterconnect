@@ -46,6 +46,7 @@
     display: block;
     font-size: 2rem;
     margin-left: 1rem;
+    cursor: pointer;
   }
   .header .list {
     width: 100%;
@@ -68,8 +69,8 @@
     flex-basis: 20%;
   }
   .header .register-btn .btn {
-    font-size: 0.55rem;
-    width: 7rem;
+    font-size: 0.65rem;
+    width: 7.5rem;
     height: 2rem;
   }
   .header.active {
@@ -86,6 +87,7 @@
   }
   .header .menu-btn {
     display: block;
+    cursor: pointer;
     font-size: 2rem;
     margin-left: 1rem;
   }

@@ -1,6 +1,7 @@
 .batch-detail {
   padding: 8rem 4rem 2rem 4rem;
   background-color: #F3F4F6;
+  min-height: 100vh;
 }
 .batch-detail .title {
   color: #1d1d1d;
@@ -69,15 +70,15 @@
 
 @media screen and (max-width: 575.98px) {
   .batch-detail {
-    padding: 5rem 1.5rem 1.5rem 1.5rem;
+    padding: 7rem 1.5rem 1.5rem 1.5rem;
   }
   .batch-detail .title {
     font-size: 1.3rem;
   }
   .batch-detail .title img {
     width: 6%;
-    left: -1rem;
-    top: -0.5rem;
+    left: -1.1rem;
+    top: -0.9rem;
   }
   .batch-detail .table-content {
     background-color: transparent;
@@ -121,36 +122,24 @@
   }
 }
 @media (min-width: 768px) and (max-width: 991.98px) {
-  .table-content {
-    width: 100%;
-    overflow-x: scroll;
-  }
-  .table {
-    min-width: 1200px !important;
-    background-color: #fff;
-  }
-  .register-form {
-    padding: 2rem;
-  }
-  .register-form .row .left, .register-form .row .right {
-    flex-basis: 100%;
-  }
-  .register-form .row .paper-plane {
-    width: 15%;
-    position: absolute;
-    left: 70%;
-    top: 8%;
-    transform: rotate(-180deg);
-  }
   .batch-detail {
-    padding: 2rem;
+    padding: 6rem 2rem 2rem 2rem;
+  }
+  .batch-detail .title {
+    font-size: 1.4rem;
   }
   .batch-detail .title img {
-    width: 4%;
+    width: 3.5%;
     left: -1.2rem;
     top: -0.7rem;
   }
+  .batch-detail .table-content {
+    width: 100%;
+    overflow-x: scroll;
+  }
   .batch-detail .table-content table {
+    min-width: 1200px !important;
+    background-color: #fff;
     border-spacing: 0 !important;
   }
   .batch-detail .table-content table th {

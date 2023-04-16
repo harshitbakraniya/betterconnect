@@ -53,10 +53,11 @@
 .card-profile .content .other-detail .data h5 {
   margin-bottom: 0;
 }
-.card-profile .modal input[type=email] {
+.card-profile .modal .from-control {
   width: 100%;
   padding: 0.6rem 1rem;
   border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  margin-bottom: 0.6rem;
 }
 .card-profile .modal .submit {
   background-color: #FBD37A;
@@ -101,6 +102,18 @@
 @media (min-width: 768px) and (max-width: 991.98px) {
   .card-profile .img-part {
     flex-basis: 24%;
+  }
+  .card-profile .content .name {
+    font-size: 1.1rem;
+  }
+  .card-profile .content .sub-title {
+    font-size: 0.8rem;
+  }
+  .card-profile .content .other-detail .data .data-about {
+    font-size: 0.9rem;
+  }
+  .card-profile .content .other-detail .data .value {
+    font-size: 0.85rem;
   }
 }
 @media screen and (max-width: 450px) {

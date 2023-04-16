@@ -175,7 +175,7 @@
 }
 @media (min-width: 768px) and (max-width: 991.98px) {
   .banner {
-    padding: 2rem;
+    padding: 7rem 2rem 2rem 2rem;
     height: 100%;
   }
   .banner .left .content {
@@ -205,7 +205,7 @@
     margin-top: 2rem;
   }
   .banner .rightPattern {
-    top: 33%;
+    top: 40%;
     right: 0;
   }
 }
@@ -331,7 +331,7 @@
     left: 30%;
   }
   .get-connect .title img {
-    width: 8%;
+    width: 6%;
     left: -0.6rem;
     top: -1rem;
   }
@@ -442,8 +442,8 @@
     font-size: 1.4rem;
   }
   .about-us .right .title img {
-    width: 7%;
-    left: -1rem;
+    width: 6%;
+    left: -1.2rem;
     top: -1rem;
   }
   .about-us .right .content-1, .about-us .right .content-2 {
@@ -544,7 +544,7 @@
     padding: 1.4rem;
   }
   .offer .grid-content .title-card img {
-    width: 7%;
+    width: 6%;
     left: -1rem;
     top: -0.7rem;
   }
@@ -646,7 +646,7 @@
     font-size: 1.4rem;
   }
   .impact .title img {
-    width: 7%;
+    width: 6%;
     left: -1rem;
     top: -1rem;
   }
@@ -713,7 +713,7 @@
     font-size: 1.4rem;
   }
   .testimonial .title img {
-    width: 7%;
+    width: 6%;
     left: -1rem;
     top: -1rem;
   }

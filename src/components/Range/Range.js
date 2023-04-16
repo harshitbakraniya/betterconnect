@@ -83,7 +83,7 @@ const Range = ({ min, max, onChange, title, label }) => {
 Range.propTypes = {
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default Range;

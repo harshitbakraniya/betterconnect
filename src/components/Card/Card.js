@@ -1,5 +1,6 @@
 import React from "react";
 import ProfileImg from "../../assets/images/profile-teacher.jpg";
+import StudentDetail from "../StudentDetails/StudentDetail";
 import "./Card.css";
 
 const Card = ({ detail }) => {
@@ -85,14 +86,6 @@ const Card = ({ detail }) => {
               <h5 class="modal-title" id="exampleModalLongTitle">
                 Get Detail
               </h5>
-              {/* <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button> */}
             </div>
             <form class="modal-body">
               <input
@@ -106,13 +99,19 @@ const Card = ({ detail }) => {
               <button type="button" class="btn close-btn" data-dismiss="modal">
                 Close
               </button>
-              <button type="button" class="btn submit">
+              <button
+                type="button"
+                class="btn submit"
+                data-target="#student-registration"
+                data-toggle="modal"
+              >
                 Next
               </button>
             </div>
           </div>
         </div>
       </div>
+      <StudentDetail />
     </div>
   );
 };

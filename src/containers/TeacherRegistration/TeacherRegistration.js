@@ -8,41 +8,112 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  isEmailorPhoneAlreadyexist,
+  setTeacherRegistration,
+} from "../../Redux/actions/teacherAction";
+import { all } from "axios";
 
 const TeacherRegistration = () => {
   const stateData = useSelector((state) => state.teacherRedu);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("query"));
+  const [document, setDocument] = useState();
+  const [picture, setPicture] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    teacherId: 0,
+    email: "",
     name: "",
     gender: "",
     address: "",
     city: "",
-    state: "",
     pincode: 0,
     phone: "",
     qualification: "",
-    gender: "",
     experience: 0,
     currentlyAssociated: "",
-    userId: 0,
+    schoolName: "",
+    instituteName: "",
     document: "",
     image: "",
     bio: "",
   });
-  const handleInput = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleInput = async (e, file) => {
+    if (file) {
+      if (e.target.name === "image") {
+        window.document.getElementById("picture").textContent =
+          e.target.files[0].name;
+      } else {
+        window.document.getElementById("document-file").textContent =
+          e.target.files[0].name;
+      }
+      await getBase64(e.target.files[0], e.target.name);
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
+
+  async function getBase64(file, targetName) {
+    // var reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // reader.onload = function () {
+    //   setFormData({ ...formData, [targetName]: reader.result });
+    // };
+    // reader.onerror = function (error) {
+    //   console.log("Error: ", error);
+    // };
+    // const buffer = await file.arrayBuffer();
+    // let byteArray = new Int8Array(buffer);
+    // setFormData({ ...formData, [targetName]: byteArray });
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      const fileData = event.target.result;
+      const byteArray = new Uint8Array(fileData);
+      const base64String = btoa(String.fromCharCode.apply(null, byteArray));
+      setFormData({ ...formData, [targetName]: base64String });
+    };
+
+    reader.readAsArrayBuffer(file);
+  }
+
   const handleRadios = (e) => {
-    let ele = document.querySelector(".associate-active");
-    console.log(ele);
-    ele.placeholder = e.target.value;
-    ele.style.display = "block";
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    let ele = window.document.querySelector(".school-active");
+    let ele1 = window.document.querySelector(".institute-active");
+    console.log(e.target.value);
+    switch (e.target.value) {
+      case "none":
+        ele.style.display = "none";
+        ele1.style.display = "none";
+        break;
+      case "Both":
+        ele.style.display = "block";
+        ele.placeholder = "School";
+        ele1.style.display = "block";
+        ele1.placeholder = "Institute";
+        break;
+      case "School":
+        ele.placeholder = "School";
+        ele.style.display = "block";
+        ele1.style.display = "none";
+        break;
+      case "Institute":
+        ele1.placeholder = "Institute";
+        ele1.style.display = "block";
+        ele.style.display = "none";
+
+        break;
+      default:
+        console.log("error");
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { email, phone } = formData;
+    dispatch(isEmailorPhoneAlreadyexist({ email, phone }));
+    console.log(stateData.isValidOrNot.result);
     if (stateData.isValidOrNot.result) {
       toast.error(stateData.isValidOrNot.message, {
         position: "top-center",
@@ -55,11 +126,8 @@ const TeacherRegistration = () => {
         theme: "light",
       });
     } else {
-      let data = new FormData(e.target);
-      let allData = Object.fromEntries(data.entries());
-      console.log(allData);
-      // dispatch(setTeacherRegistration(allData));
-      // navigate("/betterconnect/batchdetail");
+      dispatch(setTeacherRegistration(formData));
+      navigate("/betterconnect/batchdetail");
     }
   };
 
@@ -94,6 +162,7 @@ const TeacherRegistration = () => {
                     name="name"
                     aria-describedby="emailHelp"
                     placeholder="Full Name"
+                    autoComplete="off"
                     onInput={handleInput}
                     required
                   />
@@ -109,6 +178,7 @@ const TeacherRegistration = () => {
                     name="address"
                     aria-describedby="emailHelp"
                     placeholder="Address"
+                    autoComplete="off"
                     onInput={handleInput}
                     required
                   />
@@ -125,6 +195,7 @@ const TeacherRegistration = () => {
                       name="city"
                       aria-describedby="emailHelp"
                       placeholder="City"
+                      autoComplete="off"
                       onInput={handleInput}
                       required
                     />
@@ -134,10 +205,11 @@ const TeacherRegistration = () => {
                       Pincode
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       className="form-control"
                       id="pincode"
                       name="pincode"
+                      autoComplete="off"
                       aria-describedby="emailHelp"
                       placeholder="Pincode"
                       onInput={handleInput}
@@ -157,6 +229,7 @@ const TeacherRegistration = () => {
                       name="email"
                       aria-describedby="emailHelp"
                       placeholder="Email"
+                      autoComplete="off"
                       onInput={handleInput}
                       required
                     />
@@ -166,10 +239,12 @@ const TeacherRegistration = () => {
                       Mobile No.
                     </label>
                     <input
-                      type="number"
+                      type="tel"
                       className="form-control"
                       id="mobile"
                       name="phone"
+                      maxLength="10"
+                      autoComplete="off"
                       aria-describedby="emailHelp"
                       placeholder="Mobile No."
                       onInput={handleInput}
@@ -177,36 +252,43 @@ const TeacherRegistration = () => {
                     />
                   </div>
                 </div>
+                <div className="form-group">
+                  <label htmlFor="qualification" className="form-label">
+                    Qualification (optional)
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="address"
+                    name="qualification"
+                    autoComplete="off"
+                    aria-describedby="emailHelp"
+                    placeholder="Ex. BCom, Mcom"
+                    onInput={handleInput}
+                  />
+                </div>
                 <div className="row justify-content-between align-items-center">
                   <div className="form-group">
-                    <label className="form-label">
-                      Qualification (optional)
-                    </label>
+                    <label className="form-label">Documnet (optional)</label>
                     <input
                       type="file"
                       className="form-control-file"
-                      name="qualification"
-                      id="Qualification"
-                      // required
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          qualification: e.target.files[0],
-                        })
-                      }
+                      name="document"
+                      id="document"
+                      onChange={(e) => handleInput(e, "file")}
                     />
                     <label
                       className="form-control file-input d-flex align-items-center justify-content-between"
                       htmlFor="profile m-0"
                     >
-                      <label className="inner-place p-0 m-0">
-                        Qualification
-                      </label>
                       <label
-                        className="btn m-0"
-                        for="profile"
-                        htmlFor="Qualification"
+                        className="inner-place p-0 m-0"
+                        id="document-file"
+                        htmlFor=""
                       >
+                        Upload Document
+                      </label>
+                      <label className="btn m-0" htmlFor="document">
                         Browse
                       </label>
                     </label>
@@ -217,11 +299,12 @@ const TeacherRegistration = () => {
                       className="custom-select"
                       id="inputGroupSelect01"
                       name="gender"
-                      // onChange={handleInput}
+                      onChange={(e) => handleInput(e)}
                     >
-                      <option selected value="Male">
-                        Male
+                      <option selected value="">
+                        Select
                       </option>
+                      <option value="Male">Male</option>
                       <option value="Female">Female</option>
                     </select>
                   </div>
@@ -232,12 +315,13 @@ const TeacherRegistration = () => {
                       Teaching Experience
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       className="form-control"
                       id="experience"
                       name="experience"
                       required
                       aria-describedby="emailHelp"
+                      autoComplete="off"
                       placeholder="Teaching Experience"
                       onInput={handleInput}
                     />
@@ -251,15 +335,17 @@ const TeacherRegistration = () => {
                       className="form-control-file"
                       name="image"
                       id="profile"
-                      onChange={(e) =>
-                        setFormData({ ...formData, image: e.target.files[0] })
-                      }
+                      onChange={(e) => handleInput(e, "file")}
                     />
                     <label
                       className="form-control m-0 file-input d-flex align-items-center justify-content-between"
                       htmlFor="profile"
                     >
-                      <label className="inner-place p-0 m-0" htmlFor="profile">
+                      <label
+                        className="inner-place p-0 m-0"
+                        htmlFor="profile"
+                        id="picture"
+                      >
                         Profile Picture
                       </label>
                       <label className="btn m-0" htmlFor="profile">
@@ -277,7 +363,7 @@ const TeacherRegistration = () => {
                       <input
                         className="form-check-input"
                         type="radio"
-                        name="associate"
+                        name="currentlyAssociated"
                         id="inlineRadio1"
                         value="School"
                         onChange={handleRadios}
@@ -293,9 +379,9 @@ const TeacherRegistration = () => {
                       <input
                         className="form-check-input"
                         type="radio"
-                        name="associate"
+                        name="currentlyAssociated"
                         id="inlineRadio2"
-                        value="Institue"
+                        value="Institute"
                         onChange={handleRadios}
                       />
                       <label
@@ -309,7 +395,7 @@ const TeacherRegistration = () => {
                       <input
                         className="form-check-input"
                         type="radio"
-                        name="associate"
+                        name="currentlyAssociated"
                         id="inlineRadio3"
                         value="Both"
                         onChange={handleRadios}
@@ -325,9 +411,10 @@ const TeacherRegistration = () => {
                       <input
                         className="form-check-input"
                         type="radio"
-                        name="associate"
+                        name="currentlyAssociated"
                         id="inlineRadio4"
-                        value="None"
+                        value="none"
+                        onChange={handleRadios}
                         // onChange={handleRadios}
                       />
                       <label
@@ -342,9 +429,23 @@ const TeacherRegistration = () => {
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control associate-active"
-                    id="address"
-                    name="currentlyAssociated"
+                    className="form-control school-active"
+                    id="school"
+                    name="schoolName"
+                    aria-describedby="emailHelp"
+                    placeholder=""
+                    autoComplete="off"
+                    onInput={handleInput}
+                    style={{ display: "none" }}
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-control institute-active"
+                    id="institute"
+                    name="instituteName"
+                    autoComplete="off"
                     aria-describedby="emailHelp"
                     placeholder=""
                     onInput={handleInput}

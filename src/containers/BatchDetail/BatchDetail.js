@@ -3,9 +3,17 @@ import "./BatchDetail.css";
 import Black from "../../assets/images/black.svg";
 import EditComponent from "../../components/editComponent/EditComponent";
 import Header from "../../components/Header/Header";
+import { regitrationWithBatchDetail } from "../../Redux/actions/teacherAction";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const BatchDetail = () => {
   const [rowsData, setRowsData] = useState([]);
+  const teacherData = useSelector((state) => state.teacherRedu);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [batch, setBatch] = useState([]);
   useEffect(() => {
     if (!JSON.parse(localStorage.getItem("allTeachers"))) {
@@ -14,18 +22,14 @@ const BatchDetail = () => {
   }, []);
   const addTableRows = () => {
     const rowsInput = {
-      batchId: 0,
       class: "10th",
       subject: "",
-      board: "CBSE",
+      board: "",
       mode: "Offline",
-      fees: 500,
+      fees: 0,
       time: "",
-      teacherId: 0,
       batchStrength: "",
-      feature: "",
-      schrolership: "up to 10%",
-      teacher: null,
+      scholarship: "0",
     };
     setRowsData([...rowsData, rowsInput]);
     if (JSON.parse(localStorage.getItem("allTeachers") === null)) {
@@ -41,9 +45,37 @@ const BatchDetail = () => {
     }
   };
 
+  const handleSubmitForm = () => {
+    const arr = JSON.parse(localStorage.getItem("allTeachers"));
+    const obj = {
+      ...teacherData.teacher,
+      batchDetails: arr,
+    };
+    console.log(obj);
+    dispatch(regitrationWithBatchDetail(obj));
+    toast.success("Registration successfull", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    setTimeout(() => {
+      navigate("/betterconnect");
+    }, 1000);
+    // const mainObject = {
+    //   teacherData.teacher,
+    //   ...JSON.parse(localStorage.getItem("allTeachers")),
+    // };
+    // console.log(mainObject);
+  };
   return (
     <>
       <Header />
+      <ToastContainer />
       <section className="batch-detail">
         <div className="title">
           <img src={Black} alt="pattern" />
@@ -86,7 +118,9 @@ const BatchDetail = () => {
                     <button className="btn" onClick={addTableRows}>
                       Add batch
                     </button>
-                    <button className="btn">Submit</button>
+                    <button className="btn" onClick={handleSubmitForm}>
+                      Submit
+                    </button>
                   </div>
                 </td>
               </tr>

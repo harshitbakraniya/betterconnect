@@ -53,6 +53,7 @@ const SearchInput = () => {
         aria-label="Text input with dropdown button"
         placeholder="Location"
         name="location"
+        autoComplete="off"
         value={data.location}
         onInput={handleInput}
       />
@@ -62,6 +63,7 @@ const SearchInput = () => {
         aria-label="Text input with dropdown button"
         placeholder="Subject"
         name="subject"
+        autoComplete="off"
         value={data.subject}
         onInput={handleInput}
       />
@@ -71,6 +73,7 @@ const SearchInput = () => {
         aria-label="Text input with dropdown button"
         placeholder="Class"
         name="class"
+        autoComplete="off"
         value={data.class}
         onInput={handleInput}
       />

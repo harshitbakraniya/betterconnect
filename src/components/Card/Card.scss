@@ -58,10 +58,11 @@
         }
     }
     .modal {
-        input[type="email"]{
+        .from-control{
             width: 100%;
             padding: 0.6rem 1rem;
             border: 1px solid rgba(0,0,0,0.2) !important;
+            margin-bottom: 0.6rem;
         }
         .submit {
             background-color: $primary_color;
@@ -117,6 +118,24 @@
     .card-profile {
         .img-part {
             flex-basis: 24%;
+        }
+        .content {
+            .name {
+                font-size: 1.1rem;
+            }
+            .sub-title {
+                font-size: 0.8rem;
+            }
+            .other-detail {
+                .data {
+                    .data-about{
+                        font-size: 0.9rem;
+                    }
+                    .value{
+                        font-size: 0.85rem;
+                    }
+                }
+            }
         }
     }
 }
