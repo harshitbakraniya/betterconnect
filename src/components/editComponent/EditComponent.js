@@ -5,11 +5,12 @@ import { MdOutlineSaveAlt } from "react-icons/md";
 import "./EditComponent.css";
 
 const EditComponent = ({ data, id, batch, setBatch }) => {
-  const [active, setActive] = useState(data.subject);
+  const [active, setActive] = useState();
   const [innerData, setInnerData] = useState({});
 
   useEffect(() => {
     setInnerData(data);
+    setActive(data.subject);
   }, [data]);
 
   const handleSave = (e) => {
@@ -49,11 +50,11 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
             className="custom-select"
             id="inputGroupSelect01"
             name="class"
+            value={innerData.class}
             onChange={(e) => handleChange(e)}
           >
-            <option selected value={innerData.class}>
-              {innerData.class}
-            </option>
+            <option>Select</option>
+            <option value="10th">10th</option>
             <option value="11th">11th</option>
             <option value="12th">12th</option>
           </select>
@@ -76,11 +77,11 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
             className="custom-select"
             id="inputGroupSelect01"
             name="board"
+            value={innerData.board}
             onChange={(e) => handleChange(e)}
           >
-            <option selected value={innerData.board}>
-              CBSE
-            </option>
+            <option>Select</option>
+            <option value="CBSE">CBSE</option>
             <option value="ICSE">ICSE</option>
             <option value="IGCSE">IGCSE</option>
           </select>
@@ -93,6 +94,7 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           name="fees"
           placeholder="Fees"
           value={innerData.fees}
+          autoComplete="off"
           onChange={(e) => handleChange(e)}
         />
       </td>
@@ -102,11 +104,10 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
             className="custom-select"
             id="inputGroupSelect01"
             name="scholarship"
+            value={innerData.scholarship}
             onChange={(e) => handleChange(e)}
           >
-            <option selected value={innerData.scholarship}>
-              {innerData.scholarship}
-            </option>
+            <option>Select</option>
             <option value="Upto 10%">Upto 10%</option>
             <option value="Upto to 20%">Upto to 20%</option>
             <option value="Upto to 30%">Upto to 30%</option>
@@ -119,6 +120,7 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           className="form-control"
           name="time"
           placeholder="Ex.10-11PM"
+          autoComplete="off"
           value={innerData.time}
           onChange={(e) => handleChange(e)}
         />
@@ -128,6 +130,7 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           type="text"
           className="form-control"
           name="batchStrength"
+          autoComplete="off"
           placeholder="Ex.(11-20)"
           value={innerData.batchStrength}
           onChange={(e) => handleChange(e)}
@@ -139,11 +142,11 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
             className="custom-select"
             id="inputGroupSelect01"
             name="mode"
+            value={innerData.mode}
             onChange={(e) => handleChange(e)}
           >
-            <option selected value={innerData.mode}>
-              {innerData.mode}
-            </option>
+            <option>Select</option>
+            <option value="Offline">Offline</option>
             <option value="Hometutor">Hometutor</option>
             <option value="Online">Online</option>
           </select>

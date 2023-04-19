@@ -2,10 +2,10 @@ import React from "react";
 import "./TestimonialCard.css";
 import TestImg from "../../assets/images/testi-1.jpg";
 
-const TestimonialCard = () => {
+const TestimonialCard = ({ withoutImg }) => {
   return (
     <div className="card">
-      <img src={TestImg} alt="" />
+      {!withoutImg && <img src={TestImg} alt="" />}
       <h5 className="name">Adon Musk</h5>
       <p className="description">
         Lorem Ipsum is simply dummy text of the printing and typesetting

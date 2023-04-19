@@ -1,8 +1,19 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+} from "react";
 import PropTypes from "prop-types";
 import "./Range.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setFilterData } from "../../Redux/actions/teacherAction";
 
-const Range = ({ min, max, onChange, title, label }) => {
+const Range = ({ min, max, title, label, filterTeacher, handleRange }) => {
+  const teacherState = useSelector((state) => state.teacherRedu);
+  const { allteachers, filterData } = teacherState;
+  const dispatch = useDispatch();
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(min);
@@ -15,6 +26,9 @@ const Range = ({ min, max, onChange, title, label }) => {
     [min, max]
   );
 
+  useEffect(() => {
+    handleRange(minVal, maxVal);
+  }, [minVal, maxVal]);
   // Set width of the range to decrease from the left side
   useEffect(() => {
     const minPercent = getPercent(minVal);
@@ -35,11 +49,6 @@ const Range = ({ min, max, onChange, title, label }) => {
       range.current.style.width = `${maxPercent - minPercent}%`;
     }
   }, [maxVal, getPercent]);
-
-  // Get min and max values when their state changes
-  useEffect(() => {
-    onChange({ min: minVal, max: maxVal });
-  }, [minVal, maxVal, onChange]);
 
   return (
     <div className="range-outer">

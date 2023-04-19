@@ -22,10 +22,10 @@ const BatchDetail = () => {
   }, []);
   const addTableRows = () => {
     const rowsInput = {
-      class: "10th",
+      class: "",
       subject: "",
       board: "",
-      mode: "Offline",
+      mode: "",
       fees: 0,
       time: "",
       batchStrength: "",
@@ -35,12 +35,10 @@ const BatchDetail = () => {
     if (JSON.parse(localStorage.getItem("allTeachers") === null)) {
       const arr = [];
       arr.push(rowsInput);
-      console.log(arr);
       localStorage.setItem("allTeachers", JSON.stringify(arr));
     } else {
       const arr = JSON.parse(localStorage.getItem("allTeachers"));
       arr.push(rowsInput);
-      console.log(arr);
       localStorage.setItem("allTeachers", JSON.stringify(arr));
     }
   };

@@ -7,7 +7,13 @@
     padding: 1.5rem 2rem;
     position: relative;
     overflow: hidden;
+    transition: .5s all;
+    box-shadow: 0 0 20px rgba(#FBD581, 20%);
 
+    &:hover{
+        transform: scale(1.04);
+        box-shadow: 0 0 30px rgba(#FBD581, 40%);
+    }
     .round {
         width: 5rem;
         height: 5rem;
@@ -25,7 +31,6 @@
     .name {
         margin-top: 1rem;
     }
-    box-shadow: 0 0 20px rgba(#FBD581, 20%);
     .description {
         color: #808080;
     }

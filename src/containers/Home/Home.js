@@ -26,7 +26,7 @@ const Home = () => {
       <Header backColor="#FBD37A" />
       <section
         className="banner d-flex flex-column justify-content-center"
-        id="hero"
+        id="banner"
       >
         <div className="row top-bar align-items-center">
           <div className="col-12 col-md-6 col-lg-6 left">
@@ -224,6 +224,23 @@ const Home = () => {
         </div>
       </section>
 
+      <section className="testimonial blog">
+        <div className="title">
+          <img src={Black} alt="pattern" />
+          Blogs
+        </div>
+        <div className="row mt-5 data">
+          <div className="col-12 col-md-4 col-lg-4 column">
+            <TestimonialCard withoutImg={true} />
+          </div>
+          <div className="col-12 col-md-4 col-lg-4 column">
+            <TestimonialCard withoutImg={true} />
+          </div>
+          <div className="col-12 col-md-4 col-lg-4 column">
+            <TestimonialCard withoutImg={true} />
+          </div>
+        </div>
+      </section>
       <section className="testimonial">
         <div className="title">
           <img src={Black} alt="pattern" />
@@ -235,13 +252,13 @@ const Home = () => {
         </div>
         <div className="row mt-5 data">
           <div className="col-12 col-md-4 col-lg-4 column">
-            <TestimonialCard />
+            <TestimonialCard withoutImg={false} />
           </div>
           <div className="col-12 col-md-4 col-lg-4 column">
-            <TestimonialCard />
+            <TestimonialCard withoutImg={false} />
           </div>
           <div className="col-12 col-md-4 col-lg-4 column">
-            <TestimonialCard />
+            <TestimonialCard withoutImg={false} />
           </div>
         </div>
       </section>

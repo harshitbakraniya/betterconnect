@@ -26,10 +26,10 @@ const Header = ({ backColor }) => {
 
   const handleNav = () => {
     if (active) {
-      document.querySelector(".list").style.top = "-700%";
+      document.querySelector(".list").style.height = "0px";
       setActive(false);
     } else {
-      document.querySelector(".list").style.top = "60px";
+      document.querySelector(".list").style.height = "250px";
       setActive(true);
     }
   };
@@ -44,12 +44,17 @@ const Header = ({ backColor }) => {
           <li className="list-item">
             <Link
               activeClass="active"
-              to="about"
+              to="banner"
               spy={true}
               smooth={true}
               offset={0}
               duration={500}
             >
+              Home
+            </Link>
+          </li>
+          <li className="list-item">
+            <Link to="about" spy={true} smooth={true} offset={0} duration={500}>
               About Us
             </Link>
           </li>

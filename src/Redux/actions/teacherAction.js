@@ -47,3 +47,17 @@ export const isEmailorPhoneAlreadyexist = (values) => {
     dispatch({ type: ActionTypes.IS_EMAIL_ID_VALID, payload: data.data });
   };
 };
+
+export const setFilterData = (data) => {
+  return {
+    type: ActionTypes.SET_FILTER_DATA,
+    payload: data,
+  };
+};
+
+export const setFilterObjectRedux = (data) => {
+  return {
+    type: ActionTypes.SET_FILTER_OBJECT,
+    payload: data,
+  };
+};

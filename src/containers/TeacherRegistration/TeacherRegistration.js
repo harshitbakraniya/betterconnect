@@ -7,17 +7,14 @@ import PaperPattern from "../../assets/images/paper-plane 1.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   isEmailorPhoneAlreadyexist,
   setTeacherRegistration,
 } from "../../Redux/actions/teacherAction";
-import { all } from "axios";
 
 const TeacherRegistration = () => {
   const stateData = useSelector((state) => state.teacherRedu);
-  const [document, setDocument] = useState();
-  const [picture, setPicture] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -53,18 +50,6 @@ const TeacherRegistration = () => {
   };
 
   async function getBase64(file, targetName) {
-    // var reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // reader.onload = function () {
-    //   setFormData({ ...formData, [targetName]: reader.result });
-    // };
-    // reader.onerror = function (error) {
-    //   console.log("Error: ", error);
-    // };
-    // const buffer = await file.arrayBuffer();
-    // let byteArray = new Int8Array(buffer);
-    // setFormData({ ...formData, [targetName]: byteArray });
-
     const reader = new FileReader();
 
     reader.onload = function (event) {
@@ -81,7 +66,6 @@ const TeacherRegistration = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     let ele = window.document.querySelector(".school-active");
     let ele1 = window.document.querySelector(".institute-active");
-    console.log(e.target.value);
     switch (e.target.value) {
       case "none":
         ele.style.display = "none";
@@ -109,15 +93,14 @@ const TeacherRegistration = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, phone } = formData;
     dispatch(isEmailorPhoneAlreadyexist({ email, phone }));
-    console.log(stateData.isValidOrNot.result);
     if (stateData.isValidOrNot.result) {
       toast.error(stateData.isValidOrNot.message, {
         position: "top-center",
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -282,7 +265,7 @@ const TeacherRegistration = () => {
                       htmlFor="profile m-0"
                     >
                       <label
-                        className="inner-place p-0 m-0"
+                        className="inner-place p-0 m-0 file-type-lable"
                         id="document-file"
                         htmlFor=""
                       >
@@ -299,13 +282,13 @@ const TeacherRegistration = () => {
                       className="custom-select"
                       id="inputGroupSelect01"
                       name="gender"
+                      value={formData.gender}
                       onChange={(e) => handleInput(e)}
                     >
-                      <option selected value="">
-                        Select
-                      </option>
+                      <option>Select</option>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
+                      <option value="Both">Both</option>
                     </select>
                   </div>
                 </div>
@@ -332,7 +315,7 @@ const TeacherRegistration = () => {
                     </label>
                     <input
                       type="file"
-                      className="form-control-file"
+                      className="form-control-file file-type-lable"
                       name="image"
                       id="profile"
                       onChange={(e) => handleInput(e, "file")}
