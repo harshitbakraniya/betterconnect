@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
-import { MdOutlineSaveAlt } from "react-icons/md";
+import { RiSave3Fill } from "react-icons/ri";
 import "./EditComponent.css";
 
 const EditComponent = ({ data, id, batch, setBatch }) => {
@@ -45,20 +45,15 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
   return (
     <tr className={`edit-compo ${data.subject ? "" : "active"}`} id={id}>
       <td data-label="Class">
-        <div className="input-group">
-          <select
-            className="custom-select"
-            id="inputGroupSelect01"
-            name="class"
-            value={innerData.class}
-            onChange={(e) => handleChange(e)}
-          >
-            <option>Select</option>
-            <option value="10th">10th</option>
-            <option value="11th">11th</option>
-            <option value="12th">12th</option>
-          </select>
-        </div>
+        <input
+          type="text"
+          className="form-control"
+          name="class"
+          placeholder="Class"
+          autoComplete="off"
+          value={innerData.class}
+          onChange={(e) => handleChange(e)}
+        />
       </td>
       <td data-label="Subject">
         <input
@@ -154,7 +149,7 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
       </td>
       <td className="icons">
         {!active ? (
-          <MdOutlineSaveAlt
+          <RiSave3Fill
             className="edit-icon"
             id="save"
             onClick={() => {

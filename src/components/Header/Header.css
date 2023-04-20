@@ -68,7 +68,7 @@
     justify-content: center;
     left: 0;
     top: 75px;
-    z-index: 0;
+    z-index: 11;
     overflow: hidden;
   }
   .header .list .list-item {
@@ -112,7 +112,7 @@
     top: -700%;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 0;
+    z-index: 11;
   }
   .header .list .list-item {
     padding: 1rem 0;

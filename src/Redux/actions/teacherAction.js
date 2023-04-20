@@ -48,6 +48,13 @@ export const isEmailorPhoneAlreadyexist = (values) => {
   };
 };
 
+export const setEmailState = (data) => {
+  return {
+    type: ActionTypes.SET_EMAIL_STATE,
+    payload: data,
+  };
+};
+
 export const setFilterData = (data) => {
   return {
     type: ActionTypes.SET_FILTER_DATA,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 import Header from "../../components/Header/Header";
 import VecotBanner from "../../assets/images/banner.svg";
@@ -19,8 +19,19 @@ import { BsArrowUpLeft } from "react-icons/bs";
 import OfferCard from "../../components/OfferCard/OfferCard";
 import TestimonialCard from "../../components/TestimonialCard/TestimonialCard";
 import SearchInput from "../../components/SearchInput/SearchInput";
+import { useDispatch, useSelector } from "react-redux";
+import { getImpact } from "../../Redux/actions/homeAction";
+import CountUp from "react-countup";
+import ScrollTrigger from "react-scroll-trigger";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const stateData = useSelector((state) => state.homeRedu);
+  const { totalTeachers, totalStudents, totalConnected } = stateData.data;
+  const [counterOn, setCounterOn] = useState(false);
+  useEffect(() => {
+    dispatch(getImpact());
+  }, [stateData.data]);
   return (
     <>
       <Header backColor="#FBD37A" />
@@ -199,31 +210,65 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="impact" id="impact">
-        <div className="title">
-          <img src={Pattern} alt="pattern" />
-          Our <span className="color-text">Impact</span>
-          <p className="sub-title">
-            Only for those who teach out of passion or as a service towards
-            society & not only to make money out of it
-          </p>
-        </div>
-        <div className="counter d-flex align-items-center justify-content-around">
-          <div className="teacher text-center">
-            <h5 className="title">Total Teacher</h5>
-            <h4 className="count">500+</h4>
+      <ScrollTrigger
+        onEnter={() => setCounterOn(true)}
+        onExit={() => setCounterOn(false)}
+      >
+        <section className="impact" id="impact">
+          <div className="title">
+            <img src={Pattern} alt="pattern" />
+            Our <span className="color-text">Impact</span>
+            <p className="sub-title">
+              Only for those who teach out of passion or as a service towards
+              society & not only to make money out of it
+            </p>
           </div>
-          <div className="student text-center">
-            <h5 className="title">Total Student</h5>
-            <h4 className="count">500+</h4>
+          <div className="counter d-flex align-items-center justify-content-around">
+            <div className="teacher text-center">
+              <h5 className="title">Total Teacher</h5>
+              <h4 className="count" data-val={totalTeachers}>
+                {counterOn && (
+                  <CountUp
+                    start={0}
+                    end={totalTeachers}
+                    duration={2}
+                    delay={0}
+                  />
+                )}
+                +
+              </h4>
+            </div>
+            <div className="student text-center">
+              <h5 className="title">Total Student</h5>
+              <h4 className="count" data-val={totalStudents}>
+                {counterOn && (
+                  <CountUp
+                    start={0}
+                    end={totalStudents}
+                    duration={2}
+                    delay={0}
+                  />
+                )}
+                +
+              </h4>
+            </div>
+            <div className="connected text-center">
+              <h5 className="title">Total Connected</h5>
+              <h4 className="count" data-val={totalConnected}>
+                {counterOn && (
+                  <CountUp
+                    start={0}
+                    end={totalConnected}
+                    duration={2}
+                    delay={0}
+                  />
+                )}
+                +
+              </h4>
+            </div>
           </div>
-          <div className="connected text-center">
-            <h5 className="title">Total Connected</h5>
-            <h4 className="count">500+</h4>
-          </div>
-        </div>
-      </section>
-
+        </section>
+      </ScrollTrigger>
       <section className="testimonial blog">
         <div className="title">
           <img src={Black} alt="pattern" />

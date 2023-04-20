@@ -2,21 +2,25 @@ import React, { useEffect, useState } from "react";
 import Card from "../../components/Card/Card";
 import Filters from "../../components/Filters/Filters";
 import Header from "../../components/Header/Header";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getTeacherDetail } from "../../Redux/actions/teacherAction";
 import "./Search.css";
 import { useSelector, useDispatch } from "react-redux";
-import { BiFilter } from "react-icons/bi";
-import { IoMdTennisball } from "react-icons/io";
+import { MdSocialDistance } from "react-icons/md";
+import { Bs0Circle, BsCurrencyRupee, BsSearch } from "react-icons/bs";
+import { BiTimeFive, BiFilterAlt } from "react-icons/bi";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const stateTeachers = useSelector((state) => state.teacherRedu);
   const [allTeachersData, setAllTeachers] = useState([]);
-  const teacherFilter = useSelector((state) => state.teacherRedu);
-  // console.log(teacherFilter.filterObject);
+  const [filterObject, setFilterObject] = useState({
+    classVal: "",
+    subject: "",
+  });
   const data = {
     location: searchParams.get("location"),
     subject: searchParams.get("subject"),
@@ -30,61 +34,72 @@ const Search = () => {
 
   useEffect(() => {
     dispatch(getTeacherDetail(data));
-  }, [data.mode]);
+  }, [data.mode, data.class, data.subject]);
 
   useEffect(() => {
     setAllTeachers(stateTeachers.allteachers);
   }, [stateTeachers.allteachers]);
+
+  useEffect(() => {
+    if (stateTeachers.filterData.length) {
+      console.log("hii");
+      setAllTeachers(stateTeachers.filterData);
+    } else {
+      console.log("hello");
+      setAllTeachers(stateTeachers.allteachers);
+    }
+  }, [stateTeachers.filterData]);
   useEffect(() => {
     filterAllData(stateTeachers.filterObject);
   }, [
-    stateTeachers.filterObject.class,
-    stateTeachers.filterObject.subject,
     stateTeachers.filterObject.fees,
     stateTeachers.filterObject.experience,
     stateTeachers.filterObject.batch_size,
   ]);
 
+  //handle filter bottom bar
+  const handleFilterBottom = (text) => {
+    const allEle = document.querySelectorAll(".inn-box");
+    if (document.getElementById(text).classList.contains("active")) {
+      document.getElementById(text).classList.remove("active");
+    } else {
+      for (let ele = 0; ele < allEle.length; ele++) {
+        allEle[ele].classList.remove("active");
+      }
+      document.getElementById(text).classList.add("active");
+    }
+  };
+
+  // handle class subject input filter
+  const handleClaasSubject = (e) => {
+    setFilterObject({ ...filterObject, [e.target.name]: e.target.value });
+  };
+
+  const handleSearch = (name) => {
+    if (name === "class") {
+      navigate({
+        pathname: "/betterconnect/search",
+        search: `?location=${data.location}&class=${filterObject.classVal}&subject=${data.subject}&mode=${data.mode}`,
+      });
+    } else {
+      navigate({
+        pathname: "/betterconnect/search",
+        search: `?location=${data.location}&class=${data.class}&subject=${filterObject.subject}&mode=${data.mode}`,
+      });
+    }
+  };
+
+  // handling allfilter left part
   let finalFilterData = stateTeachers.allteachers;
   const filterAllData = (obj) => {
-    console.log(obj);
-    const {
-      class: classData,
-      subject,
-      fees,
-      distance,
-      experience,
-      batch_size,
-    } = obj;
-
-    // class filter
-    if (classData) {
-      console.log("llo");
-      finalFilterData = finalFilterData.filter((item) => {
-        return item.class.toString().includes(classData);
-      });
-    } else if (!subject && !fees) {
-      console.log("gello");
-      finalFilterData = stateTeachers.allteachers;
-    }
-
-    // subject filter
-    if (subject) {
-      console.log("llo");
-      finalFilterData = finalFilterData.filter((item) => {
-        return item.subject.toString().toLowerCase().includes(subject);
-      });
-    } else if (!classData && !fees && !batch_size && !experience) {
-      console.log("gello");
-      finalFilterData = stateTeachers.allteachers;
-    }
+    const { fees, distance, experience, batch_size } = obj;
 
     // fees filter
     if (fees && Object.keys(fees).length !== 0) {
       finalFilterData = finalFilterData.filter((item) => {
         return item.fees >= fees[0] && item.fees <= fees[1];
       });
-    } else if (!subject && !classData && !experience && !batch_size) {
+    } else if (!experience && !batch_size && !distance) {
       finalFilterData = stateTeachers.allteachers;
     }
 
@@ -95,7 +110,7 @@ const Search = () => {
           item.experience >= experience[0] && item.experience <= experience[1]
         );
       });
-    } else if (!subject && !classData && !batch_size && !fees) {
+    } else if (!batch_size && !fees && !distance) {
       finalFilterData = stateTeachers.allteachers;
     }
 
@@ -107,28 +122,94 @@ const Search = () => {
           item.batchStrength.toString().split("-")[1] <= batch_size[1]
         );
       });
-    } else if (!subject && !classData && !fees && !experience) {
+    } else if (!fees && !experience && !distance) {
+      finalFilterData = stateTeachers.allteachers;
+    }
+
+    //distance
+    if (distance && Object.keys(distance).length !== 0) {
+      finalFilterData = finalFilterData.filter((item) => {
+        let val = item.distance.toString().split(" ")[0];
+        return val >= distance[0] && val <= distance[1];
+      });
+    } else if (!batch_size && !fees && !experience) {
       finalFilterData = stateTeachers.allteachers;
     }
 
     setAllTeachers(finalFilterData);
   };
+
   return (
     <>
       <Header backColor="#FFFFFF" />
       <section className="all-teachers">
         <div className="d-flex justify-content-between">
           <div className={active ? "left active" : "left"}>
+            <h3 className="heading">Search</h3>
+            <div className="search-inn mb-3">
+              <div className="class">
+                <input
+                  className="form-control"
+                  placeholder="Class"
+                  name="classVal"
+                  value={filterObject.class}
+                  onInput={handleClaasSubject}
+                />
+                <BsSearch
+                  className="search-icon"
+                  onClick={() => handleSearch("class")}
+                />
+              </div>
+              <div className="subject">
+                <input
+                  className="form-control"
+                  placeholder="Subject"
+                  name="subject"
+                  onInput={handleClaasSubject}
+                  value={filterObject.subject}
+                />
+                <BsSearch
+                  className="search-icon"
+                  onClick={() => handleSearch("subject")}
+                />
+              </div>
+            </div>
             <Filters data={data} allTeachersData={allTeachersData} />
           </div>
           <div className="right pl-5">
-            <h5 className="filter-text" onClick={handleFilter}>
-              Filters
-              <BiFilter className="filter-icon" />
-            </h5>
             {allTeachersData.map((item) => {
               return <Card detail={item} />;
             })}
+          </div>
+        </div>
+        <div className="all-filters d-flex flex-row align-items-center justify-content-center">
+          <div
+            className="distance inn-box d-flex flex-column align-items-center justify-content-center"
+            id="distance"
+            onClick={() => handleFilterBottom("distance")}
+          >
+            <MdSocialDistance className="dis-icon icon" />
+            <span className="title">Distance</span>
+          </div>
+          <div
+            className="fees inn-box d-flex flex-column align-items-center justify-content-center"
+            id="fees"
+            onClick={() => handleFilterBottom("fees")}
+          >
+            <BsCurrencyRupee className="fees-icon icon" />
+            <span className="title">Fees</span>
+          </div>
+          <div
+            className="time inn-box d-flex flex-column align-items-center justify-content-center"
+            id="time"
+            onClick={() => handleFilterBottom("time")}
+          >
+            <BiTimeFive className="time-icon icon" />
+            <span className="title">Time</span>
+          </div>
+          <div className="filter inn-box d-flex flex-column align-items-center justify-content-center active-icon">
+            <BiFilterAlt className="filter-icon icon" />
+            <span className="title">Filters</span>
           </div>
         </div>
       </section>

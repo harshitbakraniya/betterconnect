@@ -1,12 +1,8 @@
-.filter {
-    position: sticky;
-    position: -webkit-sticky;
-    top: 6.5rem; /* required */
-}
+@import '../../utils/commen.scss';
+
 .filter.active {
     width: 100vw;
     height: 100vh;
-    // position: fixed;
     top: 80px;
     left: 0;
     background-color: white;

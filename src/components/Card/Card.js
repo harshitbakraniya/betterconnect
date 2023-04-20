@@ -105,7 +105,7 @@ const Card = ({ detail }) => {
                 data-target="#student-registration"
                 data-toggle="modal"
               >
-                Next
+                Submit
               </button>
             </div>
           </div>

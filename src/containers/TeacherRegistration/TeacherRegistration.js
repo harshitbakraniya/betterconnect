@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./TeacherRegistration.css";
 import ImgRegister from "../../assets/images/registerImg.svg";
 import Black from "../../assets/images/black.svg";
@@ -34,6 +34,27 @@ const TeacherRegistration = () => {
     image: "",
     bio: "",
   });
+
+  useEffect(() => {
+    const result = stateData.isValidOrNot.result;
+    if (result !== undefined) {
+      if (result) {
+        toast.error(stateData.isValidOrNot.message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        dispatch(setTeacherRegistration(formData));
+        navigate("/betterconnect/batchdetail");
+      }
+    }
+  }, [stateData.isValidOrNot]);
   const handleInput = async (e, file) => {
     if (file) {
       if (e.target.name === "image") {
@@ -93,25 +114,10 @@ const TeacherRegistration = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const { email, phone } = formData;
     dispatch(isEmailorPhoneAlreadyexist({ email, phone }));
-    if (stateData.isValidOrNot.result) {
-      toast.error(stateData.isValidOrNot.message, {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else {
-      dispatch(setTeacherRegistration(formData));
-      navigate("/betterconnect/batchdetail");
-    }
   };
 
   return (

@@ -5,9 +5,15 @@ import "./Header.css";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { GrClose } from "react-icons/gr";
 import Logo from "../../assets/images/logo.svg";
+import { useDispatch } from "react-redux";
+import {
+  isEmailorPhoneAlreadyexist,
+  setEmailState,
+} from "../../Redux/actions/teacherAction";
 
 const Header = ({ backColor }) => {
   const [active, setActive] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     window.addEventListener("scroll", isSticky);
@@ -87,7 +93,12 @@ const Header = ({ backColor }) => {
           </RouterLink>
         </div>
         <div className="register-btn">
-          <RouterLink to="/betterconnect/teacher">
+          <RouterLink
+            to="/betterconnect/teacher"
+            onClick={() => {
+              dispatch(setEmailState({}));
+            }}
+          >
             <button className="btn">Register as teacher</button>
           </RouterLink>
         </div>

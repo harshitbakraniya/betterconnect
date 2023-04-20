@@ -20,6 +20,8 @@ const teacherReducer = (state = initialState, action) => {
       return { ...state, teacherObjectWithBatch: action.payload };
     case ActionTypes.IS_EMAIL_ID_VALID:
       return { ...state, isValidOrNot: action.payload };
+    case ActionTypes.SET_EMAIL_STATE:
+      return { ...state, isValidOrNot: action.payload };
     case ActionTypes.SET_FILTER_DATA:
       return { ...state, filterData: action.payload };
     case ActionTypes.SET_FILTER_OBJECT:

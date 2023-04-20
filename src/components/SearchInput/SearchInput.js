@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SearchInput.css";
 import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import { getTeacherDetail } from "../../Redux/actions/teacherAction";
 
 const SearchInput = () => {
   const navigate = useNavigate();
+  const stateData = useSelector((state) => state.teacherRedu);
   const [data, setData] = useState({
     location: "",
     subject: "",
     class: "",
     mode: "",
   });
+
+  // useEffect(() => {
+  //   stateData.
+  //   if()
+  // })
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -26,6 +34,7 @@ const SearchInput = () => {
         search: `?location=${data.location}&class=${data.class}&subject=${data.subject}&mode=${data.mode}`,
       });
     } else {
+      // dispatch(getTeacherDetail());
       toast.error(
         "To get the proper result kindly mention the City name at the end of the address",
         {
@@ -79,6 +88,7 @@ const SearchInput = () => {
           className="custom-select"
           id="inputGroupSelect01"
           name="mode"
+          required
           onChange={handleInput}
         >
           <option selected>Select</option>
