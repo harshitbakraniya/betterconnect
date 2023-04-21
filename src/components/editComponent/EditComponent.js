@@ -7,7 +7,23 @@ import "./EditComponent.css";
 const EditComponent = ({ data, id, batch, setBatch }) => {
   const [active, setActive] = useState();
   const [innerData, setInnerData] = useState({});
-
+  const optionsForBatch = [
+    {
+      id: 1,
+      value: "less than 10",
+      minMax: [0, 10],
+    },
+    {
+      id: 2,
+      value: "10 to 20",
+      minMax: [10, 20],
+    },
+    {
+      id: 3,
+      value: "more than 30",
+      minMax: [30, 500],
+    },
+  ];
   useEffect(() => {
     setInnerData(data);
     setActive(data.subject);
@@ -103,9 +119,11 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
             onChange={(e) => handleChange(e)}
           >
             <option>Select</option>
+            <option value="Upto 10%">0</option>
             <option value="Upto 10%">Upto 10%</option>
-            <option value="Upto to 20%">Upto to 20%</option>
-            <option value="Upto to 30%">Upto to 30%</option>
+            <option value="Upto to 20%">Upto 20%</option>
+            <option value="Upto to 30%">Upto 30%</option>
+            <option value="Upto to 40%">Upto 40%</option>
           </select>
         </div>
       </td>
@@ -121,15 +139,20 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
         />
       </td>
       <td data-label="Batch size">
-        <input
-          type="text"
-          className="form-control"
-          name="batchStrength"
-          autoComplete="off"
-          placeholder="Ex.(11-20)"
-          value={innerData.batchStrength}
-          onChange={(e) => handleChange(e)}
-        />
+        <div className="input-group">
+          <select
+            className="custom-select"
+            id="inputGroupSelect01"
+            name="batchStrength"
+            value={innerData.batchStrength}
+            onChange={(e) => handleChange(e)}
+          >
+            <option>Select</option>
+            {optionsForBatch.map((item) => {
+              return <option value={item.value}>{item.value}</option>;
+            })}
+          </select>
+        </div>
       </td>
       <td data-label="Mode">
         <div className="input-group">

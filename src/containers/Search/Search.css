@@ -1,9 +1,34 @@
 .all-teachers {
+  height: 100%;
   padding: 7rem 4rem 1rem 4rem;
 }
 .all-teachers .left {
-  flex-basis: 20%;
-  position: relative;
+  flex-basis: 23%;
+  padding-right: 1rem;
+  position: sticky;
+  height: 100vh;
+  overflow-x: hidden;
+  align-self: flex-start;
+  top: 100px;
+  left: 0;
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+}
+.all-teachers .left::-webkit-scrollbar {
+  width: 5px;
+}
+.all-teachers .left::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 1rem;
+}
+.all-teachers .left::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 1rem;
+}
+.all-teachers .left::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 1rem;
 }
 .all-teachers .left .heading {
   font-size: 1.1rem;
@@ -38,7 +63,7 @@
   cursor: pointer;
 }
 .all-teachers .right {
-  flex-basis: 78%;
+  flex-basis: 79%;
   width: 80%;
   display: flex;
   flex-direction: column;
@@ -68,18 +93,16 @@
 @media screen and (max-width: 575.98px) {
   .all-teachers {
     padding: 9.5rem 1rem 1rem 1rem;
-  }
-  .all-teachers div {
-    flex-direction: column;
+    position: relative;
   }
   .all-teachers .left {
     width: 100%;
     height: 100vh;
     position: fixed;
     left: -100%;
-    top: 60px;
+    top: 0px;
     background-color: white !important;
-    z-index: 9;
+    z-index: 1;
     padding: 2rem;
     transition: 0.5s all;
   }
@@ -92,19 +115,27 @@
     position: fixed;
     top: 75px;
     left: 0;
+    z-index: -1;
     padding: 1rem;
     background-color: #ffffff;
   }
   .all-teachers .left .search-inn .form-control {
-    width: 49%;
+    width: 97%;
     flex-basis: 49%;
     font-size: 0.8rem;
   }
-  .all-teachers .left.active {
-    left: 0;
+  .all-teachers .left .search-inn .subject .search-icon {
+    top: 40%;
+    right: 1rem;
+    font-size: 0.9rem;
+  }
+  .all-teachers .left .search-inn .class .search-icon {
+    top: 40%;
+    right: 1rem;
+    font-size: 0.9rem;
   }
   .all-teachers .right {
-    width: 100%;
+    flex-basis: 100%;
     padding: 0 !important;
   }
   .all-teachers .right .filter-text {
@@ -118,9 +149,11 @@
     width: 100%;
     bottom: 0;
     left: 0;
+    z-index: 11;
     position: fixed;
     background-color: #1d1d1d;
     color: #ffffff;
+    display: flex !important;
   }
   .all-teachers .all-filters .inn-box {
     width: 20%;
@@ -154,11 +187,11 @@
   .all-teachers .all-filters .inn-box.active .title {
     color: #FBD37A;
   }
-  .all-teachers .all-filters .filter {
+  .all-teachers .all-filters .filter-block {
     background-color: #FBD37A;
     color: #1d1d1d !important;
   }
-  .all-teachers .all-filters .filter .title {
+  .all-teachers .all-filters .filter-block .title {
     color: #1d1d1d;
   }
 }

@@ -1,10 +1,41 @@
 @import '../../utils/commen.scss';
 
 .all-teachers{
+    height: 100%;
     padding: 7rem 4rem 1rem 4rem;
+   
     .left {
-        flex-basis: 20%;
-        position: relative;
+        flex-basis: 23%;
+        padding-right: 1rem;
+        position: sticky;
+        height: 100vh;
+        // overflow-y: scroll;
+        overflow-x: hidden;
+        align-self: flex-start; 
+        top: 100px;
+        left: 0;
+        &::-webkit-scrollbar {
+            width: 5px;
+            
+          }
+          
+          /* Track */
+          &::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+            border-radius: 1rem;
+          }
+           
+          /* Handle */
+          &::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 1rem;
+          }
+          
+          /* Handle on hover */
+          &::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+            border-radius: 1rem;
+          }
         .heading{
             font-size: 1.1rem;
         }
@@ -39,7 +70,7 @@
         }
     }
     .right{
-        flex-basis: 78%;
+        flex-basis: 79%;
         width: 80%;
         display: flex;
         flex-direction: column;
@@ -69,17 +100,15 @@
 @media screen and (max-width: 575.98px) {
     .all-teachers {
         padding: 9.5rem 1rem 1rem 1rem;
-        div{
-            flex-direction: column;
-        }
+        position: relative;
         .left{
             width: 100%;
             height: 100vh;
             position: fixed;
             left: -100%;
-            top: 60px;
+            top: 0px;
             background-color: white !important;
-            z-index: 9;
+            z-index: 1;
             padding: 2rem;
             transition: .5s all;
             .search-inn {
@@ -91,20 +120,32 @@
                 position: fixed;
                 top: 75px;
                 left: 0;
+                z-index: -1;
                 padding: 1rem;
                 background-color: $font_color_light;
                 .form-control{
-                    width: 49%;
+                    width: 97%;
                     flex-basis: 49%;
                     font-size: 0.8rem;
                 }
+                .subject {
+                    .search-icon{
+                        top: 40%;
+                        right: 1rem;
+                        font-size: 0.9rem;
+                    }
+                }
+                .class{
+                    .search-icon{
+                        top: 40%;
+                        right: 1rem;
+                        font-size: 0.9rem;
+                    }
+                }
             }
         }
-        .left.active{
-            left: 0;
-        }
         .right {
-            width: 100%;
+            flex-basis: 100%;
             padding: 0 !important;
             .filter-text {
                 display: flex;
@@ -118,9 +159,11 @@
             width: 100%;
             bottom: 0;
             left: 0;
+            z-index: 11;
             position: fixed;
             background-color: $secondary_color;
             color: $font_color_light;
+            display: flex !important;
             .inn-box{
                 width: 20%;
                 padding: 0.7rem 0;
@@ -153,7 +196,7 @@
                     color: $primary_color;
                 }
             }
-           .filter{
+           .filter-block{
                 background-color: $primary_color;
                 color: $secondary_color !important;
                 .title{

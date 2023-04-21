@@ -45,6 +45,11 @@
                 border: none;
                 font-size: 0.9rem;
                 margin: 0 !important;
+                border: 1px solid rgba(255,255,255,1);
+                &:focus{
+                    box-shadow: none;
+                    border: 1px solid rgba(0,0,0,0.2);
+                }
             }
             .row {
                 .form-group{
@@ -79,8 +84,12 @@
                 height: 2.5rem;
                 background-color: #F3F4F6;
                 font-size: 0.9rem;
-                border: none;
+                border: 1px solid rgba(255,255,255,1);
                 // margin-bottom: 0.5rem;
+                &:focus{
+                    box-shadow: none;
+                    border: 1px solid rgba(0,0,0,0.2);
+                }
             }
             // input[type=file]::file-selector-button {
             //     border: none;

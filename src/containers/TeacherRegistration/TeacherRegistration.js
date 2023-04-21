@@ -19,6 +19,7 @@ const TeacherRegistration = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
+    password: "",
     name: "",
     gender: "",
     address: "",
@@ -194,10 +195,11 @@ const TeacherRegistration = () => {
                       Pincode
                     </label>
                     <input
-                      type="number"
+                      type="tel"
                       className="form-control"
                       id="pincode"
                       name="pincode"
+                      maxLength="6"
                       autoComplete="off"
                       aria-describedby="emailHelp"
                       placeholder="Pincode"
@@ -225,6 +227,41 @@ const TeacherRegistration = () => {
                   </div>
                   <div className="form-group">
                     <label htmlFor="name" className="form-label">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      name="password"
+                      minLength="8"
+                      maxLength="14"
+                      aria-describedby="emailHelp"
+                      placeholder="Password"
+                      autoComplete="off"
+                      onInput={handleInput}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="row justify-content-between align-items-center">
+                  <div className="form-group">
+                    <label htmlFor="qualification" className="form-label">
+                      Qualification (optional)
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="address"
+                      name="qualification"
+                      autoComplete="off"
+                      aria-describedby="emailHelp"
+                      placeholder="Ex. BCom, Mcom"
+                      onInput={handleInput}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="name" className="form-label">
                       Mobile No.
                     </label>
                     <input
@@ -241,24 +278,9 @@ const TeacherRegistration = () => {
                     />
                   </div>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="qualification" className="form-label">
-                    Qualification (optional)
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="address"
-                    name="qualification"
-                    autoComplete="off"
-                    aria-describedby="emailHelp"
-                    placeholder="Ex. BCom, Mcom"
-                    onInput={handleInput}
-                  />
-                </div>
                 <div className="row justify-content-between align-items-center">
                   <div className="form-group">
-                    <label className="form-label">Documnet (optional)</label>
+                    <label className="form-label">Document (optional)</label>
                     <input
                       type="file"
                       className="form-control-file"
@@ -304,10 +326,11 @@ const TeacherRegistration = () => {
                       Teaching Experience
                     </label>
                     <input
-                      type="number"
+                      type="tel"
                       className="form-control"
                       id="experience"
                       name="experience"
+                      maxLength="2"
                       required
                       aria-describedby="emailHelp"
                       autoComplete="off"

@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { MdSocialDistance } from "react-icons/md";
 import { Bs0Circle, BsCurrencyRupee, BsSearch } from "react-icons/bs";
 import { BiTimeFive, BiFilterAlt } from "react-icons/bi";
+import { GrClose } from "react-icons/gr";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -62,10 +63,18 @@ const Search = () => {
     const allEle = document.querySelectorAll(".inn-box");
     if (document.getElementById(text).classList.contains("active")) {
       document.getElementById(text).classList.remove("active");
+      setActive(false);
+      document.body.style.overflowY = "scroll";
+      document.querySelector(".search-inn").style.display = "flex !important";
     } else {
       for (let ele = 0; ele < allEle.length; ele++) {
         allEle[ele].classList.remove("active");
+        document.body.style.overflowY = "scroll";
+        document.querySelector(".search-inn").style.display = "flex !important";
       }
+      setActive(true);
+      document.body.style.overflowY = "hidden";
+      // document.querySelector(".search-inn").style.display = "none";
       document.getElementById(text).classList.add("active");
     }
   };
@@ -115,12 +124,17 @@ const Search = () => {
     }
 
     //batch size filter
+
     if (batch_size && Object.keys(batch_size).length !== 0) {
       finalFilterData = finalFilterData.filter((item) => {
-        return (
-          item.batchStrength.toString().split("-")[0] >= batch_size[0] &&
-          item.batchStrength.toString().split("-")[1] <= batch_size[1]
-        );
+        console.log("fdf", item);
+        if (item.batchStrength.split(" ")[0] === "less") {
+          return 0 <= batch_size[0] && 10 >= batch_size[1];
+        } else if (item.batchStrength.split(" ")[0] === "more") {
+          return 30 <= batch_size[0] && 100 >= batch_size[1];
+        } else {
+          return 10 <= batch_size[0] && 20 >= batch_size[1];
+        }
       });
     } else if (!fees && !experience && !distance) {
       finalFilterData = stateTeachers.allteachers;
@@ -144,7 +158,7 @@ const Search = () => {
       <Header backColor="#FFFFFF" />
       <section className="all-teachers">
         <div className="d-flex justify-content-between">
-          <div className={active ? "left active" : "left"}>
+          <div className="left">
             <h3 className="heading">Search</h3>
             <div className="search-inn mb-3">
               <div className="class">
@@ -152,6 +166,7 @@ const Search = () => {
                   className="form-control"
                   placeholder="Class"
                   name="classVal"
+                  id="classVal"
                   value={filterObject.class}
                   onInput={handleClaasSubject}
                 />
@@ -165,6 +180,7 @@ const Search = () => {
                   className="form-control"
                   placeholder="Subject"
                   name="subject"
+                  id="subject"
                   onInput={handleClaasSubject}
                   value={filterObject.subject}
                 />
@@ -174,7 +190,11 @@ const Search = () => {
                 />
               </div>
             </div>
-            <Filters data={data} allTeachersData={allTeachersData} />
+            <Filters
+              classVal={active}
+              data={data}
+              allTeachersData={allTeachersData}
+            />
           </div>
           <div className="right pl-5">
             {allTeachersData.map((item) => {
@@ -207,7 +227,7 @@ const Search = () => {
             <BiTimeFive className="time-icon icon" />
             <span className="title">Time</span>
           </div>
-          <div className="filter inn-box d-flex flex-column align-items-center justify-content-center active-icon">
+          <div className="filter-block inn-box d-flex flex-column align-items-center justify-content-center active-icon">
             <BiFilterAlt className="filter-icon icon" />
             <span className="title">Filters</span>
           </div>

@@ -28,10 +28,21 @@ const SearchInput = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (data.location !== "") {
+    if (data.location && data.mode) {
       navigate({
         pathname: "/betterconnect/search",
         search: `?location=${data.location}&class=${data.class}&subject=${data.subject}&mode=${data.mode}`,
+      });
+    } else if (!data.mode) {
+      toast.error("Select mode for better result", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
     } else {
       // dispatch(getTeacherDetail());
@@ -39,7 +50,7 @@ const SearchInput = () => {
         "To get the proper result kindly mention the City name at the end of the address",
         {
           position: "top-center",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -91,9 +102,9 @@ const SearchInput = () => {
           required
           onChange={handleInput}
         >
-          <option selected>Select</option>
+          <option selected>Mode</option>
           <option value="Offline">Offline</option>
-          <option value="Hometutor">Home-tutor</option>
+          <option value="Hometutor">Hometutor</option>
           <option value="Online">Online</option>
         </select>
         <FiSearch className="search-icon" onClick={handleSubmit} />

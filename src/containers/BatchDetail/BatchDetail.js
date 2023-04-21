@@ -85,7 +85,7 @@ const BatchDetail = () => {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">Class</th>
+                <th scope="col">Class/Course</th>
                 <th scope="col">Subject</th>
                 <th scope="col">Board</th>
                 <th scope="col">Fees</th>

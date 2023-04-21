@@ -8,7 +8,7 @@ import {
   setFilterObjectRedux,
 } from "../../Redux/actions/teacherAction";
 
-const Filters = ({ data }) => {
+const Filters = ({ data, classVal }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filterDataIn, setFilterDataIn] = useState([]);
@@ -64,11 +64,11 @@ const Filters = ({ data }) => {
   };
   return (
     <>
-      <div className="filter">
+      <div className={classVal ? "filter active" : "filter"}>
         <h3 className="heading">Filters</h3>
         <Range
-          min={0}
-          max={2000}
+          min={100}
+          max={20000}
           // onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
           title="Fees"
           label=""
@@ -84,7 +84,7 @@ const Filters = ({ data }) => {
         />
         <Range
           min={0}
-          max={10}
+          max={30}
           // onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
           title="Experience"
           label="years"
@@ -92,97 +92,99 @@ const Filters = ({ data }) => {
         />
         <Range
           min={0}
-          max={200}
+          max={100}
           // onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
           title="Batch Size"
           handleRange={(min, max) => handleRange("batch_size", min, max)}
           label=""
         />
-        <div className="modes">
-          <h6 className="title-mode">Modes</h6>
-          <div className="all-radios d-flex flex-column ">
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="mode"
-                id="offline"
-                value="Offline"
-                onChange={handleRadios}
-              />
-              <label className="form-check-label" htmlFor="offline">
-                Offline
-              </label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="mode"
-                id="hometutor"
-                value="Hometutor"
-                onChange={handleRadios}
-              />
-              <label className="form-check-label" htmlFor="hometutor">
-                Hometutor
-              </label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="mode"
-                id="online"
-                value="Online"
-                onChange={handleRadios}
-              />
-              <label className="form-check-label" htmlFor="online">
-                Online
-              </label>
+        <div className="row justify-content-start">
+          <div className="modes flex-grow-1">
+            <h6 className="title-mode">Modes</h6>
+            <div className="all-radios d-flex flex-column ">
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="mode"
+                  id="offline"
+                  value="Offline"
+                  onChange={handleRadios}
+                />
+                <label className="form-check-label" htmlFor="offline">
+                  Offline
+                </label>
+              </div>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="mode"
+                  id="hometutor"
+                  value="Hometutor"
+                  onChange={handleRadios}
+                />
+                <label className="form-check-label" htmlFor="hometutor">
+                  Hometutor
+                </label>
+              </div>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="mode"
+                  id="online"
+                  value="Online"
+                  onChange={handleRadios}
+                />
+                <label className="form-check-label" htmlFor="online">
+                  Online
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="modes mt-3">
-          <h6 className="title-mode">Gender</h6>
-          <div className="all-radios d-flex flex-column ">
-            <div class="form-check">
-              <input
-                class="form-check-input gender-check"
-                type="checkbox"
-                value="Male"
-                id="male"
-                name="male"
-                onChange={handleGender}
-              />
-              <label class="form-check-label" for="male">
-                Male
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input gender-check"
-                type="checkbox"
-                value="Female"
-                id="female"
-                name="female"
-                onChange={handleGender}
-              />
-              <label class="form-check-label" for="female">
-                Female
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input gender-check"
-                type="checkbox"
-                value="Both"
-                id="both"
-                name="both"
-                onChange={handleGender}
-              />
-              <label class="form-check-label" for="both">
-                Both
-              </label>
+          <div className="modes flex-grow-1">
+            <h6 className="title-mode">Gender</h6>
+            <div className="all-radios d-flex flex-column ">
+              <div class="form-check">
+                <input
+                  class="form-check-input gender-check"
+                  type="checkbox"
+                  value="Male"
+                  id="male"
+                  name="male"
+                  onChange={handleGender}
+                />
+                <label class="form-check-label" for="male">
+                  Male
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input gender-check"
+                  type="checkbox"
+                  value="Female"
+                  id="female"
+                  name="female"
+                  onChange={handleGender}
+                />
+                <label class="form-check-label" for="female">
+                  Female
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input gender-check"
+                  type="checkbox"
+                  value="Both"
+                  id="both"
+                  name="both"
+                  onChange={handleGender}
+                />
+                <label class="form-check-label" for="both">
+                  Both
+                </label>
+              </div>
             </div>
           </div>
         </div>

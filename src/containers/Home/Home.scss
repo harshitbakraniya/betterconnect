@@ -247,7 +247,7 @@
         width: 100%;
         margin-top: 8rem;
         margin-bottom: 8rem;
-        padding: 1rem 4rem;
+        padding: 1rem 3rem;
         position: relative;
         .horizontal-line {
             width: 80%;
@@ -314,8 +314,8 @@
             .title-text {
                 position: relative;
                 flex-direction: row-reverse;
-                height: 3rem;
-                width:55%;
+                height: 2.5rem;
+                width:65%;
                 font-size: 0.8rem;
             }
             .top {
@@ -328,14 +328,15 @@
             .horizontal-line {
                 height: 80%;
                 width: 1px;
-                left: 48px;
+                left: 44px;
             }
             .icon {
-                width: 4rem;
-                height: 4rem;
+                width: 3.5rem;
+                height:3.5rem;
             }
         }
         .part {
+            height: 90px;
             flex-direction: row-reverse !important;
             align-items: center;
             justify-content: space-between !important;

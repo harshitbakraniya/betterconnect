@@ -16,12 +16,22 @@
   pointer-events: none;
   padding-left: 0;
   background: none;
+  border: 1px solid rgb(255, 255, 255);
+}
+.edit-compo .custom-select:focus {
+  box-shadow: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .edit-compo .form-control {
   pointer-events: none;
   padding-left: 0;
   background-color: transparent;
+  border: 1px solid rgb(255, 255, 255);
+}
+.edit-compo .form-control:focus {
+  box-shadow: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 @media screen and (max-width: 575.98px) {
