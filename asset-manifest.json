@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/betterconnect/static/css/main.9d920d9b.css",
+    "main.css": "/betterconnect/static/css/main.fad2c3db.css",
     "main.js": "/betterconnect/static/js/main.cd607f0d.js",
     "static/media/testi-1.jpg": "/betterconnect/static/media/testi-1.b14b38c1690ea76ec8e6.jpg",
     "static/media/profile-teacher.jpg": "/betterconnect/static/media/profile-teacher.b2f782da917cf20ba47f.jpg",
@@ -20,11 +20,11 @@
     "static/media/pattern.svg": "/betterconnect/static/media/pattern.fff4fc1320734ce01e52fcce279e2cf8.svg",
     "static/media/rightPatternBanner.svg": "/betterconnect/static/media/rightPatternBanner.64a4b143fd768e113b09133e3522f725.svg",
     "static/media/leftPatternBanner.svg": "/betterconnect/static/media/leftPatternBanner.7a3d23f7cea8356101c7ed98083421a1.svg",
-    "main.9d920d9b.css.map": "/betterconnect/static/css/main.9d920d9b.css.map",
+    "main.fad2c3db.css.map": "/betterconnect/static/css/main.fad2c3db.css.map",
     "main.cd607f0d.js.map": "/betterconnect/static/js/main.cd607f0d.js.map"
   },
   "entrypoints": [
-    "static/css/main.9d920d9b.css",
+    "static/css/main.fad2c3db.css",
     "static/js/main.cd607f0d.js"
   ]
 }
