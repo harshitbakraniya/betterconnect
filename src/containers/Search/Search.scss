@@ -116,7 +116,7 @@
                 align-items: center;
                 justify-content: space-between;
                 flex-direction: row;
-                width: 100%;
+                width: 100vw;
                 position: fixed;
                 top: 75px;
                 left: 0;
@@ -124,8 +124,9 @@
                 padding: 1rem;
                 background-color: $font_color_light;
                 .form-control{
-                    width: 97%;
-                    flex-basis: 49%;
+                    width: 9.3rem;
+                    flex-basis: 50%;
+                    flex-grow: 1;
                     font-size: 0.8rem;
                 }
                 .subject {
