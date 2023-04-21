@@ -304,6 +304,7 @@
     }
 }
 
+
 @media screen and (max-width: 575.98px) {
     .get-connect {
         padding: 2rem 1.5rem;
@@ -347,12 +348,14 @@
                 left: 0;
             }
             .top-line {
-                top: 0 !important;
+                height: 13rem !important;
+                top: -3.5rem !important;
                 left: 30%;
             }
             .bottom-line {
-                top: 0 !important;
-                left: 30%;
+                height: 13rem !important;
+                top: -3.5rem !important;
+                left:30%;
             }
         }
         .title {
@@ -366,6 +369,24 @@
                 font-size: 1.6rem;
                 line-height: 2rem;
                 margin-left: 1rem;
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 430px){
+    .get-connect {
+        .part{
+            .top-line {
+                height: 100% !important;
+                top: 0 !important;
+                left: 30%;
+            }
+            .bottom-line {
+                height: 100% !important;
+                top: 0 !important;
+                left:30%;
             }
         }
     }

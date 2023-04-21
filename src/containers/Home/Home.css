@@ -324,11 +324,13 @@
     left: 0;
   }
   .get-connect .part .top-line {
-    top: 0 !important;
+    height: 13rem !important;
+    top: -3.5rem !important;
     left: 30%;
   }
   .get-connect .part .bottom-line {
-    top: 0 !important;
+    height: 13rem !important;
+    top: -3.5rem !important;
     left: 30%;
   }
   .get-connect .title img {
@@ -341,6 +343,18 @@
     font-size: 1.6rem;
     line-height: 2rem;
     margin-left: 1rem;
+  }
+}
+@media screen and (max-width: 430px) {
+  .get-connect .part .top-line {
+    height: 100% !important;
+    top: 0 !important;
+    left: 30%;
+  }
+  .get-connect .part .bottom-line {
+    height: 100% !important;
+    top: 0 !important;
+    left: 30%;
   }
 }
 @media (min-width: 768px) and (max-width: 991.98px) {
