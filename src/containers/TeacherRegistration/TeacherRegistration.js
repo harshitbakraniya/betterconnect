@@ -74,17 +74,22 @@ const TeacherRegistration = () => {
     }
   };
 
-  async function getBase64(file, targetName) {
-    const reader = new FileReader();
-
-    reader.onload = function (event) {
-      const fileData = event.target.result;
-      const byteArray = new Uint8Array(fileData);
-      const base64String = btoa(String.fromCharCode.apply(null, byteArray));
-      setFormData({ ...formData, [targetName]: base64String });
-    };
-
-    reader.readAsArrayBuffer(file);
+  async function getBase64(file) {
+    const CHUNK_SIZE = 1024;
+    return new Promise((res, rej) => {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const fileData = event.target.result;
+        const byteArray = new Uint8Array(fileData);
+        let base64String = "";
+        for (let i = 0; i < byteArray.length; i += CHUNK_SIZE) {
+          const chunk = byteArray.slice(i, i + CHUNK_SIZE);
+          base64String += btoa(String.fromCharCode.apply(null, chunk));
+        }
+        res(base64String);
+      };
+      reader.readAsArrayBuffer(file);
+    });
   }
 
   const handleRadios = (e) => {

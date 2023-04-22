@@ -100,13 +100,14 @@
                     width: 50% !important;
                     text-align: right;
                     margin-left: auto;
+                    text-align: left;
                 }
                 .input-group {
                     width: 50% !important;
                     margin-left: auto;
                     .custom-select {
                         width: 100%;
-                        text-align: right;
+                        text-align: left;
                     }
                 }
                 &::before {

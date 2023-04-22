@@ -39,20 +39,29 @@ const BatchDetail = () => {
     scholarship: "0",
   });
   useEffect(() => {
+    if (!JSON.parse(localStorage.getItem("batchDetail"))) {
+      localStorage.setItem("batchDetail", JSON.stringify([initialObject]));
+    }
     dispatch(setLocalBatch([innerData]));
   }, []);
   const addTableRows = () => {
-    let arr = teacherData.LocalBatch;
+    // let arr = teacherData.LocalBatch;
     // console.log(arr[0]);
-    if (JSON.stringify(arr[0]) === JSON.stringify(initialObject)) {
-      arr[0] = innerData;
-      arr.push(initialObject);
-      dispatch(setLocalBatch(arr));
-    } else {
-      arr[arr.length - 1] = innerData;
-      dispatch(setLocalBatch(arr));
-    }
-
+    // if (JSON.stringify(arr[0]) === JSON.stringify(initialObject)) {
+    //   arr[0] = innerData;
+    //   arr.push(initialObject);
+    //   dispatch(setLocalBatch(arr));
+    //   localStorage.setItem("batchDetail", JSON.stringify(arr));
+    // } else {
+    //   arr[arr.length - 1] = innerData;
+    //   arr.push(initialObject);
+    //   dispatch(setLocalBatch(arr));
+    //   localStorage.setItem("batchDetail", JSON.stringify(arr));
+    // }
+    let arr = JSON.parse(localStorage.getItem("batchDetail"));
+    arr.push(initialObject);
+    localStorage.setItem("batchDetail", JSON.stringify(arr));
+    dispatch(setLocalBatch(arr));
     // const rowsInput = {
     //   class: "",
     //   subject: "",
@@ -82,26 +91,27 @@ const BatchDetail = () => {
   // };
 
   const handleSubmitForm = () => {
-    const arr = JSON.parse(localStorage.getItem("allTeachers"));
-    const obj = {
-      ...teacherData.teacher,
-      batchDetails: arr,
-    };
+    alert(JSON.stringify(teacherData.LocalBatch));
+    // const arr = JSON.parse(localStorage.getItem("allTeachers"));
+    // const obj = {
+    //   ...teacherData.teacher,
+    //   batchDetails: arr,
+    // };
 
-    dispatch(regitrationWithBatchDetail(obj));
-    toast.success("Registration successfull", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-    setTimeout(() => {
-      navigate("/betterconnect");
-    }, 1000);
+    // dispatch(regitrationWithBatchDetail(obj));
+    // toast.success("Registration successfull", {
+    //   position: "top-center",
+    //   autoClose: 2000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "light",
+    // });
+    // setTimeout(() => {
+    //   navigate("/betterconnect");
+    // }, 1000);
     // const mainObject = {
     //   teacherData.teacher,
     //   ...JSON.parse(localStorage.getItem("allTeachers")),
@@ -135,19 +145,21 @@ const BatchDetail = () => {
               </tr>
             </thead>
             <tbody>
-              {teacherData?.LocalBatch &&
-                teacherData?.LocalBatch.map((item, index) => {
-                  return (
-                    <EditComponent
-                      data={item}
-                      id={index}
-                      batch={batch}
-                      setBatch={setBatch}
-                      innerData={innerData}
-                      setInnerData={setInnerData}
-                    />
-                  );
-                })}
+              {JSON.parse(localStorage.getItem("batchDetail")) &&
+                JSON.parse(localStorage.getItem("batchDetail")).map(
+                  (item, index) => {
+                    return (
+                      <EditComponent
+                        data={item}
+                        id={index}
+                        batch={batch}
+                        setBatch={setBatch}
+                        innerData={innerData}
+                        setInnerData={setInnerData}
+                      />
+                    );
+                  }
+                )}
               <tr>
                 <td colSpan={9}>
                   <div className="add-submit d-flex align-items-center justify-content-between mb-2">

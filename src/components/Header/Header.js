@@ -17,6 +17,9 @@ const Header = ({ backColor, page }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (page) {
+      document.querySelector(".menu-btn").style.display = "none";
+    }
     window.addEventListener("scroll", isSticky);
     return () => {
       window.removeEventListener("scroll", isSticky);

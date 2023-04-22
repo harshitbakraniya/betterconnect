@@ -215,7 +215,7 @@ const Search = () => {
           <Link
             className="distance inn-box d-flex flex-column align-items-center justify-content-center"
             id="distance"
-            to="/betterconnect"
+            to="/"
           >
             <AiOutlineHome
               className="dis-icon icon"
