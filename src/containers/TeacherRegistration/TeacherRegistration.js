@@ -40,19 +40,22 @@ const TeacherRegistration = () => {
     const result = stateData.isValidOrNot.result;
     if (result !== undefined) {
       if (result) {
-        toast.error(stateData.isValidOrNot.message, {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.error(
+          `${stateData.isValidOrNot.message}, Kindly go to login page`,
+          {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
       } else {
         dispatch(setTeacherRegistration(formData));
-        navigate("/betterconnect/batchdetail");
+        navigate("/batchdetail");
       }
     }
   }, [stateData.isValidOrNot]);
@@ -247,7 +250,7 @@ const TeacherRegistration = () => {
                 <div className="row justify-content-between align-items-center">
                   <div className="form-group">
                     <label htmlFor="qualification" className="form-label">
-                      Qualification (optional)
+                      Qualification
                     </label>
                     <input
                       type="text"
@@ -258,6 +261,7 @@ const TeacherRegistration = () => {
                       aria-describedby="emailHelp"
                       placeholder="Ex. BCom, Mcom"
                       onInput={handleInput}
+                      required
                     />
                   </div>
                   <div className="form-group">
@@ -280,7 +284,9 @@ const TeacherRegistration = () => {
                 </div>
                 <div className="row justify-content-between align-items-center">
                   <div className="form-group">
-                    <label className="form-label">Document (optional)</label>
+                    <label className="form-label">
+                      Qualification Document (optional)
+                    </label>
                     <input
                       type="file"
                       className="form-control-file"

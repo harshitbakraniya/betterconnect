@@ -13,6 +13,7 @@ const Card = ({ detail }) => {
     board,
     mode,
     fees,
+    scholarship,
     batchStrength,
     experience,
   } = detail;
@@ -41,32 +42,24 @@ const Card = ({ detail }) => {
               <p className="value">{distance}</p>
             </div>
             <div className="data">
-              <h5 className="data-about">Subject</h5>
-              <p className="value">{subject}</p>
-            </div>
-            <div className="data">
-              <h5 className="data-about">Mode</h5>
-              <p className="value">{mode}</p>
-            </div>
-            <div className="data">
               <h5 className="data-about">Fees</h5>
               <p className="value">{fees}</p>
             </div>
             <div className="data">
-              <h5 className="data-about">Batch size</h5>
-              <p className="value">{batchStrength}</p>
+              <h5 className="data-about">Scholarship</h5>
+              <p className="value">{scholarship}</p>
             </div>
             <div className="data">
-              <h5 className="data-about">Experience</h5>
-              <p className="value">{experience}</p>
+              <h5 className="data-about">Batch Size</h5>
+              <p className="value">{batchStrength}</p>
             </div>
             <div className="data">
               <h5 className="data-about">Time</h5>
               <p className="value">{time}</p>
             </div>
             <div className="data">
-              <h5 className="data-about">Rating</h5>
-              <p className="value">4.6</p>
+              <h5 className="data-about">Experience</h5>
+              <p className="value">{experience}</p>
             </div>
           </div>
         </div>

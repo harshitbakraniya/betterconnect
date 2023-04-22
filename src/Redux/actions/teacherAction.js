@@ -68,3 +68,10 @@ export const setFilterObjectRedux = (data) => {
     payload: data,
   };
 };
+
+export const setLocalBatch = (data) => {
+  return {
+    type: ActionTypes.SET_LOCAL_BATCH,
+    payload: data,
+  };
+};

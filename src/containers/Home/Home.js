@@ -16,6 +16,7 @@ import rightPatternBanner from "../../assets/images/rightPatternBanner.svg";
 import paperPattern from "../../assets/images/paper-plane 1.svg";
 import AboutImg from "../../assets/images/Student stress-pana 1.png";
 import { BsArrowUpLeft } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import OfferCard from "../../components/OfferCard/OfferCard";
 import TestimonialCard from "../../components/TestimonialCard/TestimonialCard";
 import SearchInput from "../../components/SearchInput/SearchInput";
@@ -182,8 +183,10 @@ const Home = () => {
                 society & not only to make money out of it
               </p>
               <button className="btn">
-                Register as teacher
-                <BsArrowUpLeft />
+                <Link to="/teacher">
+                  Register as teacher
+                  <BsArrowUpLeft />
+                </Link>
               </button>
             </div>
           </div>
@@ -235,7 +238,6 @@ const Home = () => {
                     delay={0}
                   />
                 )}
-                +
               </h4>
             </div>
             <div className="student text-center">
@@ -249,7 +251,6 @@ const Home = () => {
                     delay={0}
                   />
                 )}
-                +
               </h4>
             </div>
             <div className="connected text-center">
@@ -263,7 +264,6 @@ const Home = () => {
                     delay={0}
                   />
                 )}
-                +
               </h4>
             </div>
           </div>
@@ -290,10 +290,6 @@ const Home = () => {
         <div className="title">
           <img src={Black} alt="pattern" />
           Testimonial
-          <p className="sub-title">
-            Only for those who teach out of passion or as a service towards
-            society & not only to make money out of it
-          </p>
         </div>
         <div className="row mt-5 data">
           <div className="col-12 col-md-4 col-lg-4 column">

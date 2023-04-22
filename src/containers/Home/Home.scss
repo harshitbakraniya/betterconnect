@@ -596,6 +596,10 @@
             svg {
                 margin-left: 1rem;
             }
+            a{
+                color: $secondary_color;
+                text-decoration: none;
+            }
         }
     }
     .grid-content {

@@ -4,9 +4,9 @@ import { BiEdit } from "react-icons/bi";
 import { RiSave3Fill } from "react-icons/ri";
 import "./EditComponent.css";
 
-const EditComponent = ({ data, id, batch, setBatch }) => {
-  const [active, setActive] = useState();
-  const [innerData, setInnerData] = useState({});
+const EditComponent = ({ data, id, innerData, setInnerData }) => {
+  // const [active, setActive] = useState();
+  // const [inner, setInner] = useState(data);
   const optionsForBatch = [
     {
       id: 1,
@@ -24,42 +24,14 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
       minMax: [30, 500],
     },
   ];
-  useEffect(() => {
-    setInnerData(data);
-    setActive(data.subject);
-  }, [data]);
 
-  const handleSave = (e) => {
-    const array = JSON.parse(localStorage.getItem("allTeachers"));
-    array[id] = innerData;
-    localStorage.setItem("allTeachers", JSON.stringify(array));
-  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInnerData({ ...innerData, [name]: value });
   };
 
-  const handleBtns = () => {
-    if (active) {
-      document.getElementById(id).classList.add("active");
-      setActive(false);
-    } else {
-      document.getElementById(id).classList.remove("active");
-      setActive(true);
-    }
-  };
-
-  const handleDelete = (data) => {
-    const filterData = JSON.parse(localStorage.getItem("allTeachers")).filter(
-      (item) => {
-        return JSON.stringify(item) != JSON.stringify(data);
-      }
-    );
-    setBatch(filterData);
-    localStorage.setItem("allTeachers", JSON.stringify(filterData));
-  };
   return (
-    <tr className={`edit-compo ${data.subject ? "" : "active"}`} id={id}>
+    <tr className="edit-compo active" id={id}>
       <td data-label="Class">
         <input
           type="text"
@@ -170,7 +142,7 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           </select>
         </div>
       </td>
-      <td className="icons">
+      {/* <td className="icons">
         {!active ? (
           <RiSave3Fill
             className="edit-icon"
@@ -191,7 +163,7 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           className="delete-icon"
           onClick={() => handleDelete(data)}
         />
-      </td>
+      </td> */}
     </tr>
   );
 };

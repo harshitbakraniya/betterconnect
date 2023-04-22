@@ -537,6 +537,10 @@
 .offer .title-card .btn svg {
   margin-left: 1rem;
 }
+.offer .title-card .btn a {
+  color: #1d1d1d;
+  text-decoration: none;
+}
 .offer .grid-content {
   display: grid;
   grid-template-columns: repeat(4, 24%);
