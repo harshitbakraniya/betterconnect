@@ -15,10 +15,8 @@
     pointer-events: none;
     padding-left: 0;
     background: none;
-    border: 1px solid rgba(255,255,255,1);
     &:focus{
         box-shadow: none;
-        border: 1px solid rgba(0,0,0,0.2);
     }
 }
 
@@ -26,18 +24,18 @@
     pointer-events: none;
     padding-left: 0;
     background-color: transparent;
-    border: 1px solid rgba(255,255,255,1);
     &:focus{
         box-shadow: none;
-        border: 1px solid rgba(0,0,0,0.2);
     }
 }
 
 @media screen and (max-width: 575.98px) {
     .active .custom-select {
+        border: none;
         padding-right: 1.5rem !important;
     }
     .active .form-control {
+        // border: 1px solig rgba(0,0,0,0.06);
         padding: 1.3rem 0.7rem 0.7 0rem;
     }
     .edit-compo .custom-select{

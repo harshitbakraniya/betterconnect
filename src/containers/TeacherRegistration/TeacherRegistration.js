@@ -40,19 +40,22 @@ const TeacherRegistration = () => {
     const result = stateData.isValidOrNot.result;
     if (result !== undefined) {
       if (result) {
-        toast.error(stateData.isValidOrNot.message, {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.error(
+          `${stateData.isValidOrNot.message}, Kindly go to login page`,
+          {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
       } else {
         dispatch(setTeacherRegistration(formData));
-        navigate("/betterconnect/batchdetail");
+        navigate("/batchdetail");
       }
     }
   }, [stateData.isValidOrNot]);
@@ -71,17 +74,22 @@ const TeacherRegistration = () => {
     }
   };
 
-  async function getBase64(file, targetName) {
-    const reader = new FileReader();
-
-    reader.onload = function (event) {
-      const fileData = event.target.result;
-      const byteArray = new Uint8Array(fileData);
-      const base64String = btoa(String.fromCharCode.apply(null, byteArray));
-      setFormData({ ...formData, [targetName]: base64String });
-    };
-
-    reader.readAsArrayBuffer(file);
+  async function getBase64(file) {
+    const CHUNK_SIZE = 1024;
+    return new Promise((res, rej) => {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const fileData = event.target.result;
+        const byteArray = new Uint8Array(fileData);
+        let base64String = "";
+        for (let i = 0; i < byteArray.length; i += CHUNK_SIZE) {
+          const chunk = byteArray.slice(i, i + CHUNK_SIZE);
+          base64String += btoa(String.fromCharCode.apply(null, chunk));
+        }
+        res(base64String);
+      };
+      reader.readAsArrayBuffer(file);
+    });
   }
 
   const handleRadios = (e) => {
@@ -247,7 +255,7 @@ const TeacherRegistration = () => {
                 <div className="row justify-content-between align-items-center">
                   <div className="form-group">
                     <label htmlFor="qualification" className="form-label">
-                      Qualification (optional)
+                      Qualification
                     </label>
                     <input
                       type="text"
@@ -258,6 +266,7 @@ const TeacherRegistration = () => {
                       aria-describedby="emailHelp"
                       placeholder="Ex. BCom, Mcom"
                       onInput={handleInput}
+                      required
                     />
                   </div>
                   <div className="form-group">
@@ -280,7 +289,9 @@ const TeacherRegistration = () => {
                 </div>
                 <div className="row justify-content-between align-items-center">
                   <div className="form-group">
-                    <label className="form-label">Document (optional)</label>
+                    <label className="form-label">
+                      Qualification Document (optional)
+                    </label>
                     <input
                       type="file"
                       className="form-control-file"

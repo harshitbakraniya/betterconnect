@@ -155,6 +155,9 @@
     color: #ffffff;
     display: flex !important;
   }
+  .all-teachers .all-filters a {
+    text-decoration: none;
+  }
   .all-teachers .all-filters .inn-box {
     width: 20%;
     padding: 0.7rem 0;

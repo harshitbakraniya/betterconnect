@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { MdDeleteOutline } from "react-icons/md";
-import { BiEdit } from "react-icons/bi";
-import { RiSave3Fill } from "react-icons/ri";
+import React, { useState } from "react";
 import "./EditComponent.css";
 
-const EditComponent = ({ data, id, batch, setBatch }) => {
-  const [active, setActive] = useState();
-  const [innerData, setInnerData] = useState({});
+const EditComponent = ({ data, id, setInnerData }) => {
+  // const [active, setActive] = useState();
+  const [inner, setInner] = useState(data);
   const optionsForBatch = [
     {
       id: 1,
@@ -24,42 +21,25 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
       minMax: [30, 500],
     },
   ];
-  useEffect(() => {
-    setInnerData(data);
-    setActive(data.subject);
-  }, [data]);
 
-  const handleSave = (e) => {
-    const array = JSON.parse(localStorage.getItem("allTeachers"));
-    array[id] = innerData;
-    localStorage.setItem("allTeachers", JSON.stringify(array));
-  };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInnerData({ ...innerData, [name]: value });
-  };
-
-  const handleBtns = () => {
-    if (active) {
-      document.getElementById(id).classList.add("active");
-      setActive(false);
-    } else {
-      document.getElementById(id).classList.remove("active");
-      setActive(true);
+    setInner({ ...inner, [name]: value });
+    setInnerData(inner);
+    if (localStorage.getItem("batchDetail") !== null) {
+      let arr = JSON.parse(localStorage.getItem("batchDetail"));
+      let updateObj = arr.find((item, index) => {
+        return index === id;
+      });
+      let obj = updateObj;
+      obj[name] = value;
+      arr[id] = obj;
+      localStorage.setItem("batchDetail", JSON.stringify(arr));
     }
   };
 
-  const handleDelete = (data) => {
-    const filterData = JSON.parse(localStorage.getItem("allTeachers")).filter(
-      (item) => {
-        return JSON.stringify(item) != JSON.stringify(data);
-      }
-    );
-    setBatch(filterData);
-    localStorage.setItem("allTeachers", JSON.stringify(filterData));
-  };
   return (
-    <tr className={`edit-compo ${data.subject ? "" : "active"}`} id={id}>
+    <tr className="edit-compo active" id={id}>
       <td data-label="Class">
         <input
           type="text"
@@ -67,7 +47,8 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           name="class"
           placeholder="Class"
           autoComplete="off"
-          value={innerData.class}
+          value={inner.class}
+          required
           onChange={(e) => handleChange(e)}
         />
       </td>
@@ -78,7 +59,8 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           name="subject"
           placeholder="Subject"
           autoComplete="off"
-          value={innerData.subject}
+          required
+          value={inner.subject}
           onChange={(e) => handleChange(e)}
         />
       </td>
@@ -88,7 +70,8 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
             className="custom-select"
             id="inputGroupSelect01"
             name="board"
-            value={innerData.board}
+            required
+            value={inner.board}
             onChange={(e) => handleChange(e)}
           >
             <option>Select</option>
@@ -104,26 +87,28 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           className="form-control"
           name="fees"
           placeholder="Fees"
-          value={innerData.fees}
+          required
+          value={inner.fees}
           autoComplete="off"
           onChange={(e) => handleChange(e)}
         />
       </td>
-      <td data-label="Mode">
+      <td data-label="Scholarship">
         <div className="input-group">
           <select
             className="custom-select"
             id="inputGroupSelect01"
+            required
             name="scholarship"
-            value={innerData.scholarship}
+            value={inner.scholarship}
             onChange={(e) => handleChange(e)}
           >
             <option>Select</option>
-            <option value="Upto 10%">0</option>
+            <option value="zero">Zero</option>
             <option value="Upto 10%">Upto 10%</option>
-            <option value="Upto to 20%">Upto 20%</option>
-            <option value="Upto to 30%">Upto 30%</option>
-            <option value="Upto to 40%">Upto 40%</option>
+            <option value="Upto 20%">Upto 20%</option>
+            <option value="Upto 30%">Upto 30%</option>
+            <option value="Upto 40%">Upto 40%</option>
           </select>
         </div>
       </td>
@@ -134,7 +119,8 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           name="time"
           placeholder="Ex.10-11PM"
           autoComplete="off"
-          value={innerData.time}
+          value={inner.time}
+          required
           onChange={(e) => handleChange(e)}
         />
       </td>
@@ -144,7 +130,8 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
             className="custom-select"
             id="inputGroupSelect01"
             name="batchStrength"
-            value={innerData.batchStrength}
+            required
+            value={inner.batchStrength}
             onChange={(e) => handleChange(e)}
           >
             <option>Select</option>
@@ -160,7 +147,8 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
             className="custom-select"
             id="inputGroupSelect01"
             name="mode"
-            value={innerData.mode}
+            value={inner.mode}
+            required
             onChange={(e) => handleChange(e)}
           >
             <option>Select</option>
@@ -170,7 +158,7 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           </select>
         </div>
       </td>
-      <td className="icons">
+      {/* <td className="icons">
         {!active ? (
           <RiSave3Fill
             className="edit-icon"
@@ -191,7 +179,7 @@ const EditComponent = ({ data, id, batch, setBatch }) => {
           className="delete-icon"
           onClick={() => handleDelete(data)}
         />
-      </td>
+      </td> */}
     </tr>
   );
 };

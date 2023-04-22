@@ -5,6 +5,8 @@ import Header from "../../components/Header/Header";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getTeacherDetail } from "../../Redux/actions/teacherAction";
 import "./Search.css";
+import { Link } from "react-router-dom";
+import { AiOutlineHome } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { MdSocialDistance } from "react-icons/md";
 import { Bs0Circle, BsCurrencyRupee, BsSearch } from "react-icons/bs";
@@ -18,26 +20,33 @@ const Search = () => {
   const navigate = useNavigate();
   const stateTeachers = useSelector((state) => state.teacherRedu);
   const [allTeachersData, setAllTeachers] = useState([]);
+  const data = {
+    location: searchParams.get("location"),
+    subject: searchParams.get("subject"),
+    classVal: searchParams.get("class"),
+    mode: searchParams.get("mode"),
+  };
   const [filterObject, setFilterObject] = useState({
     classVal: "",
     subject: "",
   });
-  const data = {
-    location: searchParams.get("location"),
-    subject: searchParams.get("subject"),
-    class: searchParams.get("class"),
-    mode: searchParams.get("mode"),
-  };
 
+  console.log(filterObject);
   const handleFilter = () => {
     active ? setActive(false) : setActive(true);
   };
 
   useEffect(() => {
+    console.log(data);
     dispatch(getTeacherDetail(data));
+    setFilterObject({ ...filterObject, classVal: data.classVal });
+    setFilterObject({ ...filterObject, subject: data.subject });
   }, [data.mode, data.class, data.subject]);
 
   useEffect(() => {
+    console.log(data);
+    setFilterObject({ ...filterObject, classVal: data.classVal });
+    setFilterObject({ ...filterObject, subject: data.subject });
     setAllTeachers(stateTeachers.allteachers);
   }, [stateTeachers.allteachers]);
 
@@ -87,12 +96,12 @@ const Search = () => {
   const handleSearch = (name) => {
     if (name === "class") {
       navigate({
-        pathname: "/betterconnect/search",
+        pathname: "/search",
         search: `?location=${data.location}&class=${filterObject.classVal}&subject=${data.subject}&mode=${data.mode}`,
       });
     } else {
       navigate({
-        pathname: "/betterconnect/search",
+        pathname: "/search",
         search: `?location=${data.location}&class=${data.class}&subject=${filterObject.subject}&mode=${data.mode}`,
       });
     }
@@ -155,7 +164,7 @@ const Search = () => {
 
   return (
     <>
-      <Header backColor="#FFFFFF" />
+      <Header backColor="#FFFFFF" page="search" />
       <section className="all-teachers">
         <div className="d-flex justify-content-between">
           <div className="left">
@@ -167,7 +176,7 @@ const Search = () => {
                   placeholder="Class"
                   name="classVal"
                   id="classVal"
-                  value={filterObject.class}
+                  value={filterObject.classVal}
                   onInput={handleClaasSubject}
                 />
                 <BsSearch
@@ -203,6 +212,17 @@ const Search = () => {
           </div>
         </div>
         <div className="all-filters d-flex flex-row align-items-center justify-content-center">
+          <Link
+            className="distance inn-box d-flex flex-column align-items-center justify-content-center"
+            id="distance"
+            to="/"
+          >
+            <AiOutlineHome
+              className="dis-icon icon"
+              style={{ color: "#fff" }}
+            />
+            <span className="title">Home</span>
+          </Link>
           <div
             className="distance inn-box d-flex flex-column align-items-center justify-content-center"
             id="distance"

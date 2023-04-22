@@ -3,11 +3,14 @@ import "./BatchDetail.css";
 import Black from "../../assets/images/black.svg";
 import EditComponent from "../../components/editComponent/EditComponent";
 import Header from "../../components/Header/Header";
-import { regitrationWithBatchDetail } from "../../Redux/actions/teacherAction";
+import {
+  regitrationWithBatchDetail,
+  setLocalBatch,
+} from "../../Redux/actions/teacherAction";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 
 const BatchDetail = () => {
   const [rowsData, setRowsData] = useState([]);
@@ -15,55 +18,100 @@ const BatchDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [batch, setBatch] = useState([]);
+  const initialObject = {
+    class: "",
+    subject: "",
+    board: "",
+    mode: "",
+    fees: 0,
+    time: "",
+    batchStrength: "",
+    scholarship: "0",
+  };
+  const [innerData, setInnerData] = useState({
+    class: "",
+    subject: "",
+    board: "",
+    mode: "",
+    fees: 0,
+    time: "",
+    batchStrength: "",
+    scholarship: "0",
+  });
   useEffect(() => {
-    if (!JSON.parse(localStorage.getItem("allTeachers"))) {
-      addTableRows();
+    if (!JSON.parse(localStorage.getItem("batchDetail"))) {
+      localStorage.setItem("batchDetail", JSON.stringify([initialObject]));
     }
+    dispatch(setLocalBatch([innerData]));
   }, []);
   const addTableRows = () => {
-    const rowsInput = {
-      class: "",
-      subject: "",
-      board: "",
-      mode: "",
-      fees: 0,
-      time: "",
-      batchStrength: "",
-      scholarship: "0",
-    };
-    setRowsData([...rowsData, rowsInput]);
-    if (JSON.parse(localStorage.getItem("allTeachers") === null)) {
-      const arr = [];
-      arr.push(rowsInput);
-      localStorage.setItem("allTeachers", JSON.stringify(arr));
-    } else {
-      const arr = JSON.parse(localStorage.getItem("allTeachers"));
-      arr.push(rowsInput);
-      localStorage.setItem("allTeachers", JSON.stringify(arr));
-    }
+    // let arr = teacherData.LocalBatch;
+    // console.log(arr[0]);
+    // if (JSON.stringify(arr[0]) === JSON.stringify(initialObject)) {
+    //   arr[0] = innerData;
+    //   arr.push(initialObject);
+    //   dispatch(setLocalBatch(arr));
+    //   localStorage.setItem("batchDetail", JSON.stringify(arr));
+    // } else {
+    //   arr[arr.length - 1] = innerData;
+    //   arr.push(initialObject);
+    //   dispatch(setLocalBatch(arr));
+    //   localStorage.setItem("batchDetail", JSON.stringify(arr));
+    // }
+    let arr = JSON.parse(localStorage.getItem("batchDetail"));
+    arr.push(initialObject);
+    localStorage.setItem("batchDetail", JSON.stringify(arr));
+    dispatch(setLocalBatch(arr));
+    // const rowsInput = {
+    //   class: "",
+    //   subject: "",
+    //   board: "",
+    //   mode: "",
+    //   fees: 0,
+    //   time: "",
+    //   batchStrength: "",
+    //   scholarship: "0",
+    // };
+    // setRowsData([...rowsData, rowsInput]);
+    // if (JSON.parse(localStorage.getItem("allTeachers") === null)) {
+    //   const arr = [];
+    //   arr.push(rowsInput);
+    //   localStorage.setItem("allTeachers", JSON.stringify(arr));
+    // } else {
+    //   const arr = JSON.parse(localStorage.getItem("allTeachers"));
+    //   arr.push(rowsInput);
+    //   localStorage.setItem("allTeachers", JSON.stringify(arr));
+    // }
   };
 
+  // const handleSave = () => {
+  //   const array = JSON.parse(localStorage.getItem("allTeachers"));
+  //   array[id] = innerData;
+  //   localStorage.setItem("allTeachers", JSON.stringify(array));
+  // };
+
   const handleSubmitForm = () => {
-    const arr = JSON.parse(localStorage.getItem("allTeachers"));
-    const obj = {
-      ...teacherData.teacher,
-      batchDetails: arr,
-    };
-    console.log(obj);
-    dispatch(regitrationWithBatchDetail(obj));
-    toast.success("Registration successfull", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-    setTimeout(() => {
-      navigate("/betterconnect");
-    }, 1000);
+    alert(JSON.stringify(teacherData.LocalBatch));
+    // const arr = JSON.parse(localStorage.getItem("allTeachers"));
+    // const obj = {
+    //   ...teacherData.teacher,
+    //   batchDetails: arr,
+    // };
+
+    // dispatch(regitrationWithBatchDetail(obj));
+    // toast.success("Registration successfull", {
+    //   position: "top-center",
+    //   autoClose: 2000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "light",
+    // });
+    // setTimeout(() => {
+    //   navigate("/betterconnect");
+    // }, 1000);
     // const mainObject = {
     //   teacherData.teacher,
     //   ...JSON.parse(localStorage.getItem("allTeachers")),
@@ -93,12 +141,12 @@ const BatchDetail = () => {
                 <th scope="col">Time</th>
                 <th scope="col">Batch Strength</th>
                 <th scope="col">Mode</th>
-                <th scope="col">Edit</th>
+                {/* <th scope="col">Edit</th> */}
               </tr>
             </thead>
             <tbody>
-              {JSON.parse(localStorage.getItem("allTeachers")) &&
-                JSON.parse(localStorage.getItem("allTeachers")).map(
+              {JSON.parse(localStorage.getItem("batchDetail")) &&
+                JSON.parse(localStorage.getItem("batchDetail")).map(
                   (item, index) => {
                     return (
                       <EditComponent
@@ -106,6 +154,8 @@ const BatchDetail = () => {
                         id={index}
                         batch={batch}
                         setBatch={setBatch}
+                        innerData={innerData}
+                        setInnerData={setInnerData}
                       />
                     );
                   }

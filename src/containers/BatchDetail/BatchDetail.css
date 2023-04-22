@@ -95,6 +95,7 @@
     width: 50% !important;
     text-align: right;
     margin-left: auto;
+    text-align: left;
   }
   .batch-detail table tbody .input-group, .batch-detail table tr .input-group, .batch-detail table td .input-group {
     width: 50% !important;
@@ -102,7 +103,7 @@
   }
   .batch-detail table tbody .input-group .custom-select, .batch-detail table tr .input-group .custom-select, .batch-detail table td .input-group .custom-select {
     width: 100%;
-    text-align: right;
+    text-align: left;
   }
   .batch-detail table tbody::before, .batch-detail table tr::before, .batch-detail table td::before {
     content: attr(data-label);

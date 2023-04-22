@@ -13,7 +13,7 @@ const SearchInput = () => {
   const [data, setData] = useState({
     location: "",
     subject: "",
-    class: "",
+    classVal: "",
     mode: "",
   });
 
@@ -30,8 +30,8 @@ const SearchInput = () => {
     e.preventDefault();
     if (data.location && data.mode) {
       navigate({
-        pathname: "/betterconnect/search",
-        search: `?location=${data.location}&class=${data.class}&subject=${data.subject}&mode=${data.mode}`,
+        pathname: "/search",
+        search: `?location=${data.location}&class=${data.classVal}&subject=${data.subject}&mode=${data.mode}`,
       });
     } else if (!data.mode) {
       toast.error("Select mode for better result", {
@@ -90,9 +90,9 @@ const SearchInput = () => {
           className="form-control"
           aria-label="Text input with dropdown button"
           placeholder="Class"
-          name="class"
+          name="classVal"
           autoComplete="off"
-          value={data.class}
+          value={data.classVal}
           onInput={handleInput}
         />
         <select

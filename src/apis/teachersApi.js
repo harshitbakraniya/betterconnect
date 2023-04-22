@@ -1,5 +1,5 @@
-import axios from 'axios';
+import axios from "axios";
 
 export default axios.create({
-    baseURL:"http://betterconnectapi-dev.us-east-1.elasticbeanstalk.com"
+  baseURL: `${process.env.REACT_APP_API_ENDPOINT}`,
 });
