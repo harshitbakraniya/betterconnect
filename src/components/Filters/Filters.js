@@ -2,21 +2,29 @@ import React, { useEffect, useState } from "react";
 import "./Filters.css";
 import Range from "../Range/Range";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 import {
   setFilterData,
   setFilterObjectRedux,
 } from "../../Redux/actions/teacherAction";
 
-const Filters = ({ data, classVal }) => {
+const Filters = ({ classVal, handleFilterBottom }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filterDataIn, setFilterDataIn] = useState([]);
+  const [searchParams] = useSearchParams();
+  const data = {
+    location: searchParams.get("location"),
+    subject: searchParams.get("subject"),
+    classVal: searchParams.get("class"),
+    mode: searchParams.get("mode"),
+  };
+  console.log(data);
   const stateData = useSelector((state) => state.teacherRedu);
   const [filterObject, setFilterObject] = useState({
     fees: [],
     experience: [],
-    batch_size: [],
   });
 
   useEffect(() => {
@@ -37,8 +45,8 @@ const Filters = ({ data, classVal }) => {
   }, [filterDataIn.length]);
   const handleRadios = (e) => {
     navigate({
-      pathname: "/betterconnect/search",
-      search: `?location=${data.location}&class=${data.class}&subject=${data.subject}&mode=${e.target.value}`,
+      pathname: "/search",
+      search: `?location=${data?.location}&class=${data?.classVal}&subject=${data?.subject}&mode=${e.target.value}`,
     });
   };
 
@@ -48,27 +56,36 @@ const Filters = ({ data, classVal }) => {
       [type]: [min, max],
     });
   };
-  const handleGender = (e) => {
+  const handleCheckItems = (e, list) => {
     if (e.target.checked) {
       let data = stateData.allteachers.filter((item) => {
-        return item.gender === e.target.value;
+        if (list === "gender") {
+          return item.gender === e.target.value;
+        } else {
+          return item.batchStrength === e.target.value;
+        }
       });
       setFilterDataIn([...filterDataIn, ...data]);
       // console.log(finalData);
     } else {
       let data = filterDataIn.filter((item) => {
-        return item.gender != e.target.value;
+        if (list === "gender") {
+          return item.gender !== e.target.value;
+        } else {
+          return item.batchStrength !== e.target.value;
+        }
       });
       setFilterDataIn(data);
     }
   };
+
   return (
     <>
       <div className={classVal ? "filter active" : "filter"}>
         <h3 className="heading">Filters</h3>
         <Range
           min={100}
-          max={20000}
+          max={2000}
           // onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
           title="Fees"
           label=""
@@ -90,14 +107,58 @@ const Filters = ({ data, classVal }) => {
           label="years"
           handleRange={(min, max) => handleRange("experience", min, max)}
         />
-        <Range
+        {/* <Range
           min={0}
           max={100}
           // onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
           title="Batch Size"
           handleRange={(min, max) => handleRange("batch_size", min, max)}
           label=""
-        />
+        /> */}
+        <div className="modes flex-grow-1 mb-3">
+          <h6 className="title-mode">Batch Detail</h6>
+          <div className="all-radios d-flex flex-row flex-wrap">
+            <div class="form-check">
+              <input
+                class="form-check-input gender-check"
+                type="checkbox"
+                value="less than 10"
+                id="less"
+                name="less"
+                onChange={(e) => handleCheckItems(e, "batch")}
+              />
+              <label class="form-check-label mr-5" for="less">
+                less then 10
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input gender-check"
+                type="checkbox"
+                value="10 to 20"
+                id="ten"
+                name="10-20"
+                onChange={(e) => handleCheckItems(e, "batch")}
+              />
+              <label class="form-check-label" for="ten">
+                10 to 20
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input gender-check"
+                type="checkbox"
+                value="more than 30"
+                id="more"
+                name="more"
+                onChange={(e) => handleCheckItems(e, "batch")}
+              />
+              <label class="form-check-label" for="more">
+                More then 30
+              </label>
+            </div>
+          </div>
+        </div>
         <div className="row justify-content-start">
           <div className="modes flex-grow-1">
             <h6 className="title-mode">Modes</h6>
@@ -153,7 +214,7 @@ const Filters = ({ data, classVal }) => {
                   value="Male"
                   id="male"
                   name="male"
-                  onChange={handleGender}
+                  onChange={(e) => handleCheckItems(e, "gender")}
                 />
                 <label class="form-check-label" for="male">
                   Male
@@ -166,7 +227,7 @@ const Filters = ({ data, classVal }) => {
                   value="Female"
                   id="female"
                   name="female"
-                  onChange={handleGender}
+                  onChange={(e) => handleCheckItems(e, "gender")}
                 />
                 <label class="form-check-label" for="female">
                   Female
@@ -179,7 +240,7 @@ const Filters = ({ data, classVal }) => {
                   value="Both"
                   id="both"
                   name="both"
-                  onChange={handleGender}
+                  onChange={(e) => handleCheckItems(e, "gender")}
                 />
                 <label class="form-check-label" for="both">
                   Both

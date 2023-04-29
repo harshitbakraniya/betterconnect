@@ -32,7 +32,7 @@ const Home = () => {
   const [counterOn, setCounterOn] = useState(false);
   useEffect(() => {
     dispatch(getImpact());
-  }, [stateData.data]);
+  }, [stateData.data.totalStudents]);
   return (
     <>
       <Header backColor="#FBD37A" />
@@ -183,7 +183,7 @@ const Home = () => {
                 society & not only to make money out of it
               </p>
               <button className="btn">
-                <Link to="/teacher">
+                <Link to="/teacher/register">
                   Register as teacher
                   <BsArrowUpLeft />
                 </Link>

@@ -68,28 +68,19 @@ const TeacherRegistration = () => {
         window.document.getElementById("document-file").textContent =
           e.target.files[0].name;
       }
-      await getBase64(e.target.files[0], e.target.name);
+      const base64 = await getBase64(e.target.files[0], e.target.name);
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
   };
 
-  async function getBase64(file) {
-    const CHUNK_SIZE = 1024;
-    return new Promise((res, rej) => {
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        const fileData = event.target.result;
-        const byteArray = new Uint8Array(fileData);
-        let base64String = "";
-        for (let i = 0; i < byteArray.length; i += CHUNK_SIZE) {
-          const chunk = byteArray.slice(i, i + CHUNK_SIZE);
-          base64String += btoa(String.fromCharCode.apply(null, chunk));
-        }
-        res(base64String);
-      };
-      reader.readAsArrayBuffer(file);
-    });
+  async function getBase64(file, name) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      const base64String = reader.result.split(",")[1];
+      setFormData({ ...formData, [name]: base64String });
+    };
   }
 
   const handleRadios = (e) => {
@@ -126,6 +117,7 @@ const TeacherRegistration = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, phone } = formData;
+    // console.log(formData);
     dispatch(isEmailorPhoneAlreadyexist({ email, phone }));
   };
 
@@ -251,6 +243,22 @@ const TeacherRegistration = () => {
                       required
                     />
                   </div>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="name" className="form-label">
+                    Bio
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="bio"
+                    name="bio"
+                    aria-describedby="emailHelp"
+                    placeholder="Bio"
+                    autoComplete="off"
+                    onInput={handleInput}
+                    required
+                  />
                 </div>
                 <div className="row justify-content-between align-items-center">
                   <div className="form-group">

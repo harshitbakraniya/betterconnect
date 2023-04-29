@@ -4,6 +4,7 @@ import ImgRegister from "../../assets/images/registerImg.svg";
 import Black from "../../assets/images/black.svg";
 import Header from "../../components/Header/Header";
 import PaperPattern from "../../assets/images/paper-plane 1.svg";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -68,6 +69,12 @@ const Login = () => {
                     onInput={handleInput}
                   />
                 </div>
+                <Link
+                  className="text-right w-100 d-block"
+                  to="/teacher/register"
+                >
+                  Create a new account ?
+                </Link>
                 <input type="submit" value="Submit" className="btn" />
               </form>
             </div>

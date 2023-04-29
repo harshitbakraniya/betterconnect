@@ -75,3 +75,11 @@ export const setLocalBatch = (data) => {
     payload: data,
   };
 };
+
+export const login = (data) => {
+  const { email, pass } = data;
+  return async (dispatch) => {
+    const returnData = await teachersApi.post("");
+    dispatch({ type: ActionTypes.LOGIN, payload: returnData.data });
+  };
+};

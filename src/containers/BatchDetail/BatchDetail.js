@@ -13,11 +13,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { json, useNavigate } from "react-router-dom";
 
 const BatchDetail = () => {
-  const [rowsData, setRowsData] = useState([]);
   const teacherData = useSelector((state) => state.teacherRedu);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [batch, setBatch] = useState([]);
+
+  // useEffect(() => {
+  //   if (teacherData.teacherObjectWithBatch.result !== undefined) {
+  //     alert("registration successfull");
+  //   }
+  // }, [teacherData.teacherObjectWithBatch.result]);
   const initialObject = {
     class: "",
     subject: "",
@@ -44,79 +49,21 @@ const BatchDetail = () => {
     }
     dispatch(setLocalBatch([innerData]));
   }, []);
+
   const addTableRows = () => {
-    // let arr = teacherData.LocalBatch;
-    // console.log(arr[0]);
-    // if (JSON.stringify(arr[0]) === JSON.stringify(initialObject)) {
-    //   arr[0] = innerData;
-    //   arr.push(initialObject);
-    //   dispatch(setLocalBatch(arr));
-    //   localStorage.setItem("batchDetail", JSON.stringify(arr));
-    // } else {
-    //   arr[arr.length - 1] = innerData;
-    //   arr.push(initialObject);
-    //   dispatch(setLocalBatch(arr));
-    //   localStorage.setItem("batchDetail", JSON.stringify(arr));
-    // }
     let arr = JSON.parse(localStorage.getItem("batchDetail"));
     arr.push(initialObject);
     localStorage.setItem("batchDetail", JSON.stringify(arr));
     dispatch(setLocalBatch(arr));
-    // const rowsInput = {
-    //   class: "",
-    //   subject: "",
-    //   board: "",
-    //   mode: "",
-    //   fees: 0,
-    //   time: "",
-    //   batchStrength: "",
-    //   scholarship: "0",
-    // };
-    // setRowsData([...rowsData, rowsInput]);
-    // if (JSON.parse(localStorage.getItem("allTeachers") === null)) {
-    //   const arr = [];
-    //   arr.push(rowsInput);
-    //   localStorage.setItem("allTeachers", JSON.stringify(arr));
-    // } else {
-    //   const arr = JSON.parse(localStorage.getItem("allTeachers"));
-    //   arr.push(rowsInput);
-    //   localStorage.setItem("allTeachers", JSON.stringify(arr));
-    // }
   };
 
-  // const handleSave = () => {
-  //   const array = JSON.parse(localStorage.getItem("allTeachers"));
-  //   array[id] = innerData;
-  //   localStorage.setItem("allTeachers", JSON.stringify(array));
-  // };
-
   const handleSubmitForm = () => {
-    alert(JSON.stringify(teacherData.LocalBatch));
-    // const arr = JSON.parse(localStorage.getItem("allTeachers"));
-    // const obj = {
-    //   ...teacherData.teacher,
-    //   batchDetails: arr,
-    // };
-
-    // dispatch(regitrationWithBatchDetail(obj));
-    // toast.success("Registration successfull", {
-    //   position: "top-center",
-    //   autoClose: 2000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    // });
-    // setTimeout(() => {
-    //   navigate("/betterconnect");
-    // }, 1000);
-    // const mainObject = {
-    //   teacherData.teacher,
-    //   ...JSON.parse(localStorage.getItem("allTeachers")),
-    // };
-    // console.log(mainObject);
+    console.log(teacherData.teacher);
+    const mainData = {
+      ...teacherData.teacher,
+      batchDetails: teacherData.LocalBatch,
+    };
+    dispatch(regitrationWithBatchDetail(mainData));
   };
   return (
     <>
@@ -129,7 +76,7 @@ const BatchDetail = () => {
             Batch<span className="color-text">Details</span>
           </span>
         </div>
-        <div className="table-content">
+        <form className="table-content">
           <table className="table">
             <thead>
               <tr>
@@ -141,7 +88,7 @@ const BatchDetail = () => {
                 <th scope="col">Time</th>
                 <th scope="col">Batch Strength</th>
                 <th scope="col">Mode</th>
-                {/* <th scope="col">Edit</th> */}
+                <th scope="col">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -163,18 +110,25 @@ const BatchDetail = () => {
               <tr>
                 <td colSpan={9}>
                   <div className="add-submit d-flex align-items-center justify-content-between mb-2">
-                    <button className="btn" onClick={addTableRows}>
-                      Add batch
-                    </button>
-                    <button className="btn" onClick={handleSubmitForm}>
-                      Submit
-                    </button>
+                    <input
+                      type="submit"
+                      className="btn"
+                      onClick={addTableRows}
+                      value="Add batch"
+                    />
+
+                    <input
+                      type="submit"
+                      className="btn"
+                      onClick={handleSubmitForm}
+                      value="Submit"
+                    />
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
-        </div>
+        </form>
       </section>
     </>
   );

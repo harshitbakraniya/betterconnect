@@ -1,7 +1,7 @@
 import { ActionTypes } from "../constant/action_type";
 const initialState = {
   studentDetail: {},
-  isStudentAlreadyRegiter: {},
+  isStudentAlreadyRegister: {},
   sendTeacherDetail: {},
 };
 
@@ -10,7 +10,7 @@ const studentReducer = (state = initialState, action) => {
     case ActionTypes.SET_STUDENT_DETAIL:
       return { ...state, studentDetail: action.payload };
     case ActionTypes.IS_STUDENT_ALREADY_REGISTERED:
-      return { ...state, isStudentAlreadyRegiter: action.payload };
+      return { ...state, isStudentAlreadyRegister: action.payload };
     case ActionTypes.SEND_TEACHER_DETAIL:
       return { ...state, sendTeacherDetail: action.payload };
     default:

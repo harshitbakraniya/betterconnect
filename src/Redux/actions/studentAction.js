@@ -13,9 +13,8 @@ export const setStudentDetail = (data) => {
 
 export const studentAlreadyRegistered = (email) => {
   return async (dispatch) => {
-    const data = await teachersApi.post(
-      `/api/Teacher/IsStudentAlreadyRegistered`,
-      null,
+    const data = await teachersApi.get(
+      `/api/Student/IsStudentAlreadyRegistered`,
       {
         params: {
           email,
@@ -29,11 +28,11 @@ export const studentAlreadyRegistered = (email) => {
   };
 };
 
-export const sendTeachersDetails = (email) => {
+export const sendTeachersDetails = (received) => {
   return async (dispatch) => {
     const data = await teachersApi.post(
-      `/api/Teacher/SendTeacherDetails`,
-      email
+      `/api/Student/SendTeacherDetails`,
+      received
     );
     dispatch({
       type: ActionTypes.SEND_TEACHER_DETAIL,

@@ -9,12 +9,21 @@ import { Link } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { MdSocialDistance } from "react-icons/md";
-import { Bs0Circle, BsCurrencyRupee, BsSearch } from "react-icons/bs";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { BsCurrencyRupee, BsSearch } from "react-icons/bs";
 import { BiTimeFive, BiFilterAlt } from "react-icons/bi";
-import { GrClose } from "react-icons/gr";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import {
+  sendTeachersDetails,
+  setStudentDetail,
+  studentAlreadyRegistered,
+} from "../../Redux/actions/studentAction";
 
 const Search = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,45 +36,81 @@ const Search = () => {
     mode: searchParams.get("mode"),
   };
   const [filterObject, setFilterObject] = useState({
-    classVal: "",
-    subject: "",
+    classVal: data.classVal,
+    subject: data.subject,
   });
 
-  console.log(filterObject);
-  const handleFilter = () => {
-    active ? setActive(false) : setActive(true);
-  };
-
   useEffect(() => {
-    console.log(data);
     dispatch(getTeacherDetail(data));
-    setFilterObject({ ...filterObject, classVal: data.classVal });
-    setFilterObject({ ...filterObject, subject: data.subject });
+    setFilterObject({ classVal: data.classVal, subject: data.subject });
   }, [data.mode, data.class, data.subject]);
 
   useEffect(() => {
-    console.log(data);
-    setFilterObject({ ...filterObject, classVal: data.classVal });
-    setFilterObject({ ...filterObject, subject: data.subject });
     setAllTeachers(stateTeachers.allteachers);
   }, [stateTeachers.allteachers]);
 
   useEffect(() => {
     if (stateTeachers.filterData.length) {
-      console.log("hii");
       setAllTeachers(stateTeachers.filterData);
     } else {
-      console.log("hello");
       setAllTeachers(stateTeachers.allteachers);
     }
   }, [stateTeachers.filterData]);
+
   useEffect(() => {
     filterAllData(stateTeachers.filterObject);
   }, [
     stateTeachers.filterObject.fees,
     stateTeachers.filterObject.experience,
-    stateTeachers.filterObject.batch_size,
+    stateTeachers.filterObject.distance,
   ]);
+
+  const studentState = useSelector((state) => state.studentRedu);
+
+  useEffect(() => {
+    let data = studentState.isStudentAlreadyRegister;
+    if (data.result !== undefined) {
+      if (!data.result) {
+        handleShowStudent();
+        handleCloseEmail();
+      } else if (data.result && data.count < 3) {
+        handleCloseStudent();
+        handleCloseEmail();
+        handleShowMessage(data.studentID);
+      } else if (data.result && data.count === 3) {
+        handleCloseEmail();
+        toast.error(`You already get 3 teachers details`, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+  }, [
+    studentState.isStudentAlreadyRegister.result,
+    studentState.isStudentAlreadyRegister.count,
+  ]);
+
+  useEffect(() => {
+    if (studentState.studentDetail.result) {
+      toast.success(`${studentState.studentDetail.message}`, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      handleCloseStudent();
+    }
+  }, [studentState.studentDetail.result]);
 
   //handle filter bottom bar
   const handleFilterBottom = (text) => {
@@ -83,7 +128,6 @@ const Search = () => {
       }
       setActive(true);
       document.body.style.overflowY = "hidden";
-      // document.querySelector(".search-inn").style.display = "none";
       document.getElementById(text).classList.add("active");
     }
   };
@@ -110,14 +154,14 @@ const Search = () => {
   // handling allfilter left part
   let finalFilterData = stateTeachers.allteachers;
   const filterAllData = (obj) => {
-    const { fees, distance, experience, batch_size } = obj;
+    const { fees, distance, experience } = obj;
 
     // fees filter
     if (fees && Object.keys(fees).length !== 0) {
       finalFilterData = finalFilterData.filter((item) => {
         return item.fees >= fees[0] && item.fees <= fees[1];
       });
-    } else if (!experience && !batch_size && !distance) {
+    } else if (!experience && !distance) {
       finalFilterData = stateTeachers.allteachers;
     }
 
@@ -128,42 +172,97 @@ const Search = () => {
           item.experience >= experience[0] && item.experience <= experience[1]
         );
       });
-    } else if (!batch_size && !fees && !distance) {
-      finalFilterData = stateTeachers.allteachers;
-    }
-
-    //batch size filter
-
-    if (batch_size && Object.keys(batch_size).length !== 0) {
-      finalFilterData = finalFilterData.filter((item) => {
-        console.log("fdf", item);
-        if (item.batchStrength.split(" ")[0] === "less") {
-          return 0 <= batch_size[0] && 10 >= batch_size[1];
-        } else if (item.batchStrength.split(" ")[0] === "more") {
-          return 30 <= batch_size[0] && 100 >= batch_size[1];
-        } else {
-          return 10 <= batch_size[0] && 20 >= batch_size[1];
-        }
-      });
-    } else if (!fees && !experience && !distance) {
+    } else if (!fees && !distance) {
       finalFilterData = stateTeachers.allteachers;
     }
 
     //distance
     if (distance && Object.keys(distance).length !== 0) {
+      console.log("hello");
       finalFilterData = finalFilterData.filter((item) => {
         let val = item.distance.toString().split(" ")[0];
+        console.log(val);
         return val >= distance[0] && val <= distance[1];
       });
-    } else if (!batch_size && !fees && !experience) {
+    } else if (!fees && !experience) {
       finalFilterData = stateTeachers.allteachers;
     }
 
     setAllTeachers(finalFilterData);
   };
 
+  //model handling
+  const [studentData, setStudentData] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    city: "",
+    school: "",
+    email: "",
+    teacherId: 0,
+    batchId: 0,
+  });
+  const [showEmail, setShowEmail] = useState(false);
+  const [showStudent, setShowStudent] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+
+  const handleCloseEmail = () => setShowEmail(false);
+  const handleShowEmail = (bacthId, teacherId) => {
+    setStudentData({
+      ...studentData,
+      batchId: bacthId,
+      teacherId: teacherId,
+    });
+    setShowEmail(true);
+  };
+  const handleCloseStudent = () => setShowStudent(false);
+  const handleShowStudent = () => setShowStudent(true);
+  const handleCloseMessage = () => setShowMessage(false);
+  const handleShowMessage = () => {
+    setShowMessage(true);
+    setDataSendTeacher({
+      ...dataSendTeacher,
+      studentId: studentState.isStudentAlreadyRegister.studentId,
+    });
+  };
+  const [email, setEmail] = useState("");
+  const [dataSendTeacher, setDataSendTeacher] = useState({
+    email: "",
+    studentId: 0,
+    teacherId: 0,
+    batchId: 0,
+  });
+
+  const handleChangeOfEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleStudentEmail = () => {
+    dispatch(studentAlreadyRegistered(email));
+    setDataSendTeacher({
+      ...dataSendTeacher,
+      email: email,
+      teacherId: studentData.teacherId,
+      batchId: studentData.batchId,
+    });
+  };
+
+  const handleStudentRegister = (e) => {
+    const { name, value } = e.target;
+    setStudentData({ ...studentData, [name]: value });
+  };
+
+  const handleStudentForm = () => {
+    dispatch(setStudentDetail(studentData));
+  };
+
+  const handleMessage = () => {
+    dispatch(sendTeachersDetails(dataSendTeacher));
+    handleCloseMessage();
+  };
   return (
     <>
+      <ToastContainer />
       <Header backColor="#FFFFFF" page="search" />
       <section className="all-teachers">
         <div className="d-flex justify-content-between">
@@ -176,7 +275,7 @@ const Search = () => {
                   placeholder="Class"
                   name="classVal"
                   id="classVal"
-                  value={filterObject.classVal}
+                  value={filterObject.classVal ? filterObject.classVal : ""}
                   onInput={handleClaasSubject}
                 />
                 <BsSearch
@@ -191,7 +290,7 @@ const Search = () => {
                   name="subject"
                   id="subject"
                   onInput={handleClaasSubject}
-                  value={filterObject.subject}
+                  value={filterObject?.subject}
                 />
                 <BsSearch
                   className="search-icon"
@@ -203,18 +302,19 @@ const Search = () => {
               classVal={active}
               data={data}
               allTeachersData={allTeachersData}
+              handleFilterBottom={handleFilterBottom}
             />
           </div>
           <div className="right pl-5">
             {allTeachersData.map((item) => {
-              return <Card detail={item} />;
+              return <Card detail={item} handleShow={handleShowEmail} />;
             })}
           </div>
         </div>
         <div className="all-filters d-flex flex-row align-items-center justify-content-center">
           <Link
-            className="distance inn-box d-flex flex-column align-items-center justify-content-center"
-            id="distance"
+            className="home inn-box d-flex flex-column align-items-center justify-content-center"
+            id="home"
             to="/"
           >
             <AiOutlineHome
@@ -253,6 +353,116 @@ const Search = () => {
           </div>
         </div>
       </section>
+      <Modal show={showEmail} onHide={handleCloseEmail}>
+        <Modal.Header>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="email"
+                placeholder="Email Address"
+                autoFocus
+                className="form-input"
+                onInput={handleChangeOfEmail}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseEmail}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleStudentEmail}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showStudent} onHide={handleCloseStudent}>
+        <Modal.Header>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="text"
+                placeholder="First Name"
+                // autoFocus
+                className="form-input mb-2"
+                name="firstName"
+                onInput={handleStudentRegister}
+              />
+              <Form.Control
+                type="text"
+                placeholder="Last Name"
+                // autoFocus
+                className="form-input mb-2"
+                name="lastName"
+                onInput={handleStudentRegister}
+              />
+              <Form.Control
+                type="email"
+                placeholder="Email Address"
+                // autoFocus
+                name="email"
+                className="form-input mb-2"
+                onInput={handleStudentRegister}
+              />
+              <Form.Control
+                type="tel"
+                maxLength={10}
+                placeholder="Contact"
+                // autoFocus
+                name="phone"
+                className="form-input mb-2"
+                onInput={handleStudentRegister}
+              />
+              <Form.Control
+                type="text"
+                placeholder="City"
+                // autoFocus
+                name="city"
+                className="form-input mb-2"
+                onInput={handleStudentRegister}
+              />
+              <Form.Control
+                type="text"
+                placeholder="School"
+                // autoFocus
+                className="form-input"
+                name="school"
+                onInput={handleStudentRegister}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseStudent}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleStudentForm}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showMessage} onHide={handleCloseMessage}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Your email is already registered, press ok to get teacher details.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseMessage}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleMessage}>
+            Ok
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

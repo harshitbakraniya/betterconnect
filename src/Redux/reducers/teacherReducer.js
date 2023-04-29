@@ -1,4 +1,3 @@
-import { data } from "jquery";
 import { ActionTypes } from "../constant/action_type";
 
 const initialState = {
@@ -9,6 +8,7 @@ const initialState = {
   filterData: [],
   filterObject: {},
   LocalBatch: [],
+  loginDetail: {},
 };
 
 const teacherReducer = (state = initialState, action) => {
@@ -29,8 +29,9 @@ const teacherReducer = (state = initialState, action) => {
     case ActionTypes.SET_FILTER_OBJECT:
       return { ...state, filterObject: action.payload };
     case ActionTypes.SET_LOCAL_BATCH:
-      console.log(action.payload);
       return { ...state, LocalBatch: action.payload };
+    case ActionTypes.LOGIN:
+      return { ...state, loginDetail: action.payload };
     default:
       return state;
   }

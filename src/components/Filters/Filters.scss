@@ -2,7 +2,7 @@
 
 
 
-@media screen and (max-width: 575.98px){
+@media screen and (max-width: 800px){
     .filter{
         overflow-y:scroll;
         position: fixed;
@@ -14,6 +14,9 @@
             .form-check{
                 font-size: 0.8rem;
             }
+        }
+        #ten + .form-check-label{
+            margin-right: 2rem;
         }
     }
 

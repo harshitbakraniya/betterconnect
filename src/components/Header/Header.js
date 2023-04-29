@@ -111,14 +111,43 @@ const Header = ({ backColor, page }) => {
           </RouterLink>
         </div>
         <div className="register-btn">
-          <RouterLink
-            to="/teacher"
-            onClick={() => {
-              dispatch(setEmailState({}));
-            }}
-          >
-            {!page && <button className="btn">Register as teacher</button>}
-          </RouterLink>
+          <div class="dropdown show">
+            <a
+              class="btn btn-secondary dropdown-toggle"
+              href="#"
+              role="button"
+              id="dropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Teacher
+            </a>
+
+            <div
+              class="dropdown-menu text-left"
+              aria-labelledby="dropdownMenuLink"
+            >
+              <RouterLink
+                to="/teacher/login"
+                className="dropdown-item"
+                onClick={() => {
+                  dispatch(setEmailState({}));
+                }}
+              >
+                Login as teacher
+              </RouterLink>
+              <RouterLink
+                to="/teacher/register"
+                className="dropdown-item"
+                onClick={() => {
+                  dispatch(setEmailState({}));
+                }}
+              >
+                Register as teacher
+              </RouterLink>
+            </div>
+          </div>
         </div>
         {active ? (
           <GrClose className="menu-btn" onClick={handleNav} />

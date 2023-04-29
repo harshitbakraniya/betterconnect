@@ -9,6 +9,7 @@ import TeacherRegistration from "./containers/TeacherRegistration/TeacherRegistr
 import Search from "./containers/Search/Search";
 import Login from "./containers/Login/Login";
 import BatchDetail from "./containers/BatchDetail/BatchDetail";
+import PageNotFound from "./containers/404Page/PageNotFound";
 
 function App() {
   return (
@@ -16,10 +17,11 @@ function App() {
       {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/teacher" element={<TeacherRegistration />} />
+        <Route path="/teacher/register" element={<TeacherRegistration />} />
         <Route path="/batchdetail" element={<BatchDetail />} />
         <Route path="/search" element={<Search />} />
         <Route path="/teacher/login" element={<Login />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />
     </Router>

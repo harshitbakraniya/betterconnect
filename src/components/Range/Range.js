@@ -10,9 +10,7 @@ import "./Range.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilterData } from "../../Redux/actions/teacherAction";
 
-const Range = ({ min, max, title, label, filterTeacher, handleRange }) => {
-  const teacherState = useSelector((state) => state.teacherRedu);
-  const { allteachers, filterData } = teacherState;
+const Range = ({ min, max, title, label, handleRange }) => {
   const dispatch = useDispatch();
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);

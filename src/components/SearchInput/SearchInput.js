@@ -64,7 +64,10 @@ const SearchInput = () => {
   return (
     <>
       <ToastContainer />
-      <div className="input-group search d-flex align-items-center">
+      <form
+        className="input-group search d-flex align-items-center"
+        onSubmit={handleSubmit}
+      >
         <input
           type="text"
           className="form-control"
@@ -74,6 +77,11 @@ const SearchInput = () => {
           autoComplete="off"
           value={data.location}
           onInput={handleInput}
+          onBlur={() => {
+            alert(
+              "To get the proper search result kindly mention the CITY name at the end of the address"
+            );
+          }}
         />
         <input
           type="text"
@@ -107,8 +115,12 @@ const SearchInput = () => {
           <option value="Hometutor">Hometutor</option>
           <option value="Online">Online</option>
         </select>
-        <FiSearch className="search-icon" onClick={handleSubmit} />
-      </div>
+        <FiSearch
+          type="submit"
+          className="search-icon"
+          onClick={handleSubmit}
+        />
+      </form>
     </>
   );
 };
