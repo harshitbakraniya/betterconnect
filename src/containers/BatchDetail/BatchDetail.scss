@@ -19,6 +19,12 @@
                 width: 8rem;
                 background-color: $secondary_color;
                 color: $font_color_light;
+                border: 1px solid $secondary_color;
+                transition: .5s all;
+                &:hover{
+                    background-color: transparent;
+                    color: $secondary_color;
+                }
             }
         }
         table {
@@ -62,12 +68,18 @@
             }
             .icons {
                 height: 100%;
-                .edit-icon, .delete-icon {
-                    font-size: 1.4rem;
-                    margin-top: 0.5rem;
-                }   
+                // .edit-icon, .delete-icon {
+                //     font-size: 1.4rem;
+                //     margin-top: 0.5rem;
+                // }   
                 .delete-icon {
-                    margin-left: 1rem;
+                    margin-top: 0.3rem;
+                    background-color: #e01e37;
+                    padding: 0.3rem;
+                    font-size: 1.9rem;
+                    border-radius: 50%;
+                    color: $font_color_light;
+                    cursor: pointer;
                 }
             }
         }
@@ -91,6 +103,11 @@
         table {
             thead{
               display: none;  
+            }
+            tr{
+                background-color: white;
+                margin-bottom: 1rem;
+                border-radius: 0.4rem;
             }
             tbody, tr , td {
                 width: 100% !important;

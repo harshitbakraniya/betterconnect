@@ -12,11 +12,14 @@ import {
   isEmailorPhoneAlreadyexist,
   setTeacherRegistration,
 } from "../../Redux/actions/teacherAction";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { array } from "yup";
 
 const TeacherRegistration = () => {
   const stateData = useSelector((state) => state.teacherRedu);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [watchPass, setWatchPass] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -37,11 +40,11 @@ const TeacherRegistration = () => {
   });
 
   useEffect(() => {
-    const result = stateData.isValidOrNot.result;
+    const result = stateData?.isValidOrNot?.result;
     if (result !== undefined) {
       if (result) {
         toast.error(
-          `${stateData.isValidOrNot.message}, Kindly go to login page`,
+          `${stateData?.isValidOrNot?.message}, Kindly go to login page`,
           {
             position: "top-center",
             autoClose: 2000,
@@ -54,11 +57,25 @@ const TeacherRegistration = () => {
           }
         );
       } else {
-        dispatch(setTeacherRegistration(formData));
-        navigate("/batchdetail");
+        if (
+          formData?.email &&
+          formData?.password &&
+          formData?.address &&
+          formData?.name &&
+          formData?.city &&
+          formData?.phone &&
+          formData?.pincode &&
+          formData?.gender &&
+          formData?.experience &&
+          formData?.bio &&
+          formData?.qualification
+        ) {
+          dispatch(setTeacherRegistration(formData));
+          navigate("/teacher/batchdetail");
+        }
       }
     }
-  }, [stateData.isValidOrNot]);
+  }, [stateData.isValidOrNot.message]);
   const handleInput = async (e, file) => {
     if (file) {
       if (e.target.name === "image") {
@@ -68,21 +85,26 @@ const TeacherRegistration = () => {
         window.document.getElementById("document-file").textContent =
           e.target.files[0].name;
       }
-      const base64 = await getBase64(e.target.files[0], e.target.name);
+      convertByteArray(e.target.files[0], e.target.name);
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
   };
 
-  async function getBase64(file, name) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      const base64String = reader.result.split(",")[1];
-      setFormData({ ...formData, [name]: base64String });
-    };
+  async function convertByteArray(file, name) {
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        storeDocument(base64String.split(",")[1].toString(), name);
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
+  const storeDocument = (documentData, name) => {
+    setFormData({ ...formData, [name]: documentData });
+  };
   const handleRadios = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     let ele = window.document.querySelector(".school-active");
@@ -94,17 +116,17 @@ const TeacherRegistration = () => {
         break;
       case "Both":
         ele.style.display = "block";
-        ele.placeholder = "School";
+        ele.placeholder = "School (optional)";
         ele1.style.display = "block";
-        ele1.placeholder = "Institute";
+        ele1.placeholder = "Institute (optional)";
         break;
       case "School":
-        ele.placeholder = "School";
+        ele.placeholder = "School (optional)";
         ele.style.display = "block";
         ele1.style.display = "none";
         break;
       case "Institute":
-        ele1.placeholder = "Institute";
+        ele1.placeholder = "Institute (optional)";
         ele1.style.display = "block";
         ele.style.display = "none";
 
@@ -114,10 +136,33 @@ const TeacherRegistration = () => {
     }
   };
 
+  const handleEye = (watch) => {
+    const ele = document.getElementById("password");
+    if (watch) {
+      ele.type = "text";
+    } else {
+      ele.type = "password";
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (stateData.isValidOrNot.result) {
+      toast.error(
+        `${stateData.isValidOrNot.message}, Kindly go to login page`,
+        {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+    }
     const { email, phone } = formData;
-    // console.log(formData);
     dispatch(isEmailorPhoneAlreadyexist({ email, phone }));
   };
 
@@ -203,6 +248,7 @@ const TeacherRegistration = () => {
                       autoComplete="off"
                       aria-describedby="emailHelp"
                       placeholder="Pincode"
+                      pattern="[0-9]+"
                       onInput={handleInput}
                       required
                     />
@@ -242,6 +288,23 @@ const TeacherRegistration = () => {
                       onInput={handleInput}
                       required
                     />
+                    {!watchPass ? (
+                      <AiOutlineEye
+                        className="eye"
+                        onClick={() => {
+                          setWatchPass(true);
+                          handleEye(true);
+                        }}
+                      />
+                    ) : (
+                      <AiOutlineEyeInvisible
+                        className="eye"
+                        onClick={() => {
+                          setWatchPass(false);
+                          handleEye(false);
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="form-group">
@@ -256,6 +319,7 @@ const TeacherRegistration = () => {
                     aria-describedby="emailHelp"
                     placeholder="Bio"
                     autoComplete="off"
+                    maxLength="107"
                     onInput={handleInput}
                     required
                   />
@@ -287,7 +351,9 @@ const TeacherRegistration = () => {
                       id="mobile"
                       name="phone"
                       maxLength="10"
+                      minLength="10"
                       autoComplete="off"
+                      pattern="[0-9]+"
                       aria-describedby="emailHelp"
                       placeholder="Mobile No."
                       onInput={handleInput}
@@ -331,8 +397,9 @@ const TeacherRegistration = () => {
                       name="gender"
                       value={formData.gender}
                       onChange={(e) => handleInput(e)}
+                      required
                     >
-                      <option>Select</option>
+                      <option value="">Select</option>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
                       <option value="Both">Both</option>
@@ -353,6 +420,7 @@ const TeacherRegistration = () => {
                       required
                       aria-describedby="emailHelp"
                       autoComplete="off"
+                      pattern="[0-9]+"
                       placeholder="Teaching Experience"
                       onInput={handleInput}
                     />
@@ -419,7 +487,7 @@ const TeacherRegistration = () => {
                         className="form-check-label"
                         htmlFor="inlineRadio2"
                       >
-                        Institue
+                        Institute
                       </label>
                     </div>
                     <div className="form-check form-check-inline">
@@ -493,4 +561,4 @@ const TeacherRegistration = () => {
   );
 };
 
-export default TeacherRegistration;
+export default React.memo(TeacherRegistration);

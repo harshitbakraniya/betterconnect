@@ -4,7 +4,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setLocalBatch } from "../../Redux/actions/teacherAction";
 
-const EditComponent = ({ data, id, setInnerData, setBatch }) => {
+const EditComponent = ({ data, id, setInnerData, initialObject }) => {
   // const [active, setActive] = useState();
   const [inner, setInner] = useState();
   useEffect(() => {
@@ -48,11 +48,17 @@ const EditComponent = ({ data, id, setInnerData, setBatch }) => {
 
   const handleDelete = (id) => {
     let localbatch = JSON.parse(localStorage.getItem("batchDetail"));
-    let newFilterData = localbatch.filter((item, index) => {
-      return index !== id;
-    });
-    localStorage.setItem("batchDetail", JSON.stringify(newFilterData));
-    dispatch(setLocalBatch(newFilterData));
+    if (localbatch.length === 1) {
+      localStorage.setItem("batchDetail", JSON.stringify([initialObject]));
+      dispatch(setLocalBatch(initialObject));
+      return 0;
+    } else {
+      let newFilterData = localbatch.filter((item, index) => {
+        return index !== id;
+      });
+      localStorage.setItem("batchDetail", JSON.stringify(newFilterData));
+      dispatch(setLocalBatch(newFilterData));
+    }
   };
 
   return (
@@ -65,7 +71,7 @@ const EditComponent = ({ data, id, setInnerData, setBatch }) => {
             name="class"
             placeholder="Class"
             autoComplete="off"
-            value={inner.class}
+            value={inner?.class}
             required
             onChange={(e) => handleChange(e)}
           />
@@ -78,7 +84,7 @@ const EditComponent = ({ data, id, setInnerData, setBatch }) => {
             placeholder="Subject"
             autoComplete="off"
             required
-            value={inner.subject}
+            value={inner?.subject}
             onChange={(e) => handleChange(e)}
           />
         </td>
@@ -89,10 +95,10 @@ const EditComponent = ({ data, id, setInnerData, setBatch }) => {
               id="inputGroupSelect01"
               name="board"
               required
-              value={inner.board}
+              value={inner?.board}
               onChange={(e) => handleChange(e)}
             >
-              <option>Select</option>
+              <option value="">Select</option>
               <option value="CBSE">CBSE</option>
               <option value="ICSE">ICSE</option>
               <option value="IGCSE">IGCSE</option>
@@ -106,7 +112,7 @@ const EditComponent = ({ data, id, setInnerData, setBatch }) => {
             name="fees"
             placeholder="Fees"
             required
-            value={inner.fees}
+            value={inner?.fees}
             autoComplete="off"
             onChange={(e) => handleChange(e)}
           />
@@ -115,14 +121,14 @@ const EditComponent = ({ data, id, setInnerData, setBatch }) => {
           <div className="input-group">
             <select
               className="custom-select"
-              id="inputGroupSelect01"
+              id="inputGroupSelect02"
               required
               name="scholarship"
-              value={inner.scholarship}
+              value={inner?.scholarship}
               onChange={(e) => handleChange(e)}
             >
-              <option>Select</option>
-              <option value="zero">Zero</option>
+              <option value="">Select</option>
+              <option value="Zero">Zero</option>
               <option value="Upto 10%">Upto 10%</option>
               <option value="Upto 20%">Upto 20%</option>
               <option value="Upto 30%">Upto 30%</option>
@@ -137,7 +143,7 @@ const EditComponent = ({ data, id, setInnerData, setBatch }) => {
             name="time"
             placeholder="Ex.10-11PM"
             autoComplete="off"
-            value={inner.time}
+            value={inner?.time}
             required
             onChange={(e) => handleChange(e)}
           />
@@ -149,10 +155,10 @@ const EditComponent = ({ data, id, setInnerData, setBatch }) => {
               id="inputGroupSelect01"
               name="batchStrength"
               required
-              value={inner.batchStrength}
+              value={inner?.batchStrength}
               onChange={(e) => handleChange(e)}
             >
-              <option>Select</option>
+              <option value="">Select</option>
               {optionsForBatch.map((item) => {
                 return <option value={item.value}>{item.value}</option>;
               })}
@@ -163,19 +169,20 @@ const EditComponent = ({ data, id, setInnerData, setBatch }) => {
           <div className="input-group">
             <select
               className="custom-select"
-              id="inputGroupSelect01"
+              id="inputGroupSelect03"
               name="mode"
-              value={inner.mode}
+              value={inner?.mode}
               required
               onChange={(e) => handleChange(e)}
             >
-              <option>Select</option>
+              <option value="">Select</option>
               <option value="Offline">Offline</option>
               <option value="Hometutor">Hometutor</option>
               <option value="Online">Online</option>
             </select>
           </div>
         </td>
+
         <td className="icons">
           <MdOutlineDelete
             className="delete-icon"
@@ -187,4 +194,4 @@ const EditComponent = ({ data, id, setInnerData, setBatch }) => {
   );
 };
 
-export default EditComponent;
+export default React.memo(EditComponent);

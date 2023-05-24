@@ -115,6 +115,7 @@ const SearchInput = () => {
           <option value="Hometutor">Hometutor</option>
           <option value="Online">Online</option>
         </select>
+        <input type="submit" value="" style={{ display: "none" }} />
         <FiSearch
           type="submit"
           className="search-icon"
@@ -125,4 +126,4 @@ const SearchInput = () => {
   );
 };
 
-export default SearchInput;
+export default React.memo(SearchInput);

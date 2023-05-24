@@ -30,11 +30,29 @@
 .login-form .right {
   flex-basis: 48%;
 }
+.login-form .right .note {
+  padding: 1rem;
+  font-size: 1rem;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+}
+.login-form .right .note .bold {
+  font-weight: 600;
+}
 .login-form .right .form .form-label {
   color: #A8AEBB;
 }
 .login-form .right .form .form-group {
   margin-bottom: 0.6rem;
+  position: relative;
+}
+.login-form .right .form .form-group .eye {
+  position: absolute;
+  bottom: 15px;
+  right: 17px;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 .login-form .right .form .form-control {
   padding: 1.5rem 1rem;
@@ -58,11 +76,16 @@
   background-color: #1d1d1d;
   color: #ffffff;
   float: right;
+  border: 1px solid #1d1d1d;
+}
+.login-form .right .form .btn:hover {
+  background-color: transparent;
+  color: #1d1d1d;
 }
 
 @media screen and (max-width: 575.98px) {
   .login-form {
-    padding: 1rem 1.5rem;
+    padding: 6rem 1.5rem 1rem 1.5rem;
   }
   .login-form .paper-plane {
     width: 15%;

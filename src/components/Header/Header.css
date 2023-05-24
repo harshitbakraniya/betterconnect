@@ -43,6 +43,18 @@
   color: white;
   font-size: 0.9rem;
   border-radius: 0.5rem;
+  border: 1px solid #1d1d1d;
+  transition: 0.5s all;
+}
+.header .register-btn .btn:hover {
+  background-color: #fff;
+  color: #1d1d1d;
+}
+
+.header.active-color {
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)) !important;
+  -webkit-backdrop-filter: blur(7px);
+          backdrop-filter: blur(7px);
 }
 
 @media (max-width: 575.98px) {

@@ -20,17 +20,16 @@ const Filters = ({ classVal, handleFilterBottom }) => {
     classVal: searchParams.get("class"),
     mode: searchParams.get("mode"),
   };
-  console.log(data);
   const stateData = useSelector((state) => state.teacherRedu);
   const [filterObject, setFilterObject] = useState({
     fees: [],
     experience: [],
+    distance: [],
   });
 
   useEffect(() => {
     if (data.mode) {
       const text = data.mode.toLowerCase();
-      console.log(text);
       const ele = document.getElementById(`${text}`);
       ele.checked = true;
     }
@@ -38,11 +37,12 @@ const Filters = ({ classVal, handleFilterBottom }) => {
 
   useEffect(() => {
     dispatch(setFilterObjectRedux(filterObject));
-  }, [filterObject]);
+  }, [filterObject.fees, filterObject.experience, filterObject.distance]);
 
   useEffect(() => {
     dispatch(setFilterData(filterDataIn));
   }, [filterDataIn.length]);
+
   const handleRadios = (e) => {
     navigate({
       pathname: "/search",
@@ -56,6 +56,7 @@ const Filters = ({ classVal, handleFilterBottom }) => {
       [type]: [min, max],
     });
   };
+
   const handleCheckItems = (e, list) => {
     if (e.target.checked) {
       let data = stateData.allteachers.filter((item) => {
@@ -66,7 +67,6 @@ const Filters = ({ classVal, handleFilterBottom }) => {
         }
       });
       setFilterDataIn([...filterDataIn, ...data]);
-      // console.log(finalData);
     } else {
       let data = filterDataIn.filter((item) => {
         if (list === "gender") {
@@ -86,15 +86,13 @@ const Filters = ({ classVal, handleFilterBottom }) => {
         <Range
           min={100}
           max={2000}
-          // onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
           title="Fees"
           label=""
           handleRange={(min, max) => handleRange("fees", min, max)}
         />
         <Range
           min={0}
-          max={500}
-          // onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
+          max={25}
           title="Distance"
           label="KM"
           handleRange={(min, max) => handleRange("distance", min, max)}
@@ -102,58 +100,49 @@ const Filters = ({ classVal, handleFilterBottom }) => {
         <Range
           min={0}
           max={30}
-          // onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
           title="Experience"
           label="years"
           handleRange={(min, max) => handleRange("experience", min, max)}
         />
-        {/* <Range
-          min={0}
-          max={100}
-          // onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
-          title="Batch Size"
-          handleRange={(min, max) => handleRange("batch_size", min, max)}
-          label=""
-        /> */}
         <div className="modes flex-grow-1 mb-3">
           <h6 className="title-mode">Batch Detail</h6>
           <div className="all-radios d-flex flex-row flex-wrap">
-            <div class="form-check">
+            <div className="form-check">
               <input
-                class="form-check-input gender-check"
+                className="form-check-input gender-check"
                 type="checkbox"
                 value="less than 10"
                 id="less"
                 name="less"
                 onChange={(e) => handleCheckItems(e, "batch")}
               />
-              <label class="form-check-label mr-5" for="less">
+              <label className="form-check-label mr-5" htmlFor="less">
                 less then 10
               </label>
             </div>
-            <div class="form-check">
+            <div className="form-check">
               <input
-                class="form-check-input gender-check"
+                className="form-check-input gender-check"
                 type="checkbox"
                 value="10 to 20"
                 id="ten"
                 name="10-20"
                 onChange={(e) => handleCheckItems(e, "batch")}
               />
-              <label class="form-check-label" for="ten">
+              <label className="form-check-label" htmlFor="ten">
                 10 to 20
               </label>
             </div>
-            <div class="form-check">
+            <div className="form-check">
               <input
-                class="form-check-input gender-check"
+                className="form-check-input gender-check"
                 type="checkbox"
                 value="more than 30"
                 id="more"
                 name="more"
                 onChange={(e) => handleCheckItems(e, "batch")}
               />
-              <label class="form-check-label" for="more">
+              <label className="form-check-label" htmlFor="more">
                 More then 30
               </label>
             </div>
@@ -207,42 +196,42 @@ const Filters = ({ classVal, handleFilterBottom }) => {
           <div className="modes flex-grow-1">
             <h6 className="title-mode">Gender</h6>
             <div className="all-radios d-flex flex-column ">
-              <div class="form-check">
+              <div className="form-check">
                 <input
-                  class="form-check-input gender-check"
+                  className="form-check-input gender-check"
                   type="checkbox"
                   value="Male"
                   id="male"
                   name="male"
                   onChange={(e) => handleCheckItems(e, "gender")}
                 />
-                <label class="form-check-label" for="male">
+                <label className="form-check-label" htmlFor="male">
                   Male
                 </label>
               </div>
-              <div class="form-check">
+              <div className="form-check">
                 <input
-                  class="form-check-input gender-check"
+                  className="form-check-input gender-check"
                   type="checkbox"
                   value="Female"
                   id="female"
                   name="female"
                   onChange={(e) => handleCheckItems(e, "gender")}
                 />
-                <label class="form-check-label" for="female">
+                <label className="form-check-label" htmlFor="female">
                   Female
                 </label>
               </div>
-              <div class="form-check">
+              <div className="form-check">
                 <input
-                  class="form-check-input gender-check"
+                  className="form-check-input gender-check"
                   type="checkbox"
                   value="Both"
                   id="both"
                   name="both"
                   onChange={(e) => handleCheckItems(e, "gender")}
                 />
-                <label class="form-check-label" for="both">
+                <label className="form-check-label" htmlFor="both">
                   Both
                 </label>
               </div>
@@ -254,4 +243,4 @@ const Filters = ({ classVal, handleFilterBottom }) => {
   );
 };
 
-export default Filters;
+export default React.memo(Filters);

@@ -9,8 +9,7 @@
   box-shadow: 0 0 20px rgba(251, 213, 129, 0.2);
 }
 .card:hover {
-  transform: scale(1.04);
-  box-shadow: 0 0 30px rgba(251, 213, 129, 0.4);
+  box-shadow: 0 0 30px rgba(251, 213, 129, 0.5);
 }
 .card .round {
   width: 5rem;
@@ -40,5 +39,8 @@
   .description {
     font-size: 0.9rem;
     margin-top: 0.6rem;
+  }
+  .card {
+    padding: 1rem;
   }
 }/*# sourceMappingURL=TestimonialCard.css.map */

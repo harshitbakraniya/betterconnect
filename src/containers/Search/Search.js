@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Card from "../../components/Card/Card";
 import Filters from "../../components/Filters/Filters";
 import Header from "../../components/Header/Header";
@@ -17,6 +17,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import {
+  cleanUp,
   sendTeachersDetails,
   setStudentDetail,
   studentAlreadyRegistered,
@@ -29,40 +30,41 @@ const Search = () => {
   const navigate = useNavigate();
   const stateTeachers = useSelector((state) => state.teacherRedu);
   const [allTeachersData, setAllTeachers] = useState([]);
-  const data = {
-    location: searchParams.get("location"),
-    subject: searchParams.get("subject"),
-    classVal: searchParams.get("class"),
-    mode: searchParams.get("mode"),
-  };
-  const [filterObject, setFilterObject] = useState({
-    classVal: data.classVal,
-    subject: data.subject,
+  const data = useMemo(() => {
+    return {
+      location: searchParams.get("location"),
+      subject: searchParams.get("subject"),
+      class: searchParams.get("class"),
+      mode: searchParams.get("mode"),
+    };
   });
-
+  const [filterObject, setFilterObject] = useState({
+    classVal: data?.classVal,
+    subject: data?.subject,
+  });
   useEffect(() => {
     dispatch(getTeacherDetail(data));
-    setFilterObject({ classVal: data.classVal, subject: data.subject });
-  }, [data.mode, data.class, data.subject]);
+    setFilterObject({ classVal: data?.class, subject: data?.subject });
+  }, [data?.mode, data?.class, data?.subject]);
 
   useEffect(() => {
     setAllTeachers(stateTeachers.allteachers);
-  }, [stateTeachers.allteachers]);
+  }, [stateTeachers?.allteachers]);
 
   useEffect(() => {
-    if (stateTeachers.filterData.length) {
-      setAllTeachers(stateTeachers.filterData);
+    if (stateTeachers?.filterData?.length) {
+      setAllTeachers(stateTeachers?.filterData);
     } else {
-      setAllTeachers(stateTeachers.allteachers);
+      setAllTeachers(stateTeachers?.allteachers);
     }
-  }, [stateTeachers.filterData]);
+  }, [stateTeachers?.filterData]);
 
   useEffect(() => {
-    filterAllData(stateTeachers.filterObject);
+    filterAllData(stateTeachers?.filterObject);
   }, [
-    stateTeachers.filterObject.fees,
-    stateTeachers.filterObject.experience,
-    stateTeachers.filterObject.distance,
+    stateTeachers?.filterObject?.fees,
+    stateTeachers?.filterObject?.distance,
+    stateTeachers?.filterObject?.experience,
   ]);
 
   const studentState = useSelector((state) => state.studentRedu);
@@ -91,14 +93,17 @@ const Search = () => {
         });
       }
     }
+    return () => {
+      dispatch(cleanUp());
+    };
   }, [
-    studentState.isStudentAlreadyRegister.result,
-    studentState.isStudentAlreadyRegister.count,
+    studentState?.isStudentAlreadyRegister?.result,
+    studentState?.isStudentAlreadyRegister?.count,
   ]);
 
   useEffect(() => {
     if (studentState.studentDetail.result) {
-      toast.success(`${studentState.studentDetail.message}`, {
+      toast.success(`Details successfully send to your email`, {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
@@ -110,7 +115,7 @@ const Search = () => {
       });
       handleCloseStudent();
     }
-  }, [studentState.studentDetail.result]);
+  }, [studentState?.studentDetail?.result]);
 
   //handle filter bottom bar
   const handleFilterBottom = (text) => {
@@ -134,19 +139,20 @@ const Search = () => {
 
   // handle class subject input filter
   const handleClaasSubject = (e) => {
-    setFilterObject({ ...filterObject, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFilterObject({ ...filterObject, [name]: value });
   };
 
   const handleSearch = (name) => {
     if (name === "class") {
       navigate({
         pathname: "/search",
-        search: `?location=${data.location}&class=${filterObject.classVal}&subject=${data.subject}&mode=${data.mode}`,
+        search: `?location=${data?.location}&class=${filterObject?.classVal}&subject=${data?.subject}&mode=${data?.mode}`,
       });
     } else {
       navigate({
         pathname: "/search",
-        search: `?location=${data.location}&class=${data.class}&subject=${filterObject.subject}&mode=${data.mode}`,
+        search: `?location=${data?.location}&class=${data?.class}&subject=${filterObject?.subject}&mode=${data?.mode}`,
       });
     }
   };
@@ -177,11 +183,9 @@ const Search = () => {
     }
 
     //distance
-    if (distance && Object.keys(distance).length !== 0) {
-      console.log("hello");
+    if (distance && distance.length !== 0) {
       finalFilterData = finalFilterData.filter((item) => {
-        let val = item.distance.toString().split(" ")[0];
-        console.log(val);
+        let val = parseInt(item.distance.toString().split(" ")[0]);
         return val >= distance[0] && val <= distance[1];
       });
     } else if (!fees && !experience) {
@@ -258,8 +262,19 @@ const Search = () => {
 
   const handleMessage = () => {
     dispatch(sendTeachersDetails(dataSendTeacher));
+    toast.success(`Details successfully send to your email`, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
     handleCloseMessage();
   };
+
   return (
     <>
       <ToastContainer />
@@ -271,12 +286,13 @@ const Search = () => {
             <div className="search-inn mb-3">
               <div className="class">
                 <input
-                  className="form-control"
+                  type="text"
+                  className="form-control mb-2"
                   placeholder="Class"
                   name="classVal"
                   id="classVal"
-                  value={filterObject.classVal ? filterObject.classVal : ""}
-                  onInput={handleClaasSubject}
+                  value={filterObject?.classVal}
+                  onChange={handleClaasSubject}
                 />
                 <BsSearch
                   className="search-icon"
@@ -285,7 +301,8 @@ const Search = () => {
               </div>
               <div className="subject">
                 <input
-                  className="form-control"
+                  type="text"
+                  className="form-control mb-2"
                   placeholder="Subject"
                   name="subject"
                   id="subject"
@@ -306,8 +323,10 @@ const Search = () => {
             />
           </div>
           <div className="right pl-5">
-            {allTeachersData.map((item) => {
-              return <Card detail={item} handleShow={handleShowEmail} />;
+            {allTeachersData.map((item, index) => {
+              return (
+                <Card key={index} detail={item} handleShow={handleShowEmail} />
+              );
             })}
           </div>
         </div>
@@ -354,102 +373,112 @@ const Search = () => {
         </div>
       </section>
       <Modal show={showEmail} onHide={handleCloseEmail}>
-        <Modal.Header>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Control
+        <form
+          className="email-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleStudentEmail();
+          }}
+        >
+          <Modal.Header>
+            <Modal.Title>Get Teacher Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="form-group">
+              <input
+                className="form-control mb-2"
                 type="email"
                 placeholder="Email Address"
                 autoFocus
-                className="form-input"
+                required
                 onInput={handleChangeOfEmail}
               />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseEmail}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleStudentEmail}>
-            Submit
-          </Button>
-        </Modal.Footer>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseEmail}>
+              Close
+            </Button>
+            <input type="submit" className="btn btn-primary" value="Submit" />
+          </Modal.Footer>
+        </form>
       </Modal>
+
       <Modal show={showStudent} onHide={handleCloseStudent}>
-        <Modal.Header>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Control
+        <form
+          className="student-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleStudentForm();
+          }}
+        >
+          <Modal.Header>
+            <Modal.Title>Get Teacher Details Form</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="form-group">
+              <input
+                className="form-control mb-2"
                 type="text"
                 placeholder="First Name"
-                // autoFocus
-                className="form-input mb-2"
                 name="firstName"
+                required
                 onInput={handleStudentRegister}
               />
-              <Form.Control
+              <input
+                className="form-control mb-2"
                 type="text"
                 placeholder="Last Name"
-                // autoFocus
-                className="form-input mb-2"
+                required
                 name="lastName"
                 onInput={handleStudentRegister}
               />
-              <Form.Control
+              <input
+                className="form-control mb-2"
                 type="email"
                 placeholder="Email Address"
-                // autoFocus
+                required
                 name="email"
-                className="form-input mb-2"
                 onInput={handleStudentRegister}
               />
-              <Form.Control
-                type="tel"
+              <input
+                className="form-control mb-2"
+                type="text"
                 maxLength={10}
                 placeholder="Contact"
-                // autoFocus
+                required
                 name="phone"
-                className="form-input mb-2"
+                pattern="[0-9]+"
                 onInput={handleStudentRegister}
               />
-              <Form.Control
+              <input
+                className="form-control mb-2"
                 type="text"
                 placeholder="City"
-                // autoFocus
                 name="city"
-                className="form-input mb-2"
+                required
                 onInput={handleStudentRegister}
               />
-              <Form.Control
+              <input
+                className="form-control mb-2"
                 type="text"
                 placeholder="School"
-                // autoFocus
-                className="form-input"
                 name="school"
                 onInput={handleStudentRegister}
               />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseStudent}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleStudentForm}>
-            Submit
-          </Button>
-        </Modal.Footer>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseStudent}>
+              Close
+            </Button>
+            <input type="submit" className="btn btn-primary" value="Submit" />
+          </Modal.Footer>
+        </form>
       </Modal>
       <Modal show={showMessage} onHide={handleCloseMessage}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Header>
+          <Modal.Title>Get Teacher Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Your email is already registered, press ok to get teacher details.

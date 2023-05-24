@@ -1,37 +1,84 @@
 import React, { useState, useEffect } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { Link } from "react-scroll";
 import { Link as LinkRouter } from "react-router-dom";
 import "./Header.css";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { GrClose } from "react-icons/gr";
 import Logo from "../../assets/images/logo.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  getTeachersDetailById,
   isEmailorPhoneAlreadyexist,
   setEmailState,
 } from "../../Redux/actions/teacherAction";
+import { studentHistory } from "../../Redux/actions/studentAction";
+import { setLogin } from "../../Redux/actions/loginAction";
 
 const Header = ({ backColor, page }) => {
   const [active, setActive] = useState(false);
+  const [login, setLoginInn] = useState(false);
+  const teacherData = useSelector((state) => state.teacherRedu);
+  const [accountName, setAccountName] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (ocalStorage.getItem("tokenId")) {
+  //     dispatch(getTeachersDetailById(localStorage.getItem("tokenId")));
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    if (teacherData?.teacherDetails?.name) {
+      setAccountName(teacherData?.teacherDetails?.name);
+      localStorage.setItem(
+        "batchDetail",
+        JSON.stringify(teacherData?.teacherDetails?.batchDetails)
+      );
+    } else {
+      setAccountName("");
+    }
+  }, [teacherData?.teacherDetails?.name]);
 
   useEffect(() => {
     if (page) {
       document.querySelector(".menu-btn").style.display = "none";
     }
     window.addEventListener("scroll", isSticky);
+    if (JSON.parse(localStorage.getItem("tokenId"))) {
+      setLoginInn(true);
+    }
     return () => {
       window.removeEventListener("scroll", isSticky);
     };
   });
 
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("tokenId"))) {
+      setLoginInn(true);
+      dispatch(
+        getTeachersDetailById(JSON.parse(localStorage.getItem("tokenId")))
+      );
+    } else {
+      localStorage.setItem("batchDetail", JSON.stringify([]));
+      setLoginInn(false);
+    }
+  }, [JSON.parse(localStorage.getItem("tokenId"))]);
+
   const isSticky = (e) => {
     const header = document.querySelector(".header");
     const scrollTop = window.scrollY;
-    scrollTop > 10
-      ? (header.style.backgroundColor = "#fff")
-      : (header.style.backgroundColor = "transparent");
+    if (scrollTop > 10) {
+      header.classList.add("active-color");
+      header.style.backgroundColor =
+        "linear-gradient(to bottom right, rgba(255,255,255,0.75), rgba(255,255,255,0.75)) !important";
+      header.style.backdropFilter = "blur(7px)";
+    } else {
+      header.classList.remove("active-color");
+      header.style.backgroundColor = backColor;
+      header.style.backdropFilter = "none";
+    }
   };
 
   const handleNav = () => {
@@ -44,11 +91,19 @@ const Header = ({ backColor, page }) => {
     }
   };
 
+  //handle profile
+  const handleProfile = () => {
+    dispatch(getTeachersDetailById(localStorage.getItem("tokenId")));
+  };
+
+  const handleLogout = () => {
+    localStorage.setItem("tokenId", JSON.stringify(null));
+    setLoginInn(false);
+    dispatch(setLogin(null));
+    navigate("/");
+  };
   return (
-    <header
-      className={`header ${active ? "active" : ""}`}
-      style={{ backgroundColor: backColor }}
-    >
+    <header className={`header ${active ? "active" : ""}`}>
       <nav className="navigation d-flex align-items-center justify-content-between">
         <ul className="list d-flex align-items-center">
           {!page && (
@@ -71,7 +126,7 @@ const Header = ({ backColor, page }) => {
                   to="about"
                   spy={true}
                   smooth={true}
-                  offset={0}
+                  offset={-90}
                   duration={500}
                   onClick={handleNav}
                 >
@@ -83,7 +138,7 @@ const Header = ({ backColor, page }) => {
                   to="impact"
                   spy={true}
                   smooth={true}
-                  offset={0}
+                  offset={-90}
                   duration={500}
                   onClick={handleNav}
                 >
@@ -95,7 +150,7 @@ const Header = ({ backColor, page }) => {
                   to="contact"
                   spy={true}
                   smooth={true}
-                  offset={0}
+                  offset={-90}
                   duration={500}
                   onClick={handleNav}
                 >
@@ -110,45 +165,84 @@ const Header = ({ backColor, page }) => {
             <img src={Logo} alt="logo" />
           </RouterLink>
         </div>
-        <div className="register-btn">
-          <div class="dropdown show">
-            <a
-              class="btn btn-secondary dropdown-toggle"
-              href="#"
-              role="button"
-              id="dropdownMenuLink"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Teacher
-            </a>
+        <div className="register-btn d-flex">
+          {!page &&
+            (!login ? (
+              <div className="dropdown show ml-auto">
+                <a
+                  className="btn dropdown-toggle"
+                  href="#"
+                  role="button"
+                  id="dropdownMenuLink"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Teacher
+                </a>
 
-            <div
-              class="dropdown-menu text-left"
-              aria-labelledby="dropdownMenuLink"
-            >
-              <RouterLink
-                to="/teacher/login"
-                className="dropdown-item"
-                onClick={() => {
-                  dispatch(setEmailState({}));
-                }}
-              >
-                Login as teacher
-              </RouterLink>
-              <RouterLink
-                to="/teacher/register"
-                className="dropdown-item"
-                onClick={() => {
-                  dispatch(setEmailState({}));
-                }}
-              >
-                Register as teacher
-              </RouterLink>
-            </div>
-          </div>
+                <div
+                  className="dropdown-menu text-left"
+                  aria-labelledby="dropdownMenuLink"
+                >
+                  <RouterLink
+                    to="/teacher/login"
+                    className="dropdown-item"
+                    onClick={() => {
+                      dispatch(setEmailState({}));
+                    }}
+                  >
+                    Login as teacher
+                  </RouterLink>
+                  <RouterLink
+                    to="/teacher/register"
+                    className="dropdown-item"
+                    onClick={() => {
+                      dispatch(setEmailState({}));
+                    }}
+                  >
+                    Register as teacher
+                  </RouterLink>
+                </div>
+              </div>
+            ) : (
+              <div className="dropdown show ml-auto">
+                <a
+                  className="btn  dropdown-toggle"
+                  href="#"
+                  role="button"
+                  id="dropdownMenuLink"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {accountName?.charAt(0).toUpperCase() +
+                    accountName?.substring(1, accountName.length)}
+                </a>
+
+                <div
+                  className="dropdown-menu text-left"
+                  aria-labelledby="dropdownMenuLink"
+                >
+                  <RouterLink
+                    to="/teacher/profile"
+                    className="dropdown-item"
+                    onClick={handleProfile}
+                  >
+                    Profile
+                  </RouterLink>
+                  <RouterLink
+                    to="/teacher/login"
+                    className="dropdown-item"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </RouterLink>
+                </div>
+              </div>
+            ))}
         </div>
+
         {active ? (
           <GrClose className="menu-btn" onClick={handleNav} />
         ) : (
@@ -159,4 +253,4 @@ const Header = ({ backColor, page }) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

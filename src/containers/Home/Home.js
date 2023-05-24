@@ -15,6 +15,7 @@ import leftPatternBanner from "../../assets/images/leftPatternBanner.svg";
 import rightPatternBanner from "../../assets/images/rightPatternBanner.svg";
 import paperPattern from "../../assets/images/paper-plane 1.svg";
 import AboutImg from "../../assets/images/Student stress-pana 1.png";
+import Img_360_degree from "../../assets/images/360_degree_img.png";
 import { BsArrowUpLeft } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import OfferCard from "../../components/OfferCard/OfferCard";
@@ -24,18 +25,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { getImpact } from "../../Redux/actions/homeAction";
 import CountUp from "react-countup";
 import ScrollTrigger from "react-scroll-trigger";
+import { ToastContainer, toast } from "react-toastify";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
+
+// import required modules
+import { Autoplay, Pagination } from "swiper";
 
 const Home = () => {
-  const dispatch = useDispatch();
   const stateData = useSelector((state) => state.homeRedu);
+  const loginState = useSelector((state) => state.loginRedu);
   const { totalTeachers, totalStudents, totalConnected } = stateData.data;
   const [counterOn, setCounterOn] = useState(false);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getImpact());
+    if (!stateData?.data?.totalStudents) {
+      dispatch(getImpact());
+    }
   }, [stateData.data.totalStudents]);
+
   return (
     <>
       <Header backColor="#FBD37A" />
+      <ToastContainer />
+
+      {/* banner section */}
       <section
         className="banner d-flex flex-column justify-content-center"
         id="banner"
@@ -59,9 +79,9 @@ const Home = () => {
             <div className="content">
               <p>
                 <RiDoubleQuotesL className="left" />
-                If a child is not good in studies doesn't mean that the child is
-                poor in studies or the teacher is bad in teaching. It simply
-                means that they are not the best connect for each other.
+                Every teacher has a different style of teaching & Every student
+                has a different Learning curve. We are here to Connect them in a
+                Better manner.
                 <RiDoubleQuotesR className="right" />
               </p>
             </div>
@@ -74,6 +94,28 @@ const Home = () => {
         <img className="leftPattern" src={leftPatternBanner} alt="" />
         <img className="rightPattern" src={rightPatternBanner} alt="" />
       </section>
+
+      {/* 360 degree section */}
+      <section className="three_six_degree">
+        <div className="title">
+          <img src={Black} alt="pattern" />
+          <span className="content">
+            We <span className="color-text">offer </span>
+            <span className="number">
+              360<span className="round-degree"></span>{" "}
+            </span>
+            classes
+          </span>
+          <p>
+            When it comes to classes we have everything you name it & we have
+          </p>
+        </div>
+        <div className="img-part">
+          <img src={Img_360_degree} alt="360_degree_img" />
+        </div>
+      </section>
+
+      {/* get connect section */}
       <section className="get-connect">
         <div className="title">
           <img src={Pattern} alt="pattern" />
@@ -112,7 +154,7 @@ const Home = () => {
             <div className="vertical-line bottom-line"> </div>
           </div>
           <div className="learning part d-flex flex-column align-items-center justify-content-center">
-            <label className="title-text top">Learning curv</label>
+            <label className="title-text top">Learning curve</label>
             <div className="icon d-flex align-items-center justify-content-center">
               <img src={CurvSvg} alt="" />
             </div>
@@ -130,6 +172,7 @@ const Home = () => {
         </div>
       </section>
 
+      {/* about us section */}
       <section className="about-us" id="about">
         <div className="row">
           <div className="col-12 col-md-6 col-lg-6 left">
@@ -172,6 +215,7 @@ const Home = () => {
         </div>
       </section>
 
+      {/* teacher offer section */}
       <section className="offer">
         <div className="grid-content">
           <div className="title-card">
@@ -212,6 +256,8 @@ const Home = () => {
           />
         </div>
       </section>
+
+      {/* Impact section */}
 
       <ScrollTrigger
         onEnter={() => setCounterOn(true)}
@@ -269,39 +315,94 @@ const Home = () => {
           </div>
         </section>
       </ScrollTrigger>
-      <section className="testimonial blog">
+
+      {/* blog section */}
+      <section className="blog testimonial">
         <div className="title">
           <img src={Black} alt="pattern" />
           Blogs
         </div>
-        <div className="row mt-5 data">
-          <div className="col-12 col-md-4 col-lg-4 column">
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={30}
+          autoplay={{ delay: 5000 }}
+          breakpoints={{
+            340: {
+              slidesPerView: 1,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 40,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 50,
+            },
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination, Autoplay]}
+          className="mySwiper mt-3"
+        >
+          <SwiperSlide>
             <TestimonialCard withoutImg={true} />
-          </div>
-          <div className="col-12 col-md-4 col-lg-4 column">
+          </SwiperSlide>
+
+          <SwiperSlide>
             <TestimonialCard withoutImg={true} />
-          </div>
-          <div className="col-12 col-md-4 col-lg-4 column">
+          </SwiperSlide>
+
+          <SwiperSlide>
             <TestimonialCard withoutImg={true} />
-          </div>
-        </div>
+          </SwiperSlide>
+        </Swiper>
       </section>
+
+      {/* testimonial section */}
       <section className="testimonial">
         <div className="title">
           <img src={Black} alt="pattern" />
           Testimonial
         </div>
-        <div className="row mt-5 data">
-          <div className="col-12 col-md-4 col-lg-4 column">
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={30}
+          autoplay={{ delay: 5000 }}
+          breakpoints={{
+            340: {
+              slidesPerView: 1,
+              spaceBetween: 20,
+              pagination: {
+                clickable: true,
+              },
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 40,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 50,
+            },
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination, Autoplay]}
+          className="mySwiper mt-3"
+        >
+          <SwiperSlide>
             <TestimonialCard withoutImg={false} />
-          </div>
-          <div className="col-12 col-md-4 col-lg-4 column">
+          </SwiperSlide>
+          <SwiperSlide>
             <TestimonialCard withoutImg={false} />
-          </div>
-          <div className="col-12 col-md-4 col-lg-4 column">
+          </SwiperSlide>
+          <SwiperSlide>
             <TestimonialCard withoutImg={false} />
-          </div>
-        </div>
+          </SwiperSlide>
+        </Swiper>
       </section>
     </>
   );

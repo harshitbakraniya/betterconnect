@@ -39,6 +39,11 @@
 .all-teachers .left .search-inn .form-control {
   margin-bottom: 0.4rem;
   position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.all-teachers .left .search-inn .form-control:focus {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: none;
 }
 .all-teachers .left .search-inn .class {
   position: relative;
@@ -67,7 +72,7 @@
   width: 80%;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.4rem;
 }
 .all-teachers .filter-text {
   width: 6.5rem;
@@ -90,7 +95,12 @@
   display: none !important;
 }
 
-.form-input {
+.email-form .form-control {
+  padding: 1.4rem 1rem !important;
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+}
+
+.student-form .form-control {
   padding: 1.4rem 1rem !important;
   border: 1px solid rgba(0, 0, 0, 0.3) !important;
 }

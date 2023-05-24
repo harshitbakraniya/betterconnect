@@ -10,6 +10,9 @@ import Search from "./containers/Search/Search";
 import Login from "./containers/Login/Login";
 import BatchDetail from "./containers/BatchDetail/BatchDetail";
 import PageNotFound from "./containers/404Page/PageNotFound";
+import PrivateRoute from "./components/PrivateRoute";
+import PrivateRouteForAlreadyLogin from "./components/PrivateRouteForAlreadyLogin";
+import TeacherProfile from "./containers/TeacherProfile/TeacherProfile";
 
 function App() {
   return (
@@ -17,10 +20,39 @@ function App() {
       {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/teacher/register" element={<TeacherRegistration />} />
-        <Route path="/batchdetail" element={<BatchDetail />} />
+        <Route
+          path="/teacher/register"
+          element={
+            <PrivateRouteForAlreadyLogin>
+              <TeacherRegistration />
+            </PrivateRouteForAlreadyLogin>
+          }
+        />
+        <Route
+          path="/teacher/batchdetail"
+          element={
+            <PrivateRouteForAlreadyLogin>
+              <BatchDetail />
+            </PrivateRouteForAlreadyLogin>
+          }
+        />
         <Route path="/search" element={<Search />} />
-        <Route path="/teacher/login" element={<Login />} />
+        <Route
+          path="/teacher/profile"
+          element={
+            <PrivateRoute>
+              <TeacherProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/teacher/login"
+          element={
+            <PrivateRouteForAlreadyLogin>
+              <Login />
+            </PrivateRouteForAlreadyLogin>
+          }
+        />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />

@@ -8,7 +8,9 @@ const initialState = {
   filterData: [],
   filterObject: {},
   LocalBatch: [],
-  loginDetail: {},
+  loginDetail: "",
+  teacherDetails: {},
+  updateTeacherDetails: {},
 };
 
 const teacherReducer = (state = initialState, action) => {
@@ -18,7 +20,6 @@ const teacherReducer = (state = initialState, action) => {
     case ActionTypes.REGISTER_DATA:
       return { ...state, teacher: action.payload };
     case ActionTypes.SET_TEACHER_REGISTRAION:
-      console.log(action.payload);
       return { ...state, teacherObjectWithBatch: action.payload };
     case ActionTypes.IS_EMAIL_ID_VALID:
       return { ...state, isValidOrNot: action.payload };
@@ -32,6 +33,14 @@ const teacherReducer = (state = initialState, action) => {
       return { ...state, LocalBatch: action.payload };
     case ActionTypes.LOGIN:
       return { ...state, loginDetail: action.payload };
+    case ActionTypes.SET_LOGIN:
+      return { ...state, loginDetail: null };
+    case ActionTypes.GET_TEACHER_DETAIL_BY_ID:
+      return { ...state, teacherDetails: action.payload };
+    case ActionTypes.SET_TEACHER_DETAIL:
+      return { ...state, teacherDetails: {} };
+    case ActionTypes.UPDATE_TEACHER_DETAILS:
+      return { ...state, updateTeacherDetails: action.payload };
     default:
       return state;
   }

@@ -93,4 +93,4 @@ Range.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default Range;
+export default React.memo(Range);

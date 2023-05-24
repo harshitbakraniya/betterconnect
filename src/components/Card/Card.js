@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import ProfileImg from "../../assets/images/profile-teacher.jpg";
-import { ToastContainer, toast } from "react-toastify";
+import React from "react";
+import ProfileImg from "../../assets/images/avtar.png";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { studentAlreadyRegistered } from "../../Redux/actions/studentAction";
-import StudentDetail from "../StudentDetails/StudentDetail";
 import "./Card.css";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 
 const Card = ({ detail, handleShow }) => {
   const {
@@ -22,6 +16,7 @@ const Card = ({ detail, handleShow }) => {
     experience,
     batchId,
     teacherId,
+    bio,
   } = detail;
 
   return (
@@ -30,7 +25,12 @@ const Card = ({ detail, handleShow }) => {
       <div className="card-profile">
         <div className="d-flex inner">
           <div className="img-part">
-            <img src={ProfileImg} alt="" />
+            <img
+              src={image ? `data:image/jpeg;base64,${image}` : ProfileImg}
+              height={67}
+              width={67}
+              alt=""
+            />
             <button
               className="btn contact-btn"
               // data-toggle="modal"
@@ -40,13 +40,15 @@ const Card = ({ detail, handleShow }) => {
               Get Contact
             </button>
           </div>
-          <div className="content d-flex align-items-start flex-column justify-content-between">
-            <h6 className="name">{name}</h6>
-            <p className="sub-title">
-              It is not important what the teacher teaches – it is important HOW
-              the teacher teaches.
-            </p>
-            <div className="other-detail d-flex align-items-center justify-content-between">
+          <div className="content d-flex align-items-start flex-column">
+            <h6 className="name">
+              {name.replace(
+                name.substring(0, 1),
+                name.substring(0, 1).toUpperCase()
+              )}
+            </h6>
+            <p className="sub-title mt-2">{bio}</p>
+            <div className="other-detail d-flex align-items-center justify-content-between mt-auto">
               <div className="data">
                 <h5 className="data-about">Distance</h5>
                 <p className="value">{distance}</p>

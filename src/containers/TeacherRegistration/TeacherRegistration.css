@@ -36,9 +36,19 @@
 }
 .register-form .right .form .form-group {
   margin-bottom: 0.6rem;
+  position: relative;
+}
+.register-form .right .form .form-group .eye {
+  position: absolute;
+  bottom: 12px;
+  right: 17px;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 .register-form .right .form .form-control {
+  width: 100%;
   padding: 1.3rem 1rem;
+  position: relative;
   background-color: #F3F4F6;
   border-radius: 0.5rem;
   border: none;
@@ -49,6 +59,14 @@
 .register-form .right .form .form-control:focus {
   box-shadow: none;
   border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.register-form .right .form .form-control .inner-place {
+  position: relative;
+  display: block;
+  width: 140px;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 .register-form .right .form .row .form-group {
   flex-basis: 48%;
@@ -92,6 +110,11 @@
   background-color: #1d1d1d;
   color: #ffffff;
   float: right;
+  border: 1px solid #1d1d1d;
+}
+.register-form .right .submit:hover {
+  background-color: transparent;
+  color: #1d1d1d;
 }
 
 @media screen and (max-width: 575.98px) {

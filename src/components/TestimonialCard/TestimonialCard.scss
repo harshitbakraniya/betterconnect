@@ -11,8 +11,7 @@
     box-shadow: 0 0 20px rgba(#FBD581, 20%);
 
     &:hover{
-        transform: scale(1.04);
-        box-shadow: 0 0 30px rgba(#FBD581, 40%);
+        box-shadow: 0 0 30px rgba(#FBD581, 50%);
     }
     .round {
         width: 5rem;
@@ -42,5 +41,8 @@
     .description {
         font-size: 0.9rem;
         margin-top: 0.6rem;
+    }
+    .card{
+        padding: 1rem;
     }
 }

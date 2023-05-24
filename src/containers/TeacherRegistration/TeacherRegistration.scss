@@ -36,10 +36,20 @@
                 font-size: 0.8rem;
             }
             .form-group {
-                margin-bottom: 0.6rem;
+                margin-bottom: 0.6rem;   
+                position: relative;
+                .eye{
+                    position: absolute;
+                    bottom: 12px;
+                    right: 17px;
+                    font-size: 1.2rem;
+                    cursor: pointer;
+                }
             }
             .form-control {
+                width: 100%;
                 padding: 1.3rem 1rem;
+                position: relative;
                 background-color: #F3F4F6;
                 border-radius: 0.5rem;
                 border: none;
@@ -49,6 +59,14 @@
                 &:focus{
                     box-shadow: none;
                     border: 1px solid rgba(0,0,0,0.2);
+                }
+                .inner-place{
+                    position: relative;
+                    display: block;
+                    width: 140px;
+                    white-space: nowrap;
+                    overflow: hidden !important;
+                    text-overflow: ellipsis;
                 }
             }
             .row {
@@ -122,6 +140,11 @@
             background-color: $secondary_color;
             color: $font_color_light;
             float: right;
+            border: 1px solid $secondary_color;
+            &:hover{
+                background-color: transparent;
+                color: $secondary_color;
+            }
         }
     }
 }

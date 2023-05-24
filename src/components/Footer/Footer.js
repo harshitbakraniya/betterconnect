@@ -13,13 +13,13 @@ const Footer = () => {
         <div className="left">
           <ul className="menus d-flex align-items-center">
             <li className="item">
-              <Link>About Us</Link>
+              <Link to={"/"}>About Us</Link>
             </li>
             <li className="item">
-              <Link>Teacher</Link>
+              <Link to={"/"}>Teacher</Link>
             </li>
             <li className="item">
-              <Link>Impact</Link>
+              <Link to={"/"}>Impact</Link>
             </li>
           </ul>
           <div className="links-icons d-flex">
@@ -59,4 +59,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default React.memo(Footer);

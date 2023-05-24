@@ -6,24 +6,27 @@ import Header from "../../components/Header/Header";
 import {
   regitrationWithBatchDetail,
   setLocalBatch,
+  updateTeacherDetails,
 } from "../../Redux/actions/teacherAction";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const BatchDetail = () => {
+const BatchDetail = ({ formData }) => {
   const teacherData = useSelector((state) => state.teacherRedu);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [batch, setBatch] = useState([]);
 
-  // useEffect(() => {
-  //   if (teacherData.teacherObjectWithBatch.result !== undefined) {
-  //     alert("registration successfull");
-  //   }
-  // }, [teacherData.teacherObjectWithBatch.result]);
-  const initialObject = {
+  useEffect(() => {
+    if (!JSON.parse(localStorage.getItem("batchDetail"))) {
+      const ele = document.querySelector(".add-row");
+      ele.dispatchEvent(new Event("click"));
+    }
+    dispatch(setLocalBatch(innerData));
+  }, []);
+  let initialObject = {
     class: "",
     subject: "",
     board: "",
@@ -44,26 +47,134 @@ const BatchDetail = () => {
     scholarship: "0",
   });
   useEffect(() => {
-    if (!JSON.parse(localStorage.getItem("batchDetail"))) {
+    if (!JSON.parse(localStorage.getItem("batchDetail")).length) {
       localStorage.setItem("batchDetail", JSON.stringify([initialObject]));
     }
     dispatch(setLocalBatch([innerData]));
   }, []);
 
-  const addTableRows = () => {
+  const addTableRows = (e) => {
+    e.preventDefault();
     let arr = JSON.parse(localStorage.getItem("batchDetail"));
-    arr.push(initialObject);
-    localStorage.setItem("batchDetail", JSON.stringify(arr));
-    dispatch(setLocalBatch(arr));
+    if (arr) {
+      if (teacherData.teacherDetails) {
+        initialObject = {
+          ...initialObject,
+          ["teacherId"]: arr[arr.length - 1].teacherId,
+          // ["batchId"]: arr[arr.length - 1].batchId + 1,
+        };
+      }
+    } else {
+      arr = [];
+    }
+    const data = arr.find((item) => {
+      if (
+        !item.class ||
+        !item.subject ||
+        !item.fees ||
+        !item.board ||
+        !item.scholarship ||
+        !item.mode ||
+        !item.batchStrength
+      ) {
+        return "no data";
+      }
+    });
+    if (!data) {
+      arr.push(initialObject);
+      localStorage.setItem("batchDetail", JSON.stringify(arr));
+      dispatch(setLocalBatch(arr));
+    } else {
+      toast.error(`Fill all the details first`, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return 0;
+    }
   };
 
-  const handleSubmitForm = () => {
-    console.log(teacherData.teacher);
-    const mainData = {
-      ...teacherData.teacher,
-      batchDetails: teacherData.LocalBatch,
-    };
-    dispatch(regitrationWithBatchDetail(mainData));
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    let mainData = {};
+    const data = JSON.parse(localStorage.getItem("batchDetail")).find(
+      (item) => {
+        if (
+          !item.class ||
+          !item.subject ||
+          !item.fees ||
+          !item.board ||
+          !item.scholarship ||
+          !item.mode ||
+          !item.batchStrength
+        ) {
+          return "no data";
+        }
+      }
+    );
+    if (!data) {
+      if (teacherData?.teacherDetails?.batchDetails) {
+        mainData = {
+          ...teacherData.teacher,
+          batchDetails: JSON.parse(localStorage.getItem("batchDetail")),
+        };
+        dispatch(updateTeacherDetails(mainData));
+      } else {
+        mainData = {
+          ...teacherData.teacher,
+          batchDetails: JSON.parse(localStorage.getItem("batchDetail")),
+        };
+        dispatch(regitrationWithBatchDetail(mainData));
+      }
+
+      if (!teacherData?.teacherDetails?.batchDetails) {
+        toast.success(`Registration Done Successfully`, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        localStorage.setItem("batchDetail", JSON.stringify([]));
+        setTimeout(() => {
+          navigate("/teacher/login");
+        }, 2000);
+      } else {
+        toast.success(`Details Update Successfully`, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      }
+    } else {
+      toast.error(`Fill all details first`, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return 0;
+    }
   };
   return (
     <>
@@ -100,8 +211,8 @@ const BatchDetail = () => {
                         data={item}
                         id={index}
                         batch={batch}
-                        setBatch={setBatch}
                         innerData={innerData}
+                        initialObject={initialObject}
                         setInnerData={setInnerData}
                       />
                     );
@@ -112,11 +223,10 @@ const BatchDetail = () => {
                   <div className="add-submit d-flex align-items-center justify-content-between mb-2">
                     <input
                       type="submit"
-                      className="btn"
+                      className="btn add-row"
                       onClick={addTableRows}
                       value="Add batch"
                     />
-
                     <input
                       type="submit"
                       className="btn"
