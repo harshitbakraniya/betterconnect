@@ -93,11 +93,6 @@ const Login = () => {
             </div>
             <img src={PaperPattern} alt="" className="paper-plane" />
             <div className="col-12 col-md-12 col-lg-6 right">
-              <div className="note mb-5">
-                <span className="bold">Note</span> - In case you didn’t remember
-                your Id or password kindly check your mail we have send via
-                betterconnectt@gmail.com
-              </div>
               <form className="form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="email" className="form-label">
@@ -153,8 +148,13 @@ const Login = () => {
                     Create a new account ?
                   </Link>
                 </div>
-                <input type="submit" value="Submit" className="btn" />
+                <input type="submit" value="Login" className="btn" />
               </form>
+              <div className="note">
+                <span className="bold">Note</span> - In case you didn’t remember
+                your Id or password kindly check your mail we have send via
+                betterconnectt@gmail.com
+              </div>
             </div>
           </div>
         </div>

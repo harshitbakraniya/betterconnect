@@ -4,7 +4,7 @@
     border: none;
     background-color: #fff;
     border-radius: 1rem;
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 1.5rem;
     position: relative;
     overflow: hidden;
     transition: .5s all;
@@ -14,8 +14,8 @@
         box-shadow: 0 0 30px rgba(#FBD581, 50%);
     }
     .round {
-        width: 5rem;
-        height: 5rem;
+        width: 4rem;
+        height: 4rem;
         background-color: $primary_color;
         position: absolute;
         top: -1rem;
@@ -28,10 +28,12 @@
         border-radius: 50%;
     }
     .name {
-        margin-top: 1rem;
+        margin-top: 0rem;
     }
     .description {
         color: #808080;
+        width: 90%;
+        margin: 0;
     }
 }
 @media screen and (max-width: 575.98px) {

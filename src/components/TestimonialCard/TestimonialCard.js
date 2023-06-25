@@ -2,22 +2,16 @@ import React, { useState } from "react";
 import "./TestimonialCard.css";
 import TestImg from "../../assets/images/testi-1.jpg";
 
-const TestimonialCard = ({ withoutImg, readMore }) => {
+const TestimonialCard = ({ withoutImg, content, head }) => {
   return (
     <div className="card">
       {!withoutImg && <img src={TestImg} alt="" />}
-      <h5 className="name">Adon Musk</h5>
-      <ReadMore>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-      </ReadMore>
+      <h5 className="name">{head}</h5>
+      {content.length <= 150 ? (
+        <p className="description">{content}</p>
+      ) : (
+        <ReadMore>{content}</ReadMore>
+      )}
       <div className="round"></div>
     </div>
   );
@@ -33,7 +27,7 @@ const ReadMore = ({ children }) => {
   };
   return (
     <p className="description">
-      {isReadMore ? text.slice(0, 150) : text}
+      {isReadMore ? text?.slice(0, 155) : text}
       <span
         onClick={toggleReadMore}
         className="read-or-hide"

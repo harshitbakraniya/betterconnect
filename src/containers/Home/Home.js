@@ -22,7 +22,7 @@ import OfferCard from "../../components/OfferCard/OfferCard";
 import TestimonialCard from "../../components/TestimonialCard/TestimonialCard";
 import SearchInput from "../../components/SearchInput/SearchInput";
 import { useDispatch, useSelector } from "react-redux";
-import { getImpact } from "../../Redux/actions/homeAction";
+import { getBlogs, getImpact } from "../../Redux/actions/homeAction";
 import CountUp from "react-countup";
 import ScrollTrigger from "react-scroll-trigger";
 import { ToastContainer, toast } from "react-toastify";
@@ -48,7 +48,12 @@ const Home = () => {
     if (!stateData?.data?.totalStudents) {
       dispatch(getImpact());
     }
-  }, [stateData.data.totalStudents]);
+  }, [stateData?.data?.totalStudents]);
+  useEffect(() => {
+    if (!stateData?.blogs?.length) {
+      dispatch(getBlogs());
+    }
+  }, [stateData?.blogs?.length]);
 
   return (
     <>
@@ -346,17 +351,17 @@ const Home = () => {
           modules={[Pagination, Autoplay]}
           className="mySwiper mt-3"
         >
-          <SwiperSlide>
-            <TestimonialCard withoutImg={true} />
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <TestimonialCard withoutImg={true} />
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <TestimonialCard withoutImg={true} />
-          </SwiperSlide>
+          {stateData?.blogs?.map((item) => {
+            return (
+              <SwiperSlide>
+                <TestimonialCard
+                  withoutImg={true}
+                  head={item.name}
+                  content={item.content}
+                />
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </section>
 
@@ -394,13 +399,32 @@ const Home = () => {
           className="mySwiper mt-3"
         >
           <SwiperSlide>
-            <TestimonialCard withoutImg={false} />
+            <TestimonialCard
+              withoutImg={true}
+              head={"From Teacher"}
+              content="Better Connect helped me to increase my batchsize from 5 to 9 students and I am very happy with that."
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <TestimonialCard withoutImg={false} />
+            <TestimonialCard
+              withoutImg={true}
+              head={"From Parent"}
+              content="I found the right teacher for my daughter, who has adjusted according to my daughter's learning curve and the teacher is very reliable."
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <TestimonialCard withoutImg={false} />
+            <TestimonialCard
+              withoutImg={true}
+              head={"From Student"}
+              content="I used to struggle to pass in Maths in my school exams, Better connects find the appropriate teacher; who helped me to score 71 in Maths in my Boards."
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <TestimonialCard
+              withoutImg={true}
+              head={"From Parent"}
+              content="We got transferred to new city & Better-Connect helped us to get aware of all the tuition options for my kids."
+            />
           </SwiperSlide>
         </Swiper>
       </section>

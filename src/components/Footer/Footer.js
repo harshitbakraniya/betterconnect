@@ -23,12 +23,18 @@ const Footer = () => {
             </li>
           </ul>
           <div className="links-icons d-flex">
-            <button className="btn">
-              <FaFacebookF />
-            </button>
-            <button className="btn">
-              <AiFillInstagram />
-            </button>
+            <Link
+              to={"https://www.facebook.com/profile.php?id=100093515841293"}
+            >
+              <button className="btn">
+                <FaFacebookF />
+              </button>
+            </Link>
+            <Link to={"https://www.instagram.com/betterconnecttt/"}>
+              <button className="btn">
+                <AiFillInstagram />
+              </button>
+            </Link>
           </div>
         </div>
         <div className="right">
@@ -39,7 +45,7 @@ const Footer = () => {
             </span>
             <span className="mobile">
               <IoMdCall />
-              8103546038
+              9399576212
             </span>
           </div>
         </div>

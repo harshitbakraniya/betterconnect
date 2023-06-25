@@ -323,6 +323,9 @@ const Search = () => {
             />
           </div>
           <div className="right pl-5">
+            <p className="note-search">
+              Note: You can get upto 3 teachers details
+            </p>
             {allTeachersData.map((item, index) => {
               return (
                 <Card key={index} detail={item} handleShow={handleShowEmail} />

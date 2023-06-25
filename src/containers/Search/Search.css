@@ -74,6 +74,10 @@
   flex-direction: column;
   gap: 0.4rem;
 }
+.all-teachers .right .note-search {
+  font-size: 1.4rem;
+  font-weight: 400;
+}
 .all-teachers .filter-text {
   width: 6.5rem;
   height: 2.4rem;
@@ -161,6 +165,9 @@
     top: 5rem;
     z-index: 11;
     margin-left: auto;
+  }
+  .all-teachers .right .note-search {
+    font-size: 1.2rem;
   }
   .all-teachers .all-filters {
     width: 100%;
